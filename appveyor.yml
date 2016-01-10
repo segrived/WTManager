@@ -1,0 +1,9 @@
+version: 1.0.{build}
+configuration: Release
+platform: Any CPU
+before_build:
+  - nuget restore
+build:
+  project: WTManager.sln
+  parallel: true
+  verbosity: minimal
