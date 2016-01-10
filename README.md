@@ -1,4 +1,6 @@
 # WTManager
+[![Build status](https://ci.appveyor.com/api/projects/status/g4fn787xjdqvokpw?svg=true)](https://ci.appveyor.com/project/segrived/wtmanager)
+
 Windows tray manager. Manage your windows services with tray!
 
 **NOTE: EARLY ALPHA VERSION**
