@@ -81,7 +81,7 @@ namespace WTManager
                 }
                 foreach (var service in group) {
                     var tsmi = new ToolStripMenuItem(service.ServiceInfo.DisplayName) {
-                        Tag = service,
+                        Tag = service
                     };
 
                     var startItem = Helpers.CreateMenuItem("Start Service", this.Icons["start"],

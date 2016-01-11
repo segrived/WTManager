@@ -5,7 +5,7 @@ namespace WTManager
 {
     public static class AppScheduler
     {
-        private const string TaskName = @"ServiceManager";
+        private const string TaskName = @"WTManager";
 
         public static void InstallTask() {
             var currentFn = System.Reflection.Assembly.GetEntryAssembly().Location;

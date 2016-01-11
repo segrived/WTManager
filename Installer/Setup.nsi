@@ -23,7 +23,7 @@ Name "${APPNAME} (${PLATFORM})"
 !define UNKEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}"
 !define PRIMARYASSEMBLY "${BASE_DIR}\${EXE_FILE_NAME}"
 !tempfile VERSIONHEADER
-!system 'NsisInfoWriter.exe -i "${PRIMARYASSEMBLY}" -o "${VERSIONHEADER}"'
+!system 'nsisiw.exe -i "${PRIMARYASSEMBLY}" -o "${VERSIONHEADER}"'
 
 !include /NONFATAL "${VERSIONHEADER}"
 
@@ -115,5 +115,5 @@ Section "Uninstall"
     Delete "$INSTDIR\uninstall.exe"
     RMDir /r "$INSTDIR"
     ${nsProcess::Unload}
-    nsExec::ExecToLog '${NGEN_PATH} uninstall ServiceManager'
+    nsExec::ExecToLog '${NGEN_PATH} uninstall WTManager'
 SectionEnd
