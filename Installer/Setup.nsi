@@ -4,7 +4,15 @@
 
 !define APPNAME "WTManager"
 
-Name "${APPNAME} (${PLATFORM})"
+!define BASE_DIR        "..\WTManager\${TARG}"
+!define EXE_FILE_NAME   "WTManager.exe"
+!define PRIMARYASSEMBLY "${BASE_DIR}\${EXE_FILE_NAME}"
+
+!tempfile VERSIONHEADER
+!system 'nsisiw.exe -i "${PRIMARYASSEMBLY}" -o "${VERSIONHEADER}"'
+!include /NONFATAL "${VERSIONHEADER}"
+
+Name "${APPNAME} (${FILE_ARCHITECTURE})"
 
 !if ${PLATFORM} == "x86"
     !define PROGDIR "$PROGRAMFILES"
@@ -14,27 +22,29 @@ Name "${APPNAME} (${PLATFORM})"
     !define FRAMEWORKDIR "Framework64"
 !endif
 
-!define BASE_DIR "..\WTManager\${TARG}"
-!define EXE_FILE_NAME "WTManager.exe"
+!define OUTDIR "Target"
 
 # todo: find proper ngen location from in registry
 !define NGEN_PATH "$WINDIR\Microsoft.NET\${FRAMEWORKDIR}\v4.0.30319\ngen.exe"
 
+# Uninstall key
 !define UNKEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}"
-!define PRIMARYASSEMBLY "${BASE_DIR}\${EXE_FILE_NAME}"
-!tempfile VERSIONHEADER
-!system 'nsisiw.exe -i "${PRIMARYASSEMBLY}" -o "${VERSIONHEADER}"'
 
-!include /NONFATAL "${VERSIONHEADER}"
+# Version information
+!ifdef VI_PRODUCTIONVERSION
+    VIProductVersion "${VI_PRODUCTIONVERSION}"
 
-VIProductVersion "${VI_PRODUCTIONVERSION}"
+    !ifdef VI_FILEVERSION
+        VIAddVersionKey FileVersion "${VI_FILEVERSION}"
+    !endif
 
-!ifdef DESCRIPTION
-    VIAddVersionKey FileDescription "${VI_DESCRIPTION}"
-!endif
+    !ifdef VI_DESCRIPTION
+        VIAddVersionKey FileDescription "${VI_DESCRIPTION}"
+    !endif
 
-!ifdef COPYRIGHT
-    VIAddVersionKey LegalCopyright "${VI_COPYRIGHTS}"
+    !ifdef VI_COPYRIGHTS
+        VIAddVersionKey LegalCopyright "${VI_COPYRIGHTS}"
+    !endif
 !endif
 
 !define MUI_COMPONENTSPAGE_NODESC
@@ -72,7 +82,9 @@ Function .onInit
     done:
 FunctionEnd
 
-OutFile "Target\setup-${VI_PRODUCTIONVERSION}-${FILE_ARCHITECTURE}.exe"
+!system 'md "${OUTDIR}"'
+OutFile "${OUTDIR}\setup-${VI_PRODUCTIONVERSION}-${FILE_ARCHITECTURE}.exe"
+
 InstallDir "${PROGDIR}\${APPNAME}"
 InstallDirRegKey HKLM "Software\${APPNAME}" "Install_Dir"
 RequestExecutionLevel admin
@@ -82,7 +94,7 @@ ShowInstDetails show
 Section "Program files"
     SectionIn RO
     SetOutPath $INSTDIR
-    File /x *.pdb /x *.xml /x *.vshost.exe /x *.vshost.exe* "${BASE_DIR}\*.*"
+    File /x *.pdb /x *.xml /x *.vshost.exe* "${BASE_DIR}\*.*"
     WriteRegStr   HKLM "${UNKEY}" "DisplayName"     "${APPNAME}"
     WriteRegStr   HKLM "${UNKEY}" "UninstallString" '"$INSTDIR\uninstall.exe"'
     WriteRegDWORD HKLM "${UNKEY}" "NoModify"         1
@@ -110,10 +122,10 @@ SectionEnd
 Section "Uninstall"
     DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}"
     DeleteRegKey HKLM "SOFTWARE\${APPNAME}"
-    nsExec::ExecToLog '"$INSTDIR\${EXE_FILE_NAME}e" /removetask'
+    nsExec::ExecToLog '"$INSTDIR\${EXE_FILE_NAME}" /removetask'
     ${nsProcess::CloseProcess} "${EXE_FILE_NAME}" $R0
     Delete "$INSTDIR\uninstall.exe"
     RMDir /r "$INSTDIR"
     ${nsProcess::Unload}
-    nsExec::ExecToLog '${NGEN_PATH} uninstall WTManager'
+    nsExec::ExecToLog '${NGEN_PATH} uninstall ${APPNAME}'
 SectionEnd
