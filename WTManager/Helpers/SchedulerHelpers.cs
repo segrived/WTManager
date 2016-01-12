@@ -1,13 +1,15 @@
 ﻿using Microsoft.Win32.TaskScheduler;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace WTManager
+namespace WTManager.Helpers
 {
-    public static class AppScheduler
+    public static class SchedulerHelpers
     {
-        private const string TaskName = @"WTManager";
-
-        public static void InstallTask() {
+        public static void InstallTask(string taskName) {
             var currentFn = System.Reflection.Assembly.GetEntryAssembly().Location;
             using (var ts = new TaskService()) {
                 var task = ts.NewTask();
@@ -18,13 +20,13 @@ namespace WTManager
                 task.Settings.IdleSettings.StopOnIdleEnd = false;
                 task.Settings.ExecutionTimeLimit = TimeSpan.FromDays(365 * 10);
                 task.Actions.Add(new ExecAction(currentFn, "", null));
-                ts.RootFolder.RegisterTaskDefinition(TaskName, task);
+                ts.RootFolder.RegisterTaskDefinition(taskName, task);
             }
         }
 
-        public static void RemoveTask() {
+        public static void RemoveTask(string taskName) {
             using (TaskService ts = new TaskService()) {
-                ts.RootFolder.DeleteTask(TaskName);
+                ts.RootFolder.DeleteTask(taskName);
             }
         }
     }

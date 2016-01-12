@@ -1,4 +1,5 @@
 ﻿using System;
+using WTManager.Helpers;
 
 namespace WTManager
 {
@@ -11,7 +12,7 @@ namespace WTManager
         public bool ShowBaloon { get; set; }
 
         public static readonly Lazy<Preferences> _prefs
-            = new Lazy<Preferences>(Helpers.ReadPreferencesFile);
+            = new Lazy<Preferences>(SerializationHelpers.ReadPreferencesConfFile);
 
         public static Preferences Prefs => _prefs.Value;
     }

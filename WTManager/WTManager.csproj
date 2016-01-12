@@ -130,9 +130,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppScheduler.cs" />
     <Compile Include="Exceptions.cs" />
-    <Compile Include="Helpers.cs" />
+    <Compile Include="Helpers\Extensions.cs" />
+    <Compile Include="Helpers\MenuHelpers.cs" />
+    <Compile Include="Helpers\SchedulerHelpers.cs" />
+    <Compile Include="Helpers\SerializationHelpers.cs" />
+    <Compile Include="Helpers\ServiceHelpers.cs" />
     <Compile Include="IconResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -154,8 +157,8 @@
     <Compile Include="Preferences.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServiceConfigData.cs" />
     <Compile Include="Service.cs" />
+    <Compile Include="IconsManager.cs" />
     <EmbeddedResource Include="IconResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>IconResources.Designer.cs</LastGenOutput>

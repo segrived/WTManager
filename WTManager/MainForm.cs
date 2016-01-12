@@ -11,18 +11,17 @@ using System.Reflection;
 using System.ServiceProcess;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WTManager.Helpers;
 
 namespace WTManager
 {
     public partial class MainForm : Form
     {
         private Dictionary<string, ServiceControllerStatus> StatusCache;
-        private readonly Dictionary<string, Image> Icons;
 
         public MainForm() {
             this.InitializeComponent();
             this.StatusCache = new Dictionary<string, ServiceControllerStatus>();
-            this.Icons = new Dictionary<string, Image>();
             this.InitApplication();
         }
 
@@ -40,63 +39,46 @@ namespace WTManager
             Process.Start(editorPath, fileName);
         }
 
-        private void StartService(Service s) {
-            s.Controller.Start();
-            s.Controller.WaitForStatus(ServiceControllerStatus.Running);
-            if (Preferences.Prefs.ShowBaloon) {
-                this.trayIcon.ShowBalloonTip(Preferences.Prefs.BaloonTipTime, "Started",
-                    $"Service `{s.DisplayName}` was started", ToolTipIcon.Info);
-            }
-        }
-
-        private void StopService(Service s) {
-            s.Controller.Stop();
-            s.Controller.WaitForStatus(ServiceControllerStatus.Stopped);
-            if (Preferences.Prefs.ShowBaloon) {
-                this.trayIcon.ShowBalloonTip(Preferences.Prefs.BaloonTipTime, "Stopped",
-                    $"Service `{s.DisplayName}` was stopped", ToolTipIcon.Info);
-            }
-        }
-
-        private void RestartService(Service s) {
-            s.Controller.Stop();
-            s.Controller.WaitForStatus(ServiceControllerStatus.Stopped);
-            s.Controller.Start();
-            s.Controller.WaitForStatus(ServiceControllerStatus.Running);
-            if (Preferences.Prefs.ShowBaloon) {
-                this.trayIcon.ShowBalloonTip(Preferences.Prefs.BaloonTipTime, "Restarted",
-                    $"Service `{s.DisplayName}` was restarted", ToolTipIcon.Info);
-            }
-        }
-
         private void InitTrayMenu(bool forceBaloonDisable = false) {
             this.StatusCache.Clear();
             this.trayMenu.Items.Clear();
 
-            var serviceGroups = Helpers.ReadConfigFile().GroupBy(x => x.Group);
+            var serviceGroups = SerializationHelpers.ReadServicesConfFile().GroupBy(x => x.Group);
 
             foreach (var group in serviceGroups) {
                 if (!String.IsNullOrEmpty(group.Key)) {
-                    this.trayMenu.Items.Add(Helpers.CreateMenuHeader(group.Key));
+                    this.trayMenu.Items.Add(MenuHelpers.CreateMenuHeader(group.Key));
                 }
                 foreach (var service in group) {
-                    var tsmi = new ToolStripMenuItem(service.ServiceInfo.DisplayName) {
+                    var tsmi = new ToolStripMenuItem(service.DisplayName) {
                         Tag = service
                     };
 
-                    var startItem = Helpers.CreateMenuItem("Start Service", this.Icons["start"],
+                    var startItem = MenuHelpers.CreateMenuItem("Start Service", IconsManager.Icons["start"],
                         async (s, e) => {
-                            await Task.Factory.StartNew(() => this.StartService(service));
+                            await Task.Factory.StartNew(() => ServiceHelpers.StartService(service));
+                            if (Preferences.Prefs.ShowBaloon) {
+                                this.trayIcon.ShowBalloonTip(Preferences.Prefs.BaloonTipTime, "Started",
+                                    $"Service `{service.DisplayName}` was started", ToolTipIcon.Info);
+                            }
                             this.UpdateTrayMenu();
                         }, "StartMenuItem");
-                    var stopItem = Helpers.CreateMenuItem("Stop service", this.Icons["stop"],
+                    var stopItem = MenuHelpers.CreateMenuItem("Stop service", IconsManager.Icons["stop"],
                         async (s, e) => {
-                            await Task.Factory.StartNew(() => this.StopService(service));
+                            await Task.Factory.StartNew(() => ServiceHelpers.StopService(service));
+                            if (Preferences.Prefs.ShowBaloon) {
+                                this.trayIcon.ShowBalloonTip(Preferences.Prefs.BaloonTipTime, "Stopped",
+                                    $"Service `{service.DisplayName}` was stopped", ToolTipIcon.Info);
+                            }
                             this.UpdateTrayMenu();
                         }, "StopMenuItem");
-                    var restartItem = Helpers.CreateMenuItem("Restart service", this.Icons["reload"],
+                    var restartItem = MenuHelpers.CreateMenuItem("Restart service", IconsManager.Icons["reload"],
                         async (s, e) => {
-                            await Task.Factory.StartNew(() => this.RestartService(service));
+                            await Task.Factory.StartNew(() => ServiceHelpers.RestartService(service));
+                            if (Preferences.Prefs.ShowBaloon) {
+                                this.trayIcon.ShowBalloonTip(Preferences.Prefs.BaloonTipTime, "Restarted",
+                                    $"Service `{service.DisplayName}` was restarted", ToolTipIcon.Info);
+                            }
                             this.UpdateTrayMenu();
                         }, "RestartMenuItem");
 
@@ -104,38 +86,38 @@ namespace WTManager
                     tsmi.DropDownItems.Add(restartItem);
                     tsmi.DropDownItems.Add(stopItem);
 
-                    if (service.HasConfigs) {
+                    if (!service.ConfigFiles.IsNullOrEmpty()) {
                         tsmi.DropDownItems.Add("-");
-                        tsmi.DropDownItems.Add(Helpers.CreateMenuHeader("Config files:"));
+                        tsmi.DropDownItems.Add(MenuHelpers.CreateMenuHeader("Config files:"));
 
-                        foreach (string configFile in service.Configs) {
+                        foreach (string configFile in service.ConfigFiles) {
                             var title = "Edit " + Path.GetFileName(configFile);
-                            var item = Helpers.CreateMenuItem(title, this.Icons["config"], (s, e) => {
+                            var item = MenuHelpers.CreateMenuItem(title, IconsManager.Icons["config"], (s, e) => {
                                 OpenInEditor(configFile);
                             });
                             tsmi.DropDownItems.Add(item);
                         }
                     }
 
-                    if (service.HasLogs) {
+                    if (!service.LogFiles.IsNullOrEmpty()) {
                         tsmi.DropDownItems.Add("-");
-                        tsmi.DropDownItems.Add(Helpers.CreateMenuHeader("Log files:"));
+                        tsmi.DropDownItems.Add(MenuHelpers.CreateMenuHeader("Log files:"));
 
-                        foreach (string logFile in service.Logs) {
+                        foreach (string logFile in service.LogFiles) {
                             var title = "Show " + Path.GetFileName(logFile);
-                            var item = Helpers.CreateMenuItem(title, this.Icons["log"], (s, e) => {
+                            var item = MenuHelpers.CreateMenuItem(title, IconsManager.Icons["log"], (s, e) => {
                                 new LogFileViewer(logFile).Show();
                             });
                             tsmi.DropDownItems.Add(item);
                         }
                     }
 
-                    if (service.HasCommands) {
+                    if (!service.Commands.IsNullOrEmpty()) {
                         tsmi.DropDownItems.Add("-");
-                        tsmi.DropDownItems.Add(Helpers.CreateMenuHeader("Associated commands:"));
+                        tsmi.DropDownItems.Add(MenuHelpers.CreateMenuHeader("Associated commands:"));
 
                         foreach (var cmd in service.Commands) {
-                            var item = Helpers.CreateMenuItem(cmd.Name, this.Icons["command"], (s, e) => {
+                            var item = MenuHelpers.CreateMenuItem(cmd.Name, IconsManager.Icons["command"], (s, e) => {
                                 try {
                                     Process.Start(cmd.Command, cmd.Arguments);
                                 } catch {
@@ -147,15 +129,15 @@ namespace WTManager
                         }
                     }
 
-                    if (service.ServiceInfo.OpenInBrowser && service.ServiceInfo.UsedPort != 0) {
+                    if (service.OpenInBrowser && service.UsedPort != 0) {
                         tsmi.DropDownItems.Add("-");
-                        var item = Helpers.CreateMenuItem("Open in browser...", this.Icons["browser"],
-                            (s, e) => Process.Start($"http://localhost:{service.ServiceInfo.UsedPort}"), "OpenInBrowserMenuItem");
+                        var item = MenuHelpers.CreateMenuItem("Open in browser...", IconsManager.Icons["browser"],
+                            (s, e) => Process.Start($"http://localhost:{service.UsedPort}"), "OpenInBrowserMenuItem");
                         tsmi.DropDownItems.Add(item);
                     }
 
-                    if (service.HasDataDirectory) {
-                        var item = Helpers.CreateMenuItem("Open data directory...", this.Icons["folder"],
+                    if (!String.IsNullOrEmpty(service.DataDirectory)) {
+                        var item = MenuHelpers.CreateMenuItem("Open data directory...", IconsManager.Icons["folder"],
                             (s, e) => Process.Start(service.DataDirectory));
                         tsmi.DropDownItems.Add(item);
                     }
@@ -165,15 +147,15 @@ namespace WTManager
                 this.trayMenu.Items.Add("-");
             }
 
-            var confMenuItem = Helpers.CreateMenuItem("Open config file", this.Icons["config"],
-                (s, e) => OpenInEditor(Helpers.ConfigPath));
+            var confMenuItem = MenuHelpers.CreateMenuItem("Open config file", IconsManager.Icons["config"],
+                (s, e) => OpenInEditor(SerializationHelpers.ConfigPath));
             this.trayMenu.Items.Add(confMenuItem);
 
-            var reloadMenuItem = Helpers.CreateMenuItem("Reload configuration", this.Icons["reload"],
+            var reloadMenuItem = MenuHelpers.CreateMenuItem("Reload configuration", IconsManager.Icons["reload"],
                 (s, e) => this.InitTrayMenu());
             this.trayMenu.Items.Add(reloadMenuItem);
 
-            var exitMenuItem = Helpers.CreateMenuItem("Exit", this.Icons["exit"],
+            var exitMenuItem = MenuHelpers.CreateMenuItem("Exit", IconsManager.Icons["exit"],
                 (s, e) => Application.Exit());
             this.trayMenu.Items.Add(exitMenuItem);
 
@@ -186,17 +168,10 @@ namespace WTManager
         private void InitApplication() {
             this.trayMenu.Renderer = new MyToolStripMenuRenderer();
 
-            if (!File.Exists(Helpers.ConfigPath)) {
-                var path = Path.GetDirectoryName(Helpers.ConfigPath);
+            if (!File.Exists(SerializationHelpers.ConfigPath)) {
+                var path = Path.GetDirectoryName(SerializationHelpers.ConfigPath);
                 Directory.CreateDirectory(path);
-                File.Create(Helpers.ConfigPath);
-            }
-
-            var resSet = IconResources.ResourceManager.GetResourceSet(CultureInfo.CurrentUICulture, true, true);
-            foreach (DictionaryEntry entry in resSet) {
-                string iconName = ((string)entry.Key).ToLower();
-                Image iconData = ((Icon)entry.Value).ToBitmap();
-                this.Icons.Add(iconName, iconData);
+                File.Create(SerializationHelpers.ConfigPath);
             }
 
             this.InitTrayMenu(true);
@@ -218,7 +193,7 @@ namespace WTManager
                 StatusCache[service.ServiceName] = service.Controller.Status;
                 switch (service.Controller.Status) {
                     case ServiceControllerStatus.Running:
-                        menuItem.Image = this.Icons["started"];
+                        menuItem.Image = IconsManager.Icons["started"];
                         tsMenuItem.DropDownItems["StartMenuItem"].Visible = false;
                         tsMenuItem.DropDownItems["StopMenuItem"].Visible = true;
                         tsMenuItem.DropDownItems["RestartMenuItem"].Visible = true;
@@ -226,7 +201,7 @@ namespace WTManager
                         break;
 
                     case ServiceControllerStatus.Stopped:
-                        menuItem.Image = this.Icons["stopped"];
+                        menuItem.Image = IconsManager.Icons["stopped"];
                         tsMenuItem.DropDownItems["StartMenuItem"].Visible = true;
                         tsMenuItem.DropDownItems["StopMenuItem"].Visible = false;
                         tsMenuItem.DropDownItems["RestartMenuItem"].Visible = false;
@@ -234,7 +209,7 @@ namespace WTManager
                         break;
 
                     default:
-                        menuItem.Image = this.Icons["pending"];
+                        menuItem.Image = IconsManager.Icons["pending"];
                         tsMenuItem.DropDownItems["StartMenuItem"].Visible = false;
                         tsMenuItem.DropDownItems["StopMenuItem"].Visible = false;
                         tsMenuItem.DropDownItems["RestartMenuItem"].Visible = false;
