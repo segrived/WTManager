@@ -3,11 +3,15 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WTManager.Lib;
+using WTManager.Helpers;
+using System.Drawing;
 
 namespace WTManager
 {
     public partial class LogFileViewer : Form
     {
+        private FileWatcher watcher { get; set; }
         private CancellationTokenSource cancelToken { get; set; }
 
         public LogFileViewer() {
@@ -15,37 +19,32 @@ namespace WTManager
         }
 
         public LogFileViewer(string fileName) : this() {
-            this.OpenFile(fileName);
+            var lastLines = FileHelpers.ReadLastLines(fileName);
+            foreach (var line in lastLines) {
+                this.logFileContent.AppendText(line + Environment.NewLine, Color.Gray);
+            }
+            this.Text = $"Log file viewer: {fileName}";
+            this.watcher = new FileWatcher(fileName);
+            watcher.FileChanged += Watcher_FileChanged;
+            Task.Factory.StartNew(watcher.StartWatch);
         }
 
-        public void OpenFile(string fileName) {
-            this.logFileNameLbl.Text = fileName;
-            Task.Factory.StartNew(() => {
-                this.cancelToken = new CancellationTokenSource();
-                const FileShare fileShare = FileShare.ReadWrite | FileShare.Delete;
-                using (var fs = new FileStream(fileName, FileMode.Open, FileAccess.Read, fileShare))
-                using (var reader = new StreamReader(fs)) {
-                    fs.Seek(0, SeekOrigin.End);
-                    while (true) {
-                        if (this.cancelToken.IsCancellationRequested) {
-                            fs.Dispose();
-                            return;
-                        }
-                        string line = reader.ReadToEnd();
-                        if (!String.IsNullOrWhiteSpace(line))
-                            if (this.logFileContent.InvokeRequired) {
-                                this.logFileContent.BeginInvoke((MethodInvoker)(() => {
-                                    this.logFileContent.AppendText(line + Environment.NewLine);
-                                }));
-                            }
-                        Thread.Sleep(100);
-                    }
-                }
-            }, new CancellationToken());
+        private void Watcher_FileChanged(object sender, FileWatcherEventArgs e) {
+            if (this.logFileContent.InvokeRequired) {
+                this.logFileContent.BeginInvoke((MethodInvoker)(() => {
+                    this.logFileContent.AppendText(e.AppendedContent + Environment.NewLine);
+                    this.logFileContent.ScrollToCaret();
+                }));
+            }
         }
 
         private void LogFileViewer_FormClosing(object sender, FormClosingEventArgs e) {
-            this.cancelToken.Cancel();
+            watcher.FileChanged -= Watcher_FileChanged;
+            this.watcher.Dispose();
+        }
+
+        private void LogFileViewer_Load(object sender, EventArgs e) {
+
         }
     }
 }

@@ -133,6 +133,7 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="Exceptions.cs" />
     <Compile Include="Helpers\Extensions.cs" />
+    <Compile Include="Helpers\FileHelpers.cs" />
     <Compile Include="Helpers\MenuHelpers.cs" />
     <Compile Include="Helpers\SchedulerHelpers.cs" />
     <Compile Include="Helpers\SerializationHelpers.cs" />
@@ -142,6 +143,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>IconResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Lib\FileWatcher.cs" />
+    <Compile Include="Lib\LimitedQueue.cs" />
     <Compile Include="LogFileViewer.cs">
       <SubType>Form</SubType>
     </Compile>
