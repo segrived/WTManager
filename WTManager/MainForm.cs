@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Drawing;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -29,12 +26,20 @@ namespace WTManager
             base.SetVisibleCore(false);
         }
 
+        private void ShowBaloon(string title, string message, ToolTipIcon icon = ToolTipIcon.Info) {
+            if (!Configuration.Config.Preferences.ShowBaloon) {
+                return;
+            }
+            var timeout = Configuration.Config.Preferences.BaloonTipTime;
+            this.trayIcon.ShowBalloonTip(timeout, title, message, ToolTipIcon.Info);
+        }
+
         private static void OpenInEditor(string fileName) {
             string editorPath;
-            if (Preferences.Prefs.EditorPath == null || !File.Exists(Preferences.Prefs.EditorPath)) {
+            if (Configuration.Config.Preferences.EditorPath == null || !File.Exists(Configuration.Config.Preferences.EditorPath)) {
                 editorPath = "notepad.exe";
             } else {
-                editorPath = Preferences.Prefs.EditorPath;
+                editorPath = Configuration.Config.Preferences.EditorPath;
             }
             Process.Start(editorPath, fileName);
         }
@@ -43,7 +48,7 @@ namespace WTManager
             this.StatusCache.Clear();
             this.trayMenu.Items.Clear();
 
-            var serviceGroups = SerializationHelpers.ReadServicesConfFile().GroupBy(x => x.Group);
+            var serviceGroups = Configuration.Config.Services.GroupBy(x => x.Group);
 
             foreach (var group in serviceGroups) {
                 if (!String.IsNullOrEmpty(group.Key)) {
@@ -57,28 +62,19 @@ namespace WTManager
                     var startItem = MenuHelpers.CreateMenuItem("Start Service", IconsManager.Icons["start"],
                         async (s, e) => {
                             await Task.Factory.StartNew(() => ServiceHelpers.StartService(service));
-                            if (Preferences.Prefs.ShowBaloon) {
-                                this.trayIcon.ShowBalloonTip(Preferences.Prefs.BaloonTipTime, "Started",
-                                    $"Service `{service.DisplayName}` was started", ToolTipIcon.Info);
-                            }
+                            this.ShowBaloon("Started", $"Service `{service.DisplayName}` was started");
                             this.UpdateTrayMenu();
                         }, "StartMenuItem");
                     var stopItem = MenuHelpers.CreateMenuItem("Stop service", IconsManager.Icons["stop"],
                         async (s, e) => {
                             await Task.Factory.StartNew(() => ServiceHelpers.StopService(service));
-                            if (Preferences.Prefs.ShowBaloon) {
-                                this.trayIcon.ShowBalloonTip(Preferences.Prefs.BaloonTipTime, "Stopped",
-                                    $"Service `{service.DisplayName}` was stopped", ToolTipIcon.Info);
-                            }
+                            this.ShowBaloon("Stopped", $"Service `{service.DisplayName}` was stopped");
                             this.UpdateTrayMenu();
                         }, "StopMenuItem");
                     var restartItem = MenuHelpers.CreateMenuItem("Restart service", IconsManager.Icons["reload"],
                         async (s, e) => {
                             await Task.Factory.StartNew(() => ServiceHelpers.RestartService(service));
-                            if (Preferences.Prefs.ShowBaloon) {
-                                this.trayIcon.ShowBalloonTip(Preferences.Prefs.BaloonTipTime, "Restarted",
-                                    $"Service `{service.DisplayName}` was restarted", ToolTipIcon.Info);
-                            }
+                            this.ShowBaloon("Restrted", $"Service `{service.DisplayName}` was restarted");
                             this.UpdateTrayMenu();
                         }, "RestartMenuItem");
 
@@ -148,7 +144,7 @@ namespace WTManager
             }
 
             var confMenuItem = MenuHelpers.CreateMenuItem("Open config file", IconsManager.Icons["config"],
-                (s, e) => OpenInEditor(SerializationHelpers.ConfigPath));
+                (s, e) => OpenInEditor(Configuration.ConfigPath));
             this.trayMenu.Items.Add(confMenuItem);
 
             var reloadMenuItem = MenuHelpers.CreateMenuItem("Reload configuration", IconsManager.Icons["reload"],
@@ -159,19 +155,18 @@ namespace WTManager
                 (s, e) => Application.Exit());
             this.trayMenu.Items.Add(exitMenuItem);
 
-            if (Preferences.Prefs.ShowBaloon && !forceBaloonDisable) {
-                this.trayIcon.ShowBalloonTip(Preferences.Prefs.BaloonTipTime, "Initialized",
-                    "Tray menu was initialized", ToolTipIcon.Info);
+            if (!forceBaloonDisable) {
+                this.ShowBaloon("Initialized", "Tray menu was initialized");
             }
         }
 
         private void InitApplication() {
             this.trayMenu.Renderer = new MyToolStripMenuRenderer();
 
-            if (!File.Exists(SerializationHelpers.ConfigPath)) {
-                var path = Path.GetDirectoryName(SerializationHelpers.ConfigPath);
+            if (!File.Exists(Configuration.ConfigPath)) {
+                var path = Path.GetDirectoryName(Configuration.ConfigPath);
                 Directory.CreateDirectory(path);
-                File.Create(SerializationHelpers.ConfigPath);
+                File.Create(Configuration.ConfigPath);
             }
 
             this.InitTrayMenu(true);

@@ -130,6 +130,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration.cs" />
     <Compile Include="Exceptions.cs" />
     <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Helpers\MenuHelpers.cs" />
@@ -154,10 +155,8 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MyToolStripMenuRenderer.cs" />
-    <Compile Include="Preferences.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service.cs" />
     <Compile Include="IconsManager.cs" />
     <EmbeddedResource Include="IconResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

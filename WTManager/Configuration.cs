@@ -1,11 +1,33 @@
-using System;
+п»їusing System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.ServiceProcess;
+using WTManager.Helpers;
 
 namespace WTManager
 {
+    public class Configuration
+    {
+        private static readonly string AppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        public static readonly string ConfigPath = Path.Combine(AppData, "WTManager", "config.yml");
+
+        private static readonly Lazy<Configuration> _configuration
+            = new Lazy<Configuration>(() => SerializationHelpers.DeserializeFile<Configuration>(ConfigPath));
+
+        public Preferences Preferences { get; set; }
+        public IEnumerable<Service> Services { get; set; }
+
+        public static Configuration Config => _configuration.Value;
+    }
+
+    public class Preferences
+    {
+        public string EditorPath { get; set; }
+        public bool ShowBaloon { get; set; }
+        public int BaloonTipTime { get; set; }
+    }
+
     public class ServiceCommand
     {
         public string Name { get; set; }
@@ -15,28 +37,16 @@ namespace WTManager
 
     public class Service
     {
-        /// <summary>
-        /// Название сервиса
-        /// </summary>
         public string ServiceName { get; set; }
 
-        /// <summary>
-        /// Отображаемое имя
-        /// </summary>
         private string _displayName;
         public string DisplayName {
             get { return _displayName ?? ServiceName; }
             set { _displayName = value; }
         }
 
-        /// <summary>
-        /// Используемый порт
-        /// </summary>
         public int UsedPort { get; set; }
 
-        /// <summary>
-        /// Базовый путь к директории
-        /// </summary>
         private string _basePath;
         public string BasePath {
             get { return _basePath ?? string.Empty; }
@@ -48,18 +58,12 @@ namespace WTManager
 
         public bool OpenInBrowser { get; set; }
 
-        /// <summary>
-        /// Конфигурационные файлы
-        /// </summary>
         private IEnumerable<string> _configFiles;
         public IEnumerable<string> ConfigFiles {
             get { return _configFiles?.Select(f => Path.Combine(BasePath, f)); }
             set { _configFiles = value; }
         }
 
-        /// <summary>
-        /// Пусть к файлу лога
-        /// </summary>
         private IEnumerable<string> _logFiles;
         public IEnumerable<string> LogFiles {
             get { return _logFiles?.Select(f => Path.Combine(BasePath, f)); }
@@ -75,7 +79,6 @@ namespace WTManager
         public string Group { get; set; }
 
         private ServiceController _controller;
-        [YamlDotNet.Serialization.YamlIgnore]
         public ServiceController Controller {
             get
             {
