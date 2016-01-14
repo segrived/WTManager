@@ -14,16 +14,12 @@ namespace WTManager
 {
     public partial class MainForm : Form
     {
-        private Dictionary<string, ServiceControllerStatus> StatusCache;
+        private Dictionary<string, ServiceControllerStatus> StatusCache =
+            new Dictionary<string, ServiceControllerStatus>();
 
         public MainForm() {
             this.InitializeComponent();
-            this.StatusCache = new Dictionary<string, ServiceControllerStatus>();
             this.InitApplication();
-        }
-
-        protected override void SetVisibleCore(bool value) {
-            base.SetVisibleCore(false);
         }
 
         private void ShowBaloon(string title, string message, ToolTipIcon icon = ToolTipIcon.Info) {
@@ -36,7 +32,8 @@ namespace WTManager
 
         private static void OpenInEditor(string fileName) {
             string editorPath;
-            if (Configuration.Config.Preferences.EditorPath == null || !File.Exists(Configuration.Config.Preferences.EditorPath)) {
+            if (String.IsNullOrEmpty(Configuration.Config.Preferences.EditorPath) ||
+                !File.Exists(Configuration.Config.Preferences.EditorPath)) {
                 editorPath = "notepad.exe";
             } else {
                 editorPath = Configuration.Config.Preferences.EditorPath;
@@ -82,25 +79,26 @@ namespace WTManager
                     tsmi.DropDownItems.Add(restartItem);
                     tsmi.DropDownItems.Add(stopItem);
 
-                    if (!service.ConfigFiles.IsNullOrEmpty()) {
+                    var configFiles = service.ConfigFiles?.Where(File.Exists);
+                    if (!configFiles.IsNullOrEmpty()) {
                         tsmi.DropDownItems.Add("-");
                         tsmi.DropDownItems.Add(MenuHelpers.CreateMenuHeader("Config files:"));
 
-                        foreach (string configFile in service.ConfigFiles) {
-                            var title = "Edit " + Path.GetFileName(configFile);
+                        foreach (string configFile in configFiles) {
+                            var title = $"Edit {Path.GetFileName(configFile)}";
                             var item = MenuHelpers.CreateMenuItem(title, IconsManager.Icons["config"], (s, e) => {
                                 OpenInEditor(configFile);
                             });
                             tsmi.DropDownItems.Add(item);
                         }
                     }
-
-                    if (!service.LogFiles.IsNullOrEmpty()) {
+                    var logFiles = service.LogFiles?.Where(File.Exists);
+                    if (!logFiles.IsNullOrEmpty()) {
                         tsmi.DropDownItems.Add("-");
                         tsmi.DropDownItems.Add(MenuHelpers.CreateMenuHeader("Log files:"));
 
-                        foreach (string logFile in service.LogFiles) {
-                            var title = "Show " + Path.GetFileName(logFile);
+                        foreach (string logFile in logFiles) {
+                            var title = $"Show {Path.GetFileName(logFile)}";
                             var item = MenuHelpers.CreateMenuItem(title, IconsManager.Icons["log"], (s, e) => {
                                 new LogFileViewer(logFile).Show();
                             });
@@ -166,7 +164,6 @@ namespace WTManager
             if (!File.Exists(Configuration.ConfigPath)) {
                 var path = Path.GetDirectoryName(Configuration.ConfigPath);
                 Directory.CreateDirectory(path);
-                File.Create(Configuration.ConfigPath);
             }
 
             this.InitTrayMenu(true);
@@ -234,6 +231,10 @@ namespace WTManager
             const BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic;
             var mi = typeof(NotifyIcon).GetMethod("ShowContextMenu", flags);
             mi.Invoke(this.trayIcon, null);
+        }
+
+        protected override void SetVisibleCore(bool value) {
+            base.SetVisibleCore(false);
         }
     }
 }
