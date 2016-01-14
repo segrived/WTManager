@@ -13,10 +13,26 @@ namespace WTManager
         public static readonly string ConfigPath = Path.Combine(AppData, "WTManager", "config.yml");
 
         private static readonly Lazy<Configuration> _configuration
-            = new Lazy<Configuration>(() => SerializationHelpers.DeserializeFile<Configuration>(ConfigPath));
+            = new Lazy<Configuration>(() => {
+                if (!File.Exists(ConfigPath)) {
+                    SerializationHelpers.SerializeFile(ConfigPath, GetDefaults());
+                }
+                return SerializationHelpers.DeserializeFile<Configuration>(ConfigPath);
+            });
 
         public Preferences Preferences { get; set; }
         public IEnumerable<Service> Services { get; set; }
+
+        private static Configuration GetDefaults() {
+            var conf = new Configuration {
+                Preferences = new Preferences {
+                    ShowBaloon = true,
+                    BaloonTipTime = 3000
+                },
+                Services = new List<Service>()
+            };
+            return conf;
+        }
 
         public static Configuration Config => _configuration.Value;
     }
@@ -30,8 +46,19 @@ namespace WTManager
 
     public class ServiceCommand
     {
+        /// <summary>
+        /// Command name
+        /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Command argumetns
+        /// </summary>
         public string Arguments { get; set; }
+
+        /// <summary>
+        /// Path to command
+        /// </summary>
         public string Command { get; set; }
     }
 
