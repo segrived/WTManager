@@ -4,8 +4,6 @@ namespace WTManager.Lib
 {
     public class LimitedQueue<T> : Queue<T>
     {
-        private int limit = -1;
-
         public int Limit { get; set; }
 
         public LimitedQueue(int limit) : base(limit) {

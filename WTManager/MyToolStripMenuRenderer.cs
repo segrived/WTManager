@@ -33,9 +33,5 @@ namespace WTManager
             if (e.Item.Enabled)
                 base.OnRenderMenuItemBackground(e);
         }
-
-        protected override void OnRenderImageMargin(ToolStripRenderEventArgs e) {
-            base.OnRenderImageMargin(e);
-        }
     }
 }
