@@ -72,18 +72,11 @@ namespace WTManager
             set { _displayName = value; }
         }
 
-        public int UsedPort { get; set; }
-
         private string _basePath;
         public string BasePath {
             get { return _basePath ?? string.Empty; }
             set { _basePath = value; }
         }
-
-
-        public IEnumerable<ServiceCommand> Commands { get; set; }
-
-        public bool OpenInBrowser { get; set; }
 
         private IEnumerable<string> _configFiles;
         public IEnumerable<string> ConfigFiles {
@@ -103,6 +96,8 @@ namespace WTManager
             set { _dataDirectory = value; }
         }
 
+        public IEnumerable<ServiceCommand> Commands { get; set; }
+        public string BrowserUrl { get; set; }
         public string Group { get; set; }
 
         private ServiceController _controller;

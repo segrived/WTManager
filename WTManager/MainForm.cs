@@ -123,10 +123,10 @@ namespace WTManager
                         }
                     }
 
-                    if (service.OpenInBrowser && service.UsedPort != 0) {
+                    if (!String.IsNullOrEmpty(service.BrowserUrl)) {
                         tsmi.DropDownItems.Add("-");
                         var item = MenuHelpers.CreateMenuItem("Open in browser...", IconsManager.Icons["browser"],
-                            (s, e) => Process.Start($"http://localhost:{service.UsedPort}"), "OpenInBrowserMenuItem");
+                            (s, e) => Process.Start($"http://{service.BrowserUrl}"), "OpenInBrowserMenuItem");
                         tsmi.DropDownItems.Add(item);
                     }
 
