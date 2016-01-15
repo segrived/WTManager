@@ -42,6 +42,7 @@ namespace WTManager
         public string EditorPath { get; set; }
         public bool ShowBaloon { get; set; }
         public int BaloonTipTime { get; set; }
+        public string LogViewerPath { get; set; }
     }
 
     public class ServiceCommand

@@ -100,7 +100,17 @@ namespace WTManager
                         foreach (string logFile in logFiles) {
                             var title = $"Show {Path.GetFileName(logFile)}";
                             var item = MenuHelpers.CreateMenuItem(title, IconsManager.Icons["log"], (s, e) => {
-                                new LogFileViewer(logFile).Show();
+                                var viewer = Configuration.Config.Preferences.LogViewerPath;
+                                if (String.IsNullOrEmpty(viewer) || viewer == "internal") {
+                                    new LogFileViewer(logFile).Show();
+                                } else {
+                                    if (File.Exists(viewer)) {
+                                        Process.Start(viewer, logFile);
+                                    } else {
+                                        MessageBox.Show($"Can't use selected log viewer `{viewer}`, check your configuration");
+                                    }
+                                }
+
                             });
                             tsmi.DropDownItems.Add(item);
                         }
