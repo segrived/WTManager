@@ -25,5 +25,13 @@ namespace WTManager.Helpers
             textBox.AppendText(text);
             textBox.SelectionColor = textBox.ForeColor;
         }
+
+        public static void InvokeIfRequired(this Control control, MethodInvoker action) {
+            if (control.InvokeRequired) {
+                control.Invoke(action);
+            } else {
+                action();
+            }
+        }
     }
 }

@@ -92,7 +92,12 @@ namespace WTManager
 
         private string _dataDirectory;
         public string DataDirectory {
-            get { return Path.Combine(BasePath, _dataDirectory ?? String.Empty); }
+            get
+            {
+                return String.IsNullOrEmpty(_dataDirectory)
+                  ? String.Empty
+                  : Path.Combine(BasePath, _dataDirectory ?? String.Empty);
+            }
             set { _dataDirectory = value; }
         }
 

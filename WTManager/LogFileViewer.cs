@@ -30,12 +30,10 @@ namespace WTManager
         }
 
         private void Watcher_FileChanged(object sender, FileWatcherEventArgs e) {
-            if (this.logFileContent.InvokeRequired) {
-                this.logFileContent.BeginInvoke((MethodInvoker)(() => {
-                    this.logFileContent.AppendText(e.AppendedContent + Environment.NewLine);
-                    this.logFileContent.ScrollToCaret();
-                }));
-            }
+            this.logFileContent.InvokeIfRequired(() => {
+                this.logFileContent.AppendText(e.AppendedContent + Environment.NewLine);
+                this.logFileContent.ScrollToCaret();
+            });
         }
 
         private void LogFileViewer_FormClosing(object sender, FormClosingEventArgs e) {

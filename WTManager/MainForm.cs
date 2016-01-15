@@ -130,7 +130,7 @@ namespace WTManager
                         tsmi.DropDownItems.Add(item);
                     }
 
-                    if (!String.IsNullOrEmpty(service.DataDirectory)) {
+                    if (Directory.Exists(service.DataDirectory)) {
                         var item = MenuHelpers.CreateMenuItem("Open data directory...", IconsManager.Icons["folder"],
                             (s, e) => Process.Start(service.DataDirectory));
                         tsmi.DropDownItems.Add(item);
