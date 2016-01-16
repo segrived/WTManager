@@ -45,7 +45,9 @@ namespace WTManager
             this.StatusCache.Clear();
             this.trayMenu.Items.Clear();
 
-            var serviceGroups = Configuration.Config.Services.GroupBy(x => x.Group);
+            var serviceGroups = Configuration.Config.Services
+                .Where(s => ServiceHelpers.IsServiceExists(s.ServiceName))
+                .GroupBy(x => x.Group);
 
             foreach (var group in serviceGroups) {
                 if (!String.IsNullOrEmpty(group.Key)) {
