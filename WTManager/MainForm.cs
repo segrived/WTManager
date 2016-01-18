@@ -23,20 +23,20 @@ namespace WTManager
         }
 
         private void ShowBaloon(string title, string message, ToolTipIcon icon = ToolTipIcon.Info) {
-            if (!Configuration.Config.Preferences.ShowBaloon) {
+            if (!ConfigManager.Preferences.ShowBaloon) {
                 return;
             }
-            var timeout = Configuration.Config.Preferences.BaloonTipTime;
+            var timeout = ConfigManager.Preferences.BaloonTipTime;
             this.trayIcon.ShowBalloonTip(timeout, title, message, ToolTipIcon.Info);
         }
 
         private static void OpenInEditor(string fileName) {
             string editorPath;
-            if (String.IsNullOrEmpty(Configuration.Config.Preferences.EditorPath) ||
-                !File.Exists(Configuration.Config.Preferences.EditorPath)) {
+            if (String.IsNullOrEmpty(ConfigManager.Preferences.EditorPath) ||
+                !File.Exists(ConfigManager.Preferences.EditorPath)) {
                 editorPath = "notepad.exe";
             } else {
-                editorPath = Configuration.Config.Preferences.EditorPath;
+                editorPath = ConfigManager.Preferences.EditorPath;
             }
             Process.Start(editorPath, fileName);
         }
@@ -44,8 +44,9 @@ namespace WTManager
         private void InitTrayMenu(bool forceBaloonDisable = false) {
             this.StatusCache.Clear();
             this.trayMenu.Items.Clear();
+            ConfigManager.Instance.ReloadConfig();
 
-            var serviceGroups = Configuration.Config.Services
+            var serviceGroups = ConfigManager.Services
                 .Where(s => ServiceHelpers.IsServiceExists(s.ServiceName))
                 .GroupBy(x => x.Group);
 
@@ -102,7 +103,7 @@ namespace WTManager
                         foreach (string logFile in logFiles) {
                             var title = $"Show {Path.GetFileName(logFile)}";
                             var item = MenuHelpers.CreateMenuItem(title, IconsManager.Icons["log"], (s, e) => {
-                                var viewer = Configuration.Config.Preferences.LogViewerPath;
+                                var viewer = ConfigManager.Preferences.LogViewerPath;
                                 if (String.IsNullOrEmpty(viewer) || viewer == "internal") {
                                     new LogFileViewer(logFile).Show();
                                 } else {
@@ -154,7 +155,7 @@ namespace WTManager
             }
 
             var confMenuItem = MenuHelpers.CreateMenuItem("Open config file", IconsManager.Icons["config"],
-                (s, e) => OpenInEditor(Configuration.ConfigPath));
+                (s, e) => OpenInEditor(ConfigManager.ConfigPath));
             this.trayMenu.Items.Add(confMenuItem);
 
             var reloadMenuItem = MenuHelpers.CreateMenuItem("Reload configuration", IconsManager.Icons["reload"],
@@ -173,8 +174,8 @@ namespace WTManager
         private void InitApplication() {
             this.trayMenu.Renderer = new MyToolStripMenuRenderer();
 
-            if (!File.Exists(Configuration.ConfigPath)) {
-                var path = Path.GetDirectoryName(Configuration.ConfigPath);
+            if (!File.Exists(ConfigManager.ConfigPath)) {
+                var path = Path.GetDirectoryName(ConfigManager.ConfigPath);
                 Directory.CreateDirectory(path);
             }
 

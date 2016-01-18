@@ -3,38 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.ServiceProcess;
-using WTManager.Helpers;
 
 namespace WTManager
 {
     public class Configuration
     {
-        private static readonly string AppData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        public static readonly string ConfigPath = Path.Combine(AppData, "WTManager", "config.yml");
-
-        private static readonly Lazy<Configuration> _configuration
-            = new Lazy<Configuration>(() => {
-                if (!File.Exists(ConfigPath)) {
-                    SerializationHelpers.SerializeFile(ConfigPath, GetDefaults());
-                }
-                return SerializationHelpers.DeserializeFile<Configuration>(ConfigPath);
-            });
-
         public Preferences Preferences { get; set; }
         public IEnumerable<Service> Services { get; set; }
-
-        private static Configuration GetDefaults() {
-            var conf = new Configuration {
-                Preferences = new Preferences {
-                    ShowBaloon = true,
-                    BaloonTipTime = 3000
-                },
-                Services = new List<Service>()
-            };
-            return conf;
-        }
-
-        public static Configuration Config => _configuration.Value;
     }
 
     public class Preferences
