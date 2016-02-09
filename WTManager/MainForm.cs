@@ -61,19 +61,19 @@ namespace WTManager
 
                     var startItem = MenuHelpers.CreateMenuItem("Start Service", IconsManager.Icons["start"],
                         async (s, e) => {
-                            await Task.Factory.StartNew(() => ServiceHelpers.StartService(service));
+                            await Task.Factory.StartNew(() => service.StartService());
                             this.ShowBaloon("Started", $"Service `{service.DisplayName}` was started");
                             this.UpdateTrayMenu();
                         }, "StartMenuItem");
                     var stopItem = MenuHelpers.CreateMenuItem("Stop service", IconsManager.Icons["stop"],
                         async (s, e) => {
-                            await Task.Factory.StartNew(() => ServiceHelpers.StopService(service));
+                            await Task.Factory.StartNew(() => service.StopService());
                             this.ShowBaloon("Stopped", $"Service `{service.DisplayName}` was stopped");
                             this.UpdateTrayMenu();
                         }, "StopMenuItem");
                     var restartItem = MenuHelpers.CreateMenuItem("Restart service", IconsManager.Icons["reload"],
                         async (s, e) => {
-                            await Task.Factory.StartNew(() => ServiceHelpers.RestartService(service));
+                            await Task.Factory.StartNew(() => service.RestartService());
                             this.ShowBaloon("Restrted", $"Service `{service.DisplayName}` was restarted");
                             this.UpdateTrayMenu();
                         }, "RestartMenuItem");
