@@ -82,6 +82,7 @@ namespace WTManager
         public string Group { get; set; }
 
         private ServiceController _controller;
+        [YamlDotNet.Serialization.YamlIgnore]
         public ServiceController Controller {
             get
             {
@@ -90,6 +91,18 @@ namespace WTManager
                 }
                 return _controller;
             }
+        }
+
+        public override bool Equals(object obj) {
+            if (obj == null || GetType() != obj.GetType()) {
+                return false;
+            }
+            var otherService = (Service)obj;
+            return otherService.ServiceName == this.ServiceName;
+        }
+
+        public override int GetHashCode() {
+            return this.ServiceName.GetHashCode();
         }
     }
 }

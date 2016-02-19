@@ -17,12 +17,9 @@ namespace WTManager
 
         public static ConfigManager Instance => _instance.Value;
 
-        public static Preferences Preferences =>
-            _instance.Value.Config.Preferences;
+        public static Preferences Preferences => _instance.Value.Config.Preferences;
 
-        public static IEnumerable<Service> Services =>
-            _instance.Value.Config.Services;
-
+        public static IEnumerable<Service> Services => _instance.Value.Config.Services;
 
         public Configuration Config { get; private set; }
 
@@ -46,6 +43,10 @@ namespace WTManager
         }
 
         public void ReloadConfig() => this.Config = this.GetConfig();
+
+        public void SaveConfig() {
+            SerializationHelpers.SerializeFile(ConfigPath, this.Config);
+        }
 
         private ConfigManager() {
             ReloadConfig();

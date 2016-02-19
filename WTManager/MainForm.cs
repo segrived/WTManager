@@ -9,6 +9,7 @@ using System.ServiceProcess;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WTManager.Helpers;
+using WTManager.UI;
 
 namespace WTManager
 {
@@ -157,6 +158,10 @@ namespace WTManager
             var confMenuItem = MenuHelpers.CreateMenuItem("Open config file", IconsManager.Icons["config"],
                 (s, e) => OpenInEditor(ConfigManager.ConfigPath));
             this.trayMenu.Items.Add(confMenuItem);
+
+            var confFormMenuItem = MenuHelpers.CreateMenuItem("Open config file (form)", IconsManager.Icons["config"],
+                (s, e) => new ServiceConfigForm().Show());
+            this.trayMenu.Items.Add(confFormMenuItem);
 
             var reloadMenuItem = MenuHelpers.CreateMenuItem("Reload configuration", IconsManager.Icons["reload"],
                 (s, e) => this.InitTrayMenu());

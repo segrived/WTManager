@@ -6,8 +6,10 @@ namespace WTManager.Helpers
 {
     public static class ServiceHelpers
     {
-        private static HashSet<string> _installedServices =
-            ServiceController.GetServices().Select(sc => sc.ServiceName).ToHashSet();
+        private static HashSet<string> _installedServices = GetAllServices()
+            .Select(sc => sc.ServiceName).ToHashSet();
+
+        public static ServiceController[] GetAllServices() => ServiceController.GetServices();
 
         public static bool IsServiceExists(string serviceName) {
             return _installedServices.Contains(serviceName);

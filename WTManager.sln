@@ -7,7 +7,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WTManager", "WTManager\WTMa
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{FAA71F4E-669C-468A-BFCB-74572827DE48}"
 	ProjectSection(SolutionItems) = preProject
+		Installer\MakeInstallers.cmd = Installer\MakeInstallers.cmd
 		README.md = README.md
+		Installer\Setup.nsi = Installer\Setup.nsi
 	EndProjectSection
 EndProject
 Global
