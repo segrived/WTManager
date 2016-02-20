@@ -25,9 +25,8 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigurationForm));
-            this.applyChangesBtn = new System.Windows.Forms.Button();
-            this.cancelChangesBtn = new System.Windows.Forms.Button();
+            this.OkBtn = new System.Windows.Forms.Button();
+            this.cancelBtn = new System.Windows.Forms.Button();
             this.removeServiceBtn = new System.Windows.Forms.Button();
             this.editServiceBtn = new System.Windows.Forms.Button();
             this.addServiceBtn = new System.Windows.Forms.Button();
@@ -44,27 +43,27 @@
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
-            // applyChangesBtn
+            // OkBtn
             // 
-            this.applyChangesBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.applyChangesBtn.Location = new System.Drawing.Point(103, 387);
-            this.applyChangesBtn.Name = "applyChangesBtn";
-            this.applyChangesBtn.Size = new System.Drawing.Size(151, 30);
-            this.applyChangesBtn.TabIndex = 1;
-            this.applyChangesBtn.Text = "Apply changes";
-            this.applyChangesBtn.UseVisualStyleBackColor = true;
-            this.applyChangesBtn.Click += new System.EventHandler(this.applyChangesBtn_Click);
+            this.OkBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.OkBtn.Location = new System.Drawing.Point(103, 387);
+            this.OkBtn.Name = "OkBtn";
+            this.OkBtn.Size = new System.Drawing.Size(151, 30);
+            this.OkBtn.TabIndex = 1;
+            this.OkBtn.Text = "OK";
+            this.OkBtn.UseVisualStyleBackColor = true;
+            this.OkBtn.Click += new System.EventHandler(this.OkBtn_Click);
             // 
-            // cancelChangesBtn
+            // cancelBtn
             // 
-            this.cancelChangesBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cancelChangesBtn.Location = new System.Drawing.Point(260, 387);
-            this.cancelChangesBtn.Name = "cancelChangesBtn";
-            this.cancelChangesBtn.Size = new System.Drawing.Size(151, 30);
-            this.cancelChangesBtn.TabIndex = 1;
-            this.cancelChangesBtn.Text = "Cancel changes";
-            this.cancelChangesBtn.UseVisualStyleBackColor = true;
-            this.cancelChangesBtn.Click += new System.EventHandler(this.removeServiceBtn_Click);
+            this.cancelBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cancelBtn.Location = new System.Drawing.Point(260, 387);
+            this.cancelBtn.Name = "cancelBtn";
+            this.cancelBtn.Size = new System.Drawing.Size(151, 30);
+            this.cancelBtn.TabIndex = 1;
+            this.cancelBtn.Text = "Cancel";
+            this.cancelBtn.UseVisualStyleBackColor = true;
+            this.cancelBtn.Click += new System.EventHandler(this.CancelBtn_Click);
             // 
             // removeServiceBtn
             // 
@@ -101,8 +100,8 @@
             // 
             // servicesListBox
             // 
-            this.servicesListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.servicesListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.servicesListBox.FormattingEnabled = true;
             this.servicesListBox.IntegralHeight = false;
@@ -114,8 +113,8 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-            | System.Windows.Forms.AnchorStyles.Left)
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.servicesListBox);
             this.groupBox1.Controls.Add(this.addServiceBtn);
@@ -131,7 +130,7 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.selectLogViewerPathBtn);
             this.groupBox2.Controls.Add(this.selectConfigEditorPathBtn);
@@ -180,7 +179,7 @@
             // 
             // logViewerPathTb
             // 
-            this.logViewerPathTb.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.logViewerPathTb.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.logViewerPathTb.Location = new System.Drawing.Point(110, 50);
             this.logViewerPathTb.Name = "logViewerPathTb";
@@ -198,7 +197,7 @@
             // 
             // configEditorPathTb
             // 
-            this.configEditorPathTb.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.configEditorPathTb.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.configEditorPathTb.Location = new System.Drawing.Point(110, 21);
             this.configEditorPathTb.Name = "configEditorPathTb";
@@ -212,8 +211,8 @@
             this.ClientSize = new System.Drawing.Size(423, 429);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.applyChangesBtn);
-            this.Controls.Add(this.cancelChangesBtn);
+            this.Controls.Add(this.OkBtn);
+            this.Controls.Add(this.cancelBtn);
             this.Name = "ConfigurationForm";
             this.Text = "WTManager Configuration";
             this.Load += new System.EventHandler(this.ServiceConfigForm_Load);
@@ -230,8 +229,8 @@
         private System.Windows.Forms.Button addServiceBtn;
         private System.Windows.Forms.Button editServiceBtn;
         private System.Windows.Forms.Button removeServiceBtn;
-        private System.Windows.Forms.Button cancelChangesBtn;
-        private System.Windows.Forms.Button applyChangesBtn;
+        private System.Windows.Forms.Button cancelBtn;
+        private System.Windows.Forms.Button OkBtn;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button selectLogViewerPathBtn;

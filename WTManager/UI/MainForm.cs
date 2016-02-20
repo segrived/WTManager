@@ -143,12 +143,16 @@ namespace WTManager.UI
                 }
             }
 
-            var confMenuItem = MenuHelpers.CreateMenuItem("Open config file", IconsManager.Icons["config"],
-                (s, e) => OpenInEditor(ConfigManager.ConfigPath));
-            this.trayMenu.Items.Add(confMenuItem);
-
             var confFormMenuItem = MenuHelpers.CreateMenuItem("Open config file (form)", IconsManager.Icons["config"],
-                (s, e) => new ConfigurationForm().Show());
+                (s, e) => {
+                    using (var f = new ConfigurationForm()) {
+                        var result = f.ShowDialog();
+                        if (result != DialogResult.OK) {
+                            return;
+                        }
+                        this.InitTrayMenu();
+                    }
+                });
             this.trayMenu.Items.Add(confFormMenuItem);
 
             var reloadMenuItem = MenuHelpers.CreateMenuItem("Reload configuration", IconsManager.Icons["reload"],

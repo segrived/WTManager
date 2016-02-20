@@ -11,14 +11,14 @@ namespace WTManager.UI
     {
         public ConfigurationForm() {
             InitializeComponent();
-
-            this.servicesListBox.Format += (s, e) => {
-                var service = (Service)e.Value;
-                e.Value = $"{service.ServiceName} - {service.DisplayName}";
-            };
         }
 
         private void ServiceConfigForm_Load(object sender, EventArgs e) {
+            this.servicesListBox.Format += (s, ea) => {
+                var service = (Service)ea.Value;
+                ea.Value = $"{service.ServiceName} - {service.DisplayName}";
+            };
+
             if (ConfigManager.Services != null) {
                 this.servicesListBox.Items.AddRange(ConfigManager.Services.ToArray());
             }
@@ -27,23 +27,22 @@ namespace WTManager.UI
             this.configEditorPathTb.Text = ConfigManager.Preferences.EditorPath;
         }
 
-        private void removeServiceBtn_Click(object sender, EventArgs e) {
-            var selectedService = this.servicesListBox.SelectedItem;
-            if (selectedService != null) {
-                this.servicesListBox.Items.Remove(selectedService);
+
+        private void selectConfigEditorPathBtn_Click(object sender, EventArgs e) {
+            var execPath = this.RequestExecutablePath();
+            if (execPath != null) {
+                this.configEditorPathTb.Text = execPath;
             }
         }
 
-        private void applyChangesBtn_Click(object sender, EventArgs e) {
-            var conf = ConfigManager.Instance.Config;
-            conf.Services = this.servicesListBox.Items.OfType<Service>();
-            conf.Preferences.EditorPath = this.configEditorPathTb.Text;
-            conf.Preferences.LogViewerPath = this.logViewerPathTb.Text;
-
-            ConfigManager.Instance.SaveConfig();
-            this.Close();
+        private void selectLogViewerPathBtn_Click(object sender, EventArgs e) {
+            var execPath = this.RequestExecutablePath();
+            if (execPath != null) {
+                this.logViewerPathTb.Text = execPath;
+            }
         }
 
+        #region Services-related buttons
         private void addServiceBtn_Click(object sender, EventArgs e) {
             using (var f = new AddEditServiceForm()) {
                 var result = f.ShowDialog();
@@ -69,21 +68,33 @@ namespace WTManager.UI
             }
         }
 
-
-        private void selectConfigEditorPathBtn_Click(object sender, EventArgs e) {
-            var execPath = this.RequestExecutablePath();
-            if (execPath != null) {
-                this.configEditorPathTb.Text = execPath;
+        private void removeServiceBtn_Click(object sender, EventArgs e) {
+            var selectedService = this.servicesListBox.SelectedItem;
+            if (selectedService != null) {
+                this.servicesListBox.Items.Remove(selectedService);
             }
         }
+        #endregion
 
-        private void selectLogViewerPathBtn_Click(object sender, EventArgs e) {
-            var execPath = this.RequestExecutablePath();
-            if (execPath != null) {
-                this.logViewerPathTb.Text = execPath;
-            }
+        #region Window-related buttons
+        private void OkBtn_Click(object sender, EventArgs e) {
+            var conf = ConfigManager.Instance.Config;
+            conf.Services = this.servicesListBox.Items.OfType<Service>();
+            conf.Preferences.EditorPath = this.configEditorPathTb.Text;
+            conf.Preferences.LogViewerPath = this.logViewerPathTb.Text;
+
+            ConfigManager.Instance.SaveConfig();
+
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
+        private void CancelBtn_Click(object sender, EventArgs e) {
+            this.Close();
+        }
+        #endregion
+
+        #region Helper methods
         private string RequestExecutablePath() {
             var dialog = new OpenFileDialog {
                 Filter = "Executable files|*.exe;*.bat;*.cmd",
@@ -98,5 +109,6 @@ namespace WTManager.UI
             }
             return null;
         }
+        #endregion
     }
 }

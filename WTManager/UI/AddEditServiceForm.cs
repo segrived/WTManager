@@ -20,7 +20,9 @@ namespace WTManager.UI
             this.DialogResult = DialogResult.Cancel;
 
             if (ConfigManager.Services != null) {
-                var groups = ConfigManager.Services.Select(serv => serv.Group);
+                var groups = ConfigManager.Services
+                    .Select(serv => serv.Group)
+                    .Where(g => !String.IsNullOrWhiteSpace(g));
                 this.serviceGroupCb.Items.AddRange(groups.Distinct().ToArray());
             }
 
