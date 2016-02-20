@@ -129,5 +129,11 @@ namespace WTManager.UI
             }
         }
         #endregion
+
+        private void servicesListBox_SelectedIndexChanged(object sender, EventArgs e) {
+            var isSelected = servicesListBox.SelectedIndex != -1;
+            this.editServiceBtn.Enabled = isSelected;
+            this.removeServiceBtn.Enabled = isSelected;
+        }
     }
 }

@@ -172,6 +172,7 @@
             // removeConfigFileBtn
             // 
             this.removeConfigFileBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.removeConfigFileBtn.Enabled = false;
             this.removeConfigFileBtn.Image = ((System.Drawing.Image)(resources.GetObject("removeConfigFileBtn.Image")));
             this.removeConfigFileBtn.Location = new System.Drawing.Point(468, 148);
             this.removeConfigFileBtn.Name = "removeConfigFileBtn";
@@ -183,6 +184,7 @@
             // removeLogFileBtn
             // 
             this.removeLogFileBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.removeLogFileBtn.Enabled = false;
             this.removeLogFileBtn.Image = ((System.Drawing.Image)(resources.GetObject("removeLogFileBtn.Image")));
             this.removeLogFileBtn.Location = new System.Drawing.Point(468, 63);
             this.removeLogFileBtn.Name = "removeLogFileBtn";
@@ -243,7 +245,7 @@
             this.configFilesLb.Name = "configFilesLb";
             this.configFilesLb.Size = new System.Drawing.Size(340, 79);
             this.configFilesLb.TabIndex = 0;
-            this.configFilesLb.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
+            this.configFilesLb.SelectedIndexChanged += new System.EventHandler(this.configFilesLb_SelectedIndexChanged);
             // 
             // logFilesLb
             // 
@@ -255,7 +257,7 @@
             this.logFilesLb.Name = "logFilesLb";
             this.logFilesLb.Size = new System.Drawing.Size(340, 79);
             this.logFilesLb.TabIndex = 0;
-            this.logFilesLb.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
+            this.logFilesLb.SelectedIndexChanged += new System.EventHandler(this.logFilesLb_SelectedIndexChanged);
             // 
             // groupBox1
             // 

@@ -70,10 +70,6 @@ namespace WTManager.UI
             this.serviceDisplayNameTb.Text = this.serviceNameCb.Text;
         }
 
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e) {
-
-        }
-
         private void removeLogFileBtn_Click(object sender, EventArgs e) {
             if (logFilesLb.SelectedItem == null)
                 return;
@@ -83,7 +79,7 @@ namespace WTManager.UI
         private void removeConfigFileBtn_Click(object sender, EventArgs e) {
             if (configFilesLb.SelectedItem == null)
                 return;
-            logFilesLb.Items.Remove(configFilesLb.SelectedItem);
+            configFilesLb.Items.Remove(configFilesLb.SelectedItem);
         }
 
         private void addLogFileBtn_Click(object sender, EventArgs e) {
@@ -140,6 +136,14 @@ namespace WTManager.UI
             if (dialog.ShowDialog() == DialogResult.OK) {
                 this.serviceDataDirectoryTb.Text = dialog.SelectedPath;
             }
+        }
+
+        private void logFilesLb_SelectedIndexChanged(object sender, EventArgs e) {
+            this.removeLogFileBtn.Enabled = logFilesLb.SelectedIndex != -1;
+        }
+
+        private void configFilesLb_SelectedIndexChanged(object sender, EventArgs e) {
+            this.removeConfigFileBtn.Enabled = configFilesLb.SelectedIndex != -1;
         }
     }
 }

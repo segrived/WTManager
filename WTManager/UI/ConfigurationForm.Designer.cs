@@ -74,6 +74,7 @@
             // removeServiceBtn
             // 
             this.removeServiceBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.removeServiceBtn.Enabled = false;
             this.removeServiceBtn.Image = global::WTManager.ButtonImages.Remove;
             this.removeServiceBtn.Location = new System.Drawing.Point(335, 99);
             this.removeServiceBtn.Name = "removeServiceBtn";
@@ -85,6 +86,7 @@
             // editServiceBtn
             // 
             this.editServiceBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.editServiceBtn.Enabled = false;
             this.editServiceBtn.Image = global::WTManager.ButtonImages.Edit;
             this.editServiceBtn.Location = new System.Drawing.Point(335, 63);
             this.editServiceBtn.Name = "editServiceBtn";
@@ -116,6 +118,7 @@
             this.servicesListBox.Name = "servicesListBox";
             this.servicesListBox.Size = new System.Drawing.Size(318, 237);
             this.servicesListBox.TabIndex = 0;
+            this.servicesListBox.SelectedIndexChanged += new System.EventHandler(this.servicesListBox_SelectedIndexChanged);
             this.servicesListBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.servicesListBox_MouseDoubleClick);
             // 
             // groupBox1
