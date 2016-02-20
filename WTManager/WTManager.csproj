@@ -149,19 +149,19 @@
     </Compile>
     <Compile Include="Lib\FileWatcher.cs" />
     <Compile Include="Lib\LimitedQueue.cs" />
-    <Compile Include="LogFileViewer.cs">
+    <Compile Include="UI\LogFileViewerForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LogFileViewer.Designer.cs">
-      <DependentUpon>LogFileViewer.cs</DependentUpon>
+    <Compile Include="UI\LogFileViewerForm.Designer.cs">
+      <DependentUpon>LogFileViewerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainForm.cs">
+    <Compile Include="UI\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
+    <Compile Include="UI\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MyToolStripMenuRenderer.cs" />
+    <Compile Include="Controls\MyToolStripMenuRenderer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IconsManager.cs" />
@@ -182,10 +182,11 @@
       <LastGenOutput>IconResources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="LogFileViewer.resx">
-      <DependentUpon>LogFileViewer.cs</DependentUpon>
+    <EmbeddedResource Include="UI\LogFileViewerForm.resx">
+      <DependentUpon>LogFileViewerForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
+    <EmbeddedResource Include="UI\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
