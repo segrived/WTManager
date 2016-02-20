@@ -23,21 +23,10 @@ namespace WTManager
 
         public Configuration Config { get; private set; }
 
-        // Default configuration
-        private Configuration GetDefaults() {
-            var conf = new Configuration {
-                Preferences = new Preferences {
-                    ShowBaloon = true,
-                    BaloonTipTime = 3000
-                },
-                Services = new List<Service>()
-            };
-            return conf;
-        }
 
         private Configuration GetConfig() {
             if (!File.Exists(ConfigPath)) {
-                SerializationHelpers.SerializeFile(ConfigPath, this.GetDefaults());
+                SerializationHelpers.SerializeFile(ConfigPath, Configuration.Defaults);
             }
             return SerializationHelpers.DeserializeFile<Configuration>(ConfigPath);
         }

@@ -16,6 +16,9 @@ namespace WTManager.UI
     [System.ComponentModel.DesignerCategory("Form")]
     public partial class MainForm : WTManagerForm
     {
+        private const bool IsShowBaloon = true;
+        private const int BaloonShowTime = 3000;
+
         private Dictionary<string, ServiceControllerStatus> StatusCache =
             new Dictionary<string, ServiceControllerStatus>();
 
@@ -25,11 +28,10 @@ namespace WTManager.UI
         }
 
         private void ShowBaloon(string title, string message, ToolTipIcon icon = ToolTipIcon.Info) {
-            if (!ConfigManager.Preferences.ShowBaloon) {
+            if (!IsShowBaloon) {
                 return;
             }
-            var timeout = ConfigManager.Preferences.BaloonTipTime;
-            this.trayIcon.ShowBalloonTip(timeout, title, message, ToolTipIcon.Info);
+            this.trayIcon.ShowBalloonTip(BaloonShowTime, title, message, ToolTipIcon.Info);
         }
 
         private static void OpenInEditor(string fileName) {
@@ -116,23 +118,6 @@ namespace WTManager.UI
                                     }
                                 }
 
-                            });
-                            tsmi.DropDownItems.Add(item);
-                        }
-                    }
-
-                    if (!service.Commands.IsNullOrEmpty()) {
-                        tsmi.DropDownItems.Add("-");
-                        tsmi.DropDownItems.Add(MenuHelpers.CreateMenuHeader("Associated commands:"));
-
-                        foreach (var cmd in service.Commands) {
-                            var item = MenuHelpers.CreateMenuItem(cmd.Name, IconsManager.Icons["command"], (s, e) => {
-                                try {
-                                    Process.Start(cmd.Command, cmd.Arguments);
-                                } catch {
-                                    MessageBox.Show($"Can't execute command: {cmd.Command}", "ERROR",
-                                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                }
                             });
                             tsmi.DropDownItems.Add(item);
                         }
