@@ -382,6 +382,7 @@
             this.Controls.Add(this.groupBox1);
             this.Name = "AddEditServiceForm";
             this.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Add/Edit Service";
             this.Load += new System.EventHandler(this.AddEditServiceForm_Load);
             this.groupBox2.ResumeLayout(false);

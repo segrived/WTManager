@@ -225,6 +225,7 @@
             this.Controls.Add(this.OkBtn);
             this.Controls.Add(this.cancelBtn);
             this.Name = "ConfigurationForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "WTManager Configuration";
             this.Load += new System.EventHandler(this.ServiceConfigForm_Load);
             this.groupBox1.ResumeLayout(false);
