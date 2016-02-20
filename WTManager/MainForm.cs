@@ -161,7 +161,7 @@ namespace WTManager
             this.trayMenu.Items.Add(confMenuItem);
 
             var confFormMenuItem = MenuHelpers.CreateMenuItem("Open config file (form)", IconsManager.Icons["config"],
-                (s, e) => new ServiceConfigForm().Show());
+                (s, e) => new ConfigurationForm().Show());
             this.trayMenu.Items.Add(confFormMenuItem);
 
             var reloadMenuItem = MenuHelpers.CreateMenuItem("Reload configuration", IconsManager.Icons["reload"],

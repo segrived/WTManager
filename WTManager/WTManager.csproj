@@ -171,11 +171,11 @@
     <Compile Include="UI\AddEditServiceForm.Designer.cs">
       <DependentUpon>AddEditServiceForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\ServicesConfig.cs">
+    <Compile Include="UI\ConfigurationForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\ServicesConfig.Designer.cs">
-      <DependentUpon>ServicesConfig.cs</DependentUpon>
+    <Compile Include="UI\ConfigurationForm.Designer.cs">
+      <DependentUpon>ConfigurationForm.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="IconResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -192,8 +192,8 @@
     <EmbeddedResource Include="UI\AddEditServiceForm.resx">
       <DependentUpon>AddEditServiceForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\ServicesConfig.resx">
-      <DependentUpon>ServicesConfig.cs</DependentUpon>
+    <EmbeddedResource Include="UI\ConfigurationForm.resx">
+      <DependentUpon>ConfigurationForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="app.config">
       <SubType>Designer</SubType>
