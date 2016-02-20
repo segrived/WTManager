@@ -195,13 +195,13 @@ namespace WTManager
                 var tsMenuItem = (ToolStripMenuItem)menuItem;
                 var service = (Service)menuItem.Tag;
 
-                service.Controller.Refresh();
+                service.GetController().Refresh();
                 if (StatusCache.ContainsKey(service.ServiceName) &&
-                    service.Controller.Status == StatusCache[service.ServiceName]) {
+                    service.GetController().Status == StatusCache[service.ServiceName]) {
                     continue;
                 }
-                StatusCache[service.ServiceName] = service.Controller.Status;
-                switch (service.Controller.Status) {
+                StatusCache[service.ServiceName] = service.GetController().Status;
+                switch (service.GetController().Status) {
                     case ServiceControllerStatus.Running:
                         menuItem.Image = IconsManager.Icons["started"];
                         tsMenuItem.DropDownItems["StartMenuItem"].Visible = false;

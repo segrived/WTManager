@@ -40,58 +40,28 @@ namespace WTManager
 
     public class Service
     {
+        /// <summary>
+        /// Service name
+        /// </summary>
         public string ServiceName { get; set; }
 
-        private string _displayName;
-        public string DisplayName {
-            get { return _displayName ?? ServiceName; }
-            set { _displayName = value; }
-        }
+        /// <summary>
+        /// Service display name (will be displayed in menu)
+        /// </summary>
+        public string DisplayName { get; set; }
 
-        private string _basePath;
-        public string BasePath {
-            get { return _basePath ?? string.Empty; }
-            set { _basePath = value; }
-        }
+        /// <summary>
+        /// Service configuration files
+        /// </summary>
+        public IEnumerable<string> ConfigFiles { get; set; }
 
-        private IEnumerable<string> _configFiles;
-        public IEnumerable<string> ConfigFiles {
-            get { return _configFiles?.Select(f => Path.Combine(BasePath, f)); }
-            set { _configFiles = value; }
-        }
+        public IEnumerable<string> LogFiles { get; set; }
 
-        private IEnumerable<string> _logFiles;
-        public IEnumerable<string> LogFiles {
-            get { return _logFiles?.Select(f => Path.Combine(BasePath, f)); }
-            set { _logFiles = value; }
-        }
-
-        private string _dataDirectory;
-        public string DataDirectory {
-            get
-            {
-                return String.IsNullOrEmpty(_dataDirectory)
-                  ? String.Empty
-                  : Path.Combine(BasePath, _dataDirectory ?? String.Empty);
-            }
-            set { _dataDirectory = value; }
-        }
+        public string DataDirectory { get; set; }
 
         public IEnumerable<ServiceCommand> Commands { get; set; }
         public string BrowserUrl { get; set; }
         public string Group { get; set; }
-
-        private ServiceController _controller;
-        [YamlDotNet.Serialization.YamlIgnore]
-        public ServiceController Controller {
-            get
-            {
-                if (_controller == null) {
-                    _controller = new ServiceController(ServiceName);
-                }
-                return _controller;
-            }
-        }
 
         public override bool Equals(object obj) {
             if (obj == null || GetType() != obj.GetType()) {
