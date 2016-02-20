@@ -132,6 +132,9 @@
   <ItemGroup>
     <Compile Include="ConfigManager.cs" />
     <Compile Include="Configuration.cs" />
+    <Compile Include="Controls\SystemFontForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Exceptions.cs" />
     <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Helpers\FileHelpers.cs" />

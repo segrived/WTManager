@@ -7,11 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WTManager.Controls;
 using WTManager.Helpers;
 
 namespace WTManager.UI
 {
-    public partial class AddEditServiceForm : Form
+    public partial class AddEditServiceForm : SystemFontForm
     {
         public Service Service { get; private set; }
 
@@ -116,6 +117,14 @@ namespace WTManager.UI
 
             this.DialogResult = DialogResult.OK;
             this.Close();
+        }
+
+        private void serviceDisplayNameLbl_Click(object sender, EventArgs e) {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e) {
+
         }
     }
 }

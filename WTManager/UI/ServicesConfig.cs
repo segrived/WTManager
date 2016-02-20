@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using WTManager.Controls;
 
 namespace WTManager.UI
 {
 
-    public partial class ServiceConfigForm : Form
+    public partial class ServiceConfigForm : SystemFontForm
     {
         private List<Service> _services;
 

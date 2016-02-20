@@ -8,12 +8,13 @@ using System.Reflection;
 using System.ServiceProcess;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WTManager.Controls;
 using WTManager.Helpers;
 using WTManager.UI;
 
 namespace WTManager
 {
-    public partial class MainForm : Form
+    public partial class MainForm : SystemFontForm
     {
         private Dictionary<string, ServiceControllerStatus> StatusCache =
             new Dictionary<string, ServiceControllerStatus>();
