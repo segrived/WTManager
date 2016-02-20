@@ -72,10 +72,13 @@ namespace WTManager.UI
         private void removeServiceBtn_Click(object sender, EventArgs e) {
             var selectedService = this.servicesListBox.SelectedItem;
             if (selectedService != null) {
-                var mb = MessageBox.Show("Do you really want to delete this service from list?",
-                    "Removing service", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
+                var mb = MessageBox.Show("Do you really want to delete selected service(s) from list?",
+                    "Removing service(s)", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
                 if (mb == DialogResult.Yes) {
-                    this.servicesListBox.Items.Remove(selectedService);
+                    var selServices = this.servicesListBox.SelectedItems.OfType<Service>().ToList();
+                    foreach (var service in selServices) {
+                        this.servicesListBox.Items.Remove(service);
+                    }
                     this.SaveConfiguration();
                 }
             }
@@ -132,8 +135,8 @@ namespace WTManager.UI
 
         private void servicesListBox_SelectedIndexChanged(object sender, EventArgs e) {
             var isSelected = servicesListBox.SelectedIndex != -1;
-            this.editServiceBtn.Enabled = isSelected;
-            this.removeServiceBtn.Enabled = isSelected;
+            this.editServiceBtn.Enabled = servicesListBox.SelectedIndices.Count == 1;
+            this.removeServiceBtn.Enabled = servicesListBox.SelectedIndices.Count > 0;
         }
     }
 }

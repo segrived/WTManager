@@ -71,15 +71,19 @@ namespace WTManager.UI
         }
 
         private void removeLogFileBtn_Click(object sender, EventArgs e) {
-            if (logFilesLb.SelectedItem == null)
+            if (logFilesLb.SelectedItems.Count == 0)
                 return;
-            logFilesLb.Items.Remove(logFilesLb.SelectedItem);
+            foreach (string s in logFilesLb.SelectedItems.OfType<string>().ToList()) {
+                logFilesLb.Items.Remove(s);
+            }
         }
 
         private void removeConfigFileBtn_Click(object sender, EventArgs e) {
-            if (configFilesLb.SelectedItem == null)
+            if (configFilesLb.SelectedItems.Count == 0)
                 return;
-            configFilesLb.Items.Remove(configFilesLb.SelectedItem);
+            foreach (string s in configFilesLb.SelectedItems.OfType<string>().ToList()) {
+                configFilesLb.Items.Remove(s);
+            }
         }
 
         private void addLogFileBtn_Click(object sender, EventArgs e) {
@@ -139,11 +143,11 @@ namespace WTManager.UI
         }
 
         private void logFilesLb_SelectedIndexChanged(object sender, EventArgs e) {
-            this.removeLogFileBtn.Enabled = logFilesLb.SelectedIndex != -1;
+            this.removeLogFileBtn.Enabled = logFilesLb.SelectedIndices.Count > 0;
         }
 
         private void configFilesLb_SelectedIndexChanged(object sender, EventArgs e) {
-            this.removeConfigFileBtn.Enabled = configFilesLb.SelectedIndex != -1;
+            this.removeConfigFileBtn.Enabled = configFilesLb.SelectedIndices.Count > 0;
         }
     }
 }
