@@ -9,36 +9,40 @@ namespace WTManager.UI
 
     public partial class ServiceConfigForm : SystemFontForm
     {
-        private List<Service> _services;
-
         public ServiceConfigForm() {
             InitializeComponent();
-            this._services = ConfigManager.Services.ToList();
+
+            this.servicesListBox.Format += (s, e) => {
+                var service = (Service)e.Value;
+                e.Value = $"{service.ServiceName} - {service.DisplayName}";
+            };
         }
 
         private void ServiceConfigForm_Load(object sender, EventArgs e) {
-            var items = ConfigManager.Services;
-            this.servicesListBox.DisplayMember = "DisplayName";
-            this.servicesListBox.Items.AddRange(items.ToArray());
+            this.servicesListBox.Items.AddRange(ConfigManager.Services.ToArray());
         }
 
         private void removeServiceBtn_Click(object sender, EventArgs e) {
             var selectedService = this.servicesListBox.SelectedItem;
             if (selectedService != null) {
                 this.servicesListBox.Items.Remove(selectedService);
-                var serviceInstance = selectedService as Service;
-                this._services.Remove(serviceInstance);
             }
         }
 
         private void applyChangesBtn_Click(object sender, EventArgs e) {
-            ConfigManager.Instance.Config.Services = this._services;
+            ConfigManager.Instance.Config.Services = this.servicesListBox.Items.OfType<Service>();
             ConfigManager.Instance.SaveConfig();
             this.Close();
         }
 
         private void addServiceBtn_Click(object sender, EventArgs e) {
-            new AddEditServiceForm().ShowDialog();
+            using (var f = new AddEditServiceForm()) {
+                var result = f.ShowDialog();
+                if (f.DialogResult != DialogResult.OK || f.Service == null) {
+                    return;
+                }
+                this.servicesListBox.Items.Add(f.Service);
+            }
         }
 
         private void editServiceBtn_Click(object sender, EventArgs e) {
@@ -55,7 +59,5 @@ namespace WTManager.UI
                 this.servicesListBox.Items[index] = f.Service;
             }
         }
-
-
     }
 }
