@@ -41,17 +41,25 @@ namespace WTManager.UI
             this.Close();
         }
 
-
-
-        private void editServiceBtn_Click(object sender, EventArgs e) {
-            var selectedService = this.servicesListBox.SelectedItem;
-            if (selectedService != null) {
-                new AddEditServiceForm((Service)selectedService).ShowDialog();
-            }
-        }
-
         private void addServiceBtn_Click(object sender, EventArgs e) {
             new AddEditServiceForm().ShowDialog();
         }
+
+        private void editServiceBtn_Click(object sender, EventArgs e) {
+            var selectedService = this.servicesListBox.SelectedItem;
+            if (selectedService == null) {
+                return;
+            }
+            var index = this.servicesListBox.SelectedIndex;
+            using (var f = new AddEditServiceForm((Service)selectedService)) {
+                var result = f.ShowDialog();
+                if (f.DialogResult != DialogResult.OK) {
+                    return;
+                }
+                this.servicesListBox.Items[index] = f.Service;
+            }
+        }
+
+
     }
 }
