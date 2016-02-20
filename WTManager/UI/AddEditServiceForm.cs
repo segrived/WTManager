@@ -8,7 +8,8 @@ using WTManager.Helpers;
 
 namespace WTManager.UI
 {
-    public partial class AddEditServiceForm : SystemFontForm
+    [System.ComponentModel.DesignerCategory("Form")]
+    public partial class AddEditServiceForm : WTManagerForm
     {
         public Service Service { get; private set; }
 

@@ -9,7 +9,8 @@ using WTManager.Controls;
 
 namespace WTManager.UI
 {
-    public partial class LogFileViewerForm : SystemFontForm
+    [System.ComponentModel.DesignerCategory("Form")]
+    public partial class LogFileViewerForm : WTManagerForm
     {
         private FileWatcher watcher { get; set; }
         private CancellationTokenSource cancelToken { get; set; }

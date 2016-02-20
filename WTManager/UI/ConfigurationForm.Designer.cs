@@ -214,7 +214,6 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.applyChangesBtn);
             this.Controls.Add(this.cancelChangesBtn);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ConfigurationForm";
             this.Text = "WTManager Configuration";
             this.Load += new System.EventHandler(this.ServiceConfigForm_Load);

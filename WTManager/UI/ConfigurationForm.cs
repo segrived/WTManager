@@ -6,8 +6,8 @@ using WTManager.Controls;
 
 namespace WTManager.UI
 {
-
-    public partial class ConfigurationForm : SystemFontForm
+    [System.ComponentModel.DesignerCategory("Form")]
+    public partial class ConfigurationForm : WTManagerForm
     {
         public ConfigurationForm() {
             InitializeComponent();

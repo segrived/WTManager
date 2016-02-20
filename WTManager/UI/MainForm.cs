@@ -13,7 +13,8 @@ using WTManager.Helpers;
 
 namespace WTManager.UI
 {
-    public partial class MainForm : SystemFontForm
+    [System.ComponentModel.DesignerCategory("Form")]
+    public partial class MainForm : WTManagerForm
     {
         private Dictionary<string, ServiceControllerStatus> StatusCache =
             new Dictionary<string, ServiceControllerStatus>();
