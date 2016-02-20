@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,6 +43,8 @@ namespace WTManager.UI
             this.serviceNameCb.SelectedItem = s.ServiceName;
             this.serviceDisplayNameTb.Text = s.DisplayName;
             this.serviceGroupCb.Text = s.Group;
+            this.serviceBrowserUrlTb.Text = s.BrowserUrl;
+            this.serviceDataDirectoryTb.Text = s.DataDirectory;
 
             if (s.LogFiles != null) {
                 this.logFilesLb.Items.AddRange(s.LogFiles.ToArray());
@@ -114,17 +117,24 @@ namespace WTManager.UI
             this.Service.Group = serviceGroupCb.Text;
             this.Service.LogFiles = logFilesLb.Items.OfType<string>();
             this.Service.ConfigFiles = configFilesLb.Items.OfType<string>();
+            this.Service.BrowserUrl = serviceBrowserUrlTb.Text;
+            this.Service.DataDirectory = serviceDataDirectoryTb.Text;
 
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
 
-        private void serviceDisplayNameLbl_Click(object sender, EventArgs e) {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e) {
-
+        private void selectDataDirectoryBtn_Click(object sender, EventArgs e) {
+            var currentPath = this.serviceDataDirectoryTb.Text;
+            var dialog = new FolderBrowserDialog {
+                ShowNewFolderButton = true
+            };
+            if (Directory.Exists(currentPath)) {
+                dialog.SelectedPath = currentPath;
+            }
+            if (dialog.ShowDialog() == DialogResult.OK) {
+                this.serviceDataDirectoryTb.Text = dialog.SelectedPath;
+            }
         }
     }
 }
