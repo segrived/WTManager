@@ -46,8 +46,11 @@
             // OkBtn
             // 
             this.OkBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.OkBtn.Image = global::WTManager.ButtonImages.Ok;
+            this.OkBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.OkBtn.Location = new System.Drawing.Point(103, 387);
             this.OkBtn.Name = "OkBtn";
+            this.OkBtn.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.OkBtn.Size = new System.Drawing.Size(151, 30);
             this.OkBtn.TabIndex = 1;
             this.OkBtn.Text = "OK";
@@ -57,8 +60,11 @@
             // cancelBtn
             // 
             this.cancelBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cancelBtn.Image = global::WTManager.ButtonImages.Cancel;
+            this.cancelBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.cancelBtn.Location = new System.Drawing.Point(260, 387);
             this.cancelBtn.Name = "cancelBtn";
+            this.cancelBtn.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.cancelBtn.Size = new System.Drawing.Size(151, 30);
             this.cancelBtn.TabIndex = 1;
             this.cancelBtn.Text = "Cancel";
@@ -68,33 +74,33 @@
             // removeServiceBtn
             // 
             this.removeServiceBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.removeServiceBtn.Location = new System.Drawing.Point(283, 99);
+            this.removeServiceBtn.Image = global::WTManager.ButtonImages.Remove;
+            this.removeServiceBtn.Location = new System.Drawing.Point(335, 99);
             this.removeServiceBtn.Name = "removeServiceBtn";
-            this.removeServiceBtn.Size = new System.Drawing.Size(105, 30);
+            this.removeServiceBtn.Size = new System.Drawing.Size(53, 30);
             this.removeServiceBtn.TabIndex = 1;
-            this.removeServiceBtn.Text = "Remove";
             this.removeServiceBtn.UseVisualStyleBackColor = true;
             this.removeServiceBtn.Click += new System.EventHandler(this.removeServiceBtn_Click);
             // 
             // editServiceBtn
             // 
             this.editServiceBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.editServiceBtn.Location = new System.Drawing.Point(283, 63);
+            this.editServiceBtn.Image = global::WTManager.ButtonImages.Edit;
+            this.editServiceBtn.Location = new System.Drawing.Point(335, 63);
             this.editServiceBtn.Name = "editServiceBtn";
-            this.editServiceBtn.Size = new System.Drawing.Size(105, 30);
+            this.editServiceBtn.Size = new System.Drawing.Size(53, 30);
             this.editServiceBtn.TabIndex = 1;
-            this.editServiceBtn.Text = "Edit";
             this.editServiceBtn.UseVisualStyleBackColor = true;
             this.editServiceBtn.Click += new System.EventHandler(this.editServiceBtn_Click);
             // 
             // addServiceBtn
             // 
             this.addServiceBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.addServiceBtn.Location = new System.Drawing.Point(283, 27);
+            this.addServiceBtn.Image = global::WTManager.ButtonImages.Add;
+            this.addServiceBtn.Location = new System.Drawing.Point(335, 27);
             this.addServiceBtn.Name = "addServiceBtn";
-            this.addServiceBtn.Size = new System.Drawing.Size(105, 30);
+            this.addServiceBtn.Size = new System.Drawing.Size(53, 30);
             this.addServiceBtn.TabIndex = 1;
-            this.addServiceBtn.Text = "Add";
             this.addServiceBtn.UseVisualStyleBackColor = true;
             this.addServiceBtn.Click += new System.EventHandler(this.addServiceBtn_Click);
             // 
@@ -108,7 +114,7 @@
             this.servicesListBox.ItemHeight = 15;
             this.servicesListBox.Location = new System.Drawing.Point(11, 27);
             this.servicesListBox.Name = "servicesListBox";
-            this.servicesListBox.Size = new System.Drawing.Size(266, 237);
+            this.servicesListBox.Size = new System.Drawing.Size(318, 237);
             this.servicesListBox.TabIndex = 0;
             this.servicesListBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.servicesListBox_MouseDoubleClick);
             // 

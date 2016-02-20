@@ -27,24 +27,6 @@ namespace WTManager.UI
             this.InitApplication();
         }
 
-        private void ShowBaloon(string title, string message, ToolTipIcon icon = ToolTipIcon.Info) {
-            if (!IsShowBaloon) {
-                return;
-            }
-            this.trayIcon.ShowBalloonTip(BaloonShowTime, title, message, ToolTipIcon.Info);
-        }
-
-        private static void OpenInEditor(string fileName) {
-            string editorPath;
-            if (String.IsNullOrEmpty(ConfigManager.Preferences.EditorPath) ||
-                !File.Exists(ConfigManager.Preferences.EditorPath)) {
-                editorPath = "notepad.exe";
-            } else {
-                editorPath = ConfigManager.Preferences.EditorPath;
-            }
-            Process.Start(editorPath, fileName);
-        }
-
         private void InitTrayMenu(bool forceBaloonDisable = false) {
             this.StatusCache.Clear();
             this.trayMenu.Items.Clear();
@@ -64,6 +46,7 @@ namespace WTManager.UI
                             Tag = service
                         };
 
+                        #region Service start/restart/stop menu items
                         var startItem = MenuHelpers.CreateMenuItem("Start Service", IconsManager.Icons["start"],
                             async (s, e) => {
                                 await Task.Factory.StartNew(() => service.StartService());
@@ -86,7 +69,9 @@ namespace WTManager.UI
                         tsmi.DropDownItems.Add(startItem);
                         tsmi.DropDownItems.Add(restartItem);
                         tsmi.DropDownItems.Add(stopItem);
+                        #endregion
 
+                        #region Service config files
                         var configFiles = service.ConfigFiles?.Where(File.Exists);
                         if (!configFiles.IsNullOrEmpty()) {
                             tsmi.DropDownItems.Add("-");
@@ -100,6 +85,9 @@ namespace WTManager.UI
                                 tsmi.DropDownItems.Add(item);
                             }
                         }
+                        #endregion
+
+                        #region Service log files
                         var logFiles = service.LogFiles?.Where(File.Exists);
                         if (!logFiles.IsNullOrEmpty()) {
                             tsmi.DropDownItems.Add("-");
@@ -108,22 +96,14 @@ namespace WTManager.UI
                             foreach (string logFile in logFiles) {
                                 var title = $"Show {Path.GetFileName(logFile)}";
                                 var item = MenuHelpers.CreateMenuItem(title, IconsManager.Icons["log"], (s, e) => {
-                                    var viewer = ConfigManager.Preferences.LogViewerPath;
-                                    if (String.IsNullOrEmpty(viewer) || viewer == "internal") {
-                                        new LogFileViewerForm(logFile).Show();
-                                    } else {
-                                        if (File.Exists(viewer)) {
-                                            Process.Start(viewer, logFile);
-                                        } else {
-                                            MessageBox.Show($"Can't use selected log viewer `{viewer}`, check your configuration");
-                                        }
-                                    }
-
+                                    OpenInLogViewer(logFile);
                                 });
                                 tsmi.DropDownItems.Add(item);
                             }
                         }
+                        #endregion
 
+                        #region Additional menu items (data directory / open in browser)
                         if (!String.IsNullOrEmpty(service.BrowserUrl)) {
                             tsmi.DropDownItems.Add("-");
                             var item = MenuHelpers.CreateMenuItem("Open in browser...", IconsManager.Icons["browser"],
@@ -136,6 +116,8 @@ namespace WTManager.UI
                                 (s, e) => Process.Start(service.DataDirectory));
                             tsmi.DropDownItems.Add(item);
                         }
+                        #endregion
+
                         this.trayMenu.Items.Add(tsmi);
                     }
                     // add separator between groups
@@ -143,7 +125,7 @@ namespace WTManager.UI
                 }
             }
 
-            var confFormMenuItem = MenuHelpers.CreateMenuItem("Open config file (form)", IconsManager.Icons["config"],
+            var confFormMenuItem = MenuHelpers.CreateMenuItem("Program configuration", IconsManager.Icons["config"],
                 (s, e) => new ConfigurationForm().ShowDialog());
             this.trayMenu.Items.Add(confFormMenuItem);
 
@@ -210,10 +192,7 @@ namespace WTManager.UI
             }
         }
 
-        private void trayMenu_Opening(object sender, CancelEventArgs e) {
-            this.UpdateTrayMenu();
-        }
-
+        #region UI handlers
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e) {
             if (e.CloseReason != CloseReason.UserClosing && e.CloseReason != CloseReason.TaskManagerClosing) {
                 return;
@@ -221,6 +200,10 @@ namespace WTManager.UI
             e.Cancel = true;
             this.Hide();
             this.ShowInTaskbar = false;
+        }
+
+        private void trayMenu_Opening(object sender, CancelEventArgs e) {
+            this.UpdateTrayMenu();
         }
 
         private void trayIcon_MouseUp(object sender, MouseEventArgs e) {
@@ -231,9 +214,43 @@ namespace WTManager.UI
             var mi = typeof(NotifyIcon).GetMethod("ShowContextMenu", flags);
             mi.Invoke(this.trayIcon, null);
         }
+        #endregion
 
         protected override void SetVisibleCore(bool value) {
             base.SetVisibleCore(false);
         }
+
+        #region Helpers methods
+        void ShowBaloon(string title, string message, ToolTipIcon icon = ToolTipIcon.Info) {
+            if (!IsShowBaloon) {
+                return;
+            }
+            this.trayIcon.ShowBalloonTip(BaloonShowTime, title, message, ToolTipIcon.Info);
+        }
+
+        void OpenInEditor(string fileName) {
+            string editorPath;
+            if (String.IsNullOrEmpty(ConfigManager.Preferences.EditorPath) ||
+                !File.Exists(ConfigManager.Preferences.EditorPath)) {
+                editorPath = "notepad.exe";
+            } else {
+                editorPath = ConfigManager.Preferences.EditorPath;
+            }
+            Process.Start(editorPath, fileName);
+        }
+
+        void OpenInLogViewer(string fileName) {
+            var viewer = ConfigManager.Preferences.LogViewerPath;
+            if (String.IsNullOrEmpty(viewer) || viewer == "internal") {
+                new LogFileViewerForm(fileName).Show();
+                return;
+            }
+            if (File.Exists(viewer)) {
+                Process.Start(viewer, fileName);
+            } else {
+                MessageBox.Show($"Can't use selected log viewer `{viewer}`, check your configuration");
+            }
+        }
+        #endregion
     }
 }

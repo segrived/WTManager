@@ -117,29 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="removeConfigFileBtn.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADdcAAA3XAUIom3gAAAE8SURBVDhP3dFbK8RBGMfxH0/Sej1ehjfBXMglN7bIhWxt
-        ceFwIYeU5Jjz+bS0WEnkBklk/aMokis5ju+E8gL2hqlPM00z83ue/1//YDRhHbNYwCrSyGAXBzjCKS5w
-        jZvvvXPkZvRIhZVSrBatGMQKSI9d4QX+lw+p6FIqeAiX2dCJNE5ZdxzOnknRIfawBVqKaC8aRT+66aRd
-        emQvPvTzAP1l7lneSu9Z5mPQv1/DNLjoO8D38nXSWzUzVSapVuJw+FjpfTZJfd6RXjewhEkMoAvNaACX
-        n6q+Hki0hAcSIGl7ns05KphhnsAw+sBl34ZG1CNOBTXMtJTsDA+MYFMq4VeWowwuBXp3y6AStwh+sSPA
-        0Xsp6wqqLCY4B6MXvJZPqgUkG8lGqpFotGRToC2jbKNiGwPpeZz5+0P6BAW2lOXXu/vbAAAAAElFTkSu
-        QmCC
-</value>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="Add" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Add.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="removeLogFileBtn.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADdcAAA3XAUIom3gAAAE8SURBVDhP3dFbK8RBGMfxH0/Sej1ehjfBXMglN7bIhWxt
-        ceFwIYeU5Jjz+bS0WEnkBklk/aMokis5ju+E8gL2hqlPM00z83ue/1//YDRhHbNYwCrSyGAXBzjCKS5w
-        jZvvvXPkZvRIhZVSrBatGMQKSI9d4QX+lw+p6FIqeAiX2dCJNE5ZdxzOnknRIfawBVqKaC8aRT+66aRd
-        emQvPvTzAP1l7lneSu9Z5mPQv1/DNLjoO8D38nXSWzUzVSapVuJw+FjpfTZJfd6RXjewhEkMoAvNaACX
-        n6q+Hki0hAcSIGl7ns05KphhnsAw+sBl34ZG1CNOBTXMtJTsDA+MYFMq4VeWowwuBXp3y6AStwh+sSPA
-        0Xsp6wqqLCY4B6MXvJZPqgUkG8lGqpFotGRToC2jbKNiGwPpeZz5+0P6BAW2lOXXu/vbAAAAAElFTkSu
-        QmCC
-</value>
+  <data name="Cancel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Cancel.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Edit" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Edit.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Ok" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Ok.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Remove" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Remove.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

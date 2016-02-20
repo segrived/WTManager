@@ -130,6 +130,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ButtonImages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ButtonImages.resx</DependentUpon>
+    </Compile>
     <Compile Include="ConfigManager.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Controls\WTManagerForm.cs" />
@@ -175,6 +180,10 @@
     <Compile Include="UI\ConfigurationForm.Designer.cs">
       <DependentUpon>ConfigurationForm.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ButtonImages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ButtonImages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="IconResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>IconResources.Designer.cs</LastGenOutput>
@@ -212,14 +221,19 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\Add.png" />
     <Content Include="Resources\Browser.ico" />
+    <None Include="Resources\Cancel.png" />
     <Content Include="Resources\Command.ico" />
     <Content Include="Resources\Config.ico" />
+    <None Include="Resources\Edit.png" />
     <Content Include="Resources\Exit.ico" />
     <Content Include="Resources\Folder.ico" />
     <Content Include="Resources\Log.ico" />
+    <None Include="Resources\Ok.png" />
     <Content Include="Resources\Pending.ico" />
     <Content Include="Resources\Reload.ico" />
+    <None Include="Resources\Remove.png" />
     <Content Include="Resources\Start.ico" />
     <Content Include="Resources\Started.ico" />
     <Content Include="Resources\Stop.ico" />
