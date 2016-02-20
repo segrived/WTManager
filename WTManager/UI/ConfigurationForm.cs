@@ -42,6 +42,13 @@ namespace WTManager.UI
             }
         }
 
+        private void servicesListBox_MouseDoubleClick(object sender, MouseEventArgs e) {
+            int index = this.servicesListBox.IndexFromPoint(e.Location);
+            if (index != ListBox.NoMatches) {
+                EditServiceByListIndex(index);
+            }
+        }
+
         #region Services-related buttons
         private void addServiceBtn_Click(object sender, EventArgs e) {
             using (var f = new AddEditServiceForm()) {
@@ -59,15 +66,7 @@ namespace WTManager.UI
             if (selectedService == null) {
                 return;
             }
-            var index = this.servicesListBox.SelectedIndex;
-            using (var f = new AddEditServiceForm((Service)selectedService)) {
-                var result = f.ShowDialog();
-                if (f.DialogResult != DialogResult.OK) {
-                    return;
-                }
-                this.servicesListBox.Items[index] = f.Service;
-                SaveConfiguration();
-            }
+            EditServiceByListIndex(this.servicesListBox.SelectedIndex);
         }
 
         private void removeServiceBtn_Click(object sender, EventArgs e) {
@@ -96,14 +95,14 @@ namespace WTManager.UI
         #endregion
 
         #region Helper methods
-        private void SaveConfiguration() {
+        void SaveConfiguration() {
             ConfigManager.Instance.Config.Services = this.servicesListBox.Items.OfType<Service>();
             ConfigManager.Instance.Config.Preferences.EditorPath = this.configEditorPathTb.Text;
             ConfigManager.Instance.Config.Preferences.LogViewerPath = this.logViewerPathTb.Text;
             ConfigManager.Instance.SaveConfig();
         }
 
-        private string RequestExecutablePath() {
+        string RequestExecutablePath() {
             var dialog = new OpenFileDialog {
                 Filter = "Executable files|*.exe;*.bat;*.cmd",
                 CheckFileExists = true,
@@ -116,6 +115,18 @@ namespace WTManager.UI
                 }
             }
             return null;
+        }
+
+        void EditServiceByListIndex(int index) {
+            var service = (Service)this.servicesListBox.Items[index];
+            using (var f = new AddEditServiceForm(service)) {
+                var result = f.ShowDialog();
+                if (f.DialogResult != DialogResult.OK) {
+                    return;
+                }
+                this.servicesListBox.Items[index] = f.Service;
+                SaveConfiguration();
+            }
         }
         #endregion
     }

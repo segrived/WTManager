@@ -110,6 +110,7 @@
             this.servicesListBox.Name = "servicesListBox";
             this.servicesListBox.Size = new System.Drawing.Size(266, 237);
             this.servicesListBox.TabIndex = 0;
+            this.servicesListBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.servicesListBox_MouseDoubleClick);
             // 
             // groupBox1
             // 
