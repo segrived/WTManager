@@ -19,8 +19,10 @@ namespace WTManager.UI
             // default dialog result
             this.DialogResult = DialogResult.Cancel;
 
-            var groups = ConfigManager.Services.Select(serv => serv.Group);
-            this.serviceGroupCb.Items.AddRange(groups.Distinct().ToArray());
+            if (ConfigManager.Services != null) {
+                var groups = ConfigManager.Services.Select(serv => serv.Group);
+                this.serviceGroupCb.Items.AddRange(groups.Distinct().ToArray());
+            }
 
             var services = ServiceHelpers.GetAllServices().Select(s => s.ServiceName);
             this.serviceNameCb.Items.AddRange(services.ToArray());

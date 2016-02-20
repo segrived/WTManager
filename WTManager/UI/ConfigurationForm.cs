@@ -19,7 +19,9 @@ namespace WTManager.UI
         }
 
         private void ServiceConfigForm_Load(object sender, EventArgs e) {
-            this.servicesListBox.Items.AddRange(ConfigManager.Services.ToArray());
+            if (ConfigManager.Services != null) {
+                this.servicesListBox.Items.AddRange(ConfigManager.Services.ToArray());
+            }
 
             this.logViewerPathTb.Text = ConfigManager.Preferences.LogViewerPath;
             this.configEditorPathTb.Text = ConfigManager.Preferences.EditorPath;

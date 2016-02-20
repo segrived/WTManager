@@ -51,94 +51,96 @@ namespace WTManager.UI
             ConfigManager.Instance.ReloadConfig();
 
             var serviceGroups = ConfigManager.Services
-                .Where(s => ServiceHelpers.IsServiceExists(s.ServiceName))
-                .GroupBy(x => x.Group);
+                ?.Where(s => ServiceHelpers.IsServiceExists(s.ServiceName))
+                ?.GroupBy(x => x.Group).ToList();
 
-            foreach (var group in serviceGroups) {
-                if (!String.IsNullOrEmpty(group.Key)) {
-                    this.trayMenu.Items.Add(MenuHelpers.CreateMenuHeader(group.Key));
-                }
-                foreach (var service in group) {
-                    var tsmi = new ToolStripMenuItem(service.DisplayName) {
-                        Tag = service
-                    };
-
-                    var startItem = MenuHelpers.CreateMenuItem("Start Service", IconsManager.Icons["start"],
-                        async (s, e) => {
-                            await Task.Factory.StartNew(() => service.StartService());
-                            this.ShowBaloon("Started", $"Service `{service.DisplayName}` was started");
-                            this.UpdateTrayMenu();
-                        }, "StartMenuItem");
-                    var stopItem = MenuHelpers.CreateMenuItem("Stop service", IconsManager.Icons["stop"],
-                        async (s, e) => {
-                            await Task.Factory.StartNew(() => service.StopService());
-                            this.ShowBaloon("Stopped", $"Service `{service.DisplayName}` was stopped");
-                            this.UpdateTrayMenu();
-                        }, "StopMenuItem");
-                    var restartItem = MenuHelpers.CreateMenuItem("Restart service", IconsManager.Icons["reload"],
-                        async (s, e) => {
-                            await Task.Factory.StartNew(() => service.RestartService());
-                            this.ShowBaloon("Restrted", $"Service `{service.DisplayName}` was restarted");
-                            this.UpdateTrayMenu();
-                        }, "RestartMenuItem");
-
-                    tsmi.DropDownItems.Add(startItem);
-                    tsmi.DropDownItems.Add(restartItem);
-                    tsmi.DropDownItems.Add(stopItem);
-
-                    var configFiles = service.ConfigFiles?.Where(File.Exists);
-                    if (!configFiles.IsNullOrEmpty()) {
-                        tsmi.DropDownItems.Add("-");
-                        tsmi.DropDownItems.Add(MenuHelpers.CreateMenuHeader("Config files:"));
-
-                        foreach (string configFile in configFiles) {
-                            var title = $"Edit {Path.GetFileName(configFile)}";
-                            var item = MenuHelpers.CreateMenuItem(title, IconsManager.Icons["config"], (s, e) => {
-                                OpenInEditor(configFile);
-                            });
-                            tsmi.DropDownItems.Add(item);
-                        }
+            if (serviceGroups != null) {
+                foreach (var group in serviceGroups) {
+                    if (!String.IsNullOrEmpty(group.Key)) {
+                        this.trayMenu.Items.Add(MenuHelpers.CreateMenuHeader(group.Key));
                     }
-                    var logFiles = service.LogFiles?.Where(File.Exists);
-                    if (!logFiles.IsNullOrEmpty()) {
-                        tsmi.DropDownItems.Add("-");
-                        tsmi.DropDownItems.Add(MenuHelpers.CreateMenuHeader("Log files:"));
+                    foreach (var service in group) {
+                        var tsmi = new ToolStripMenuItem(service.DisplayName) {
+                            Tag = service
+                        };
 
-                        foreach (string logFile in logFiles) {
-                            var title = $"Show {Path.GetFileName(logFile)}";
-                            var item = MenuHelpers.CreateMenuItem(title, IconsManager.Icons["log"], (s, e) => {
-                                var viewer = ConfigManager.Preferences.LogViewerPath;
-                                if (String.IsNullOrEmpty(viewer) || viewer == "internal") {
-                                    new LogFileViewerForm(logFile).Show();
-                                } else {
-                                    if (File.Exists(viewer)) {
-                                        Process.Start(viewer, logFile);
+                        var startItem = MenuHelpers.CreateMenuItem("Start Service", IconsManager.Icons["start"],
+                            async (s, e) => {
+                                await Task.Factory.StartNew(() => service.StartService());
+                                this.ShowBaloon("Started", $"Service `{service.DisplayName}` was started");
+                                this.UpdateTrayMenu();
+                            }, "StartMenuItem");
+                        var stopItem = MenuHelpers.CreateMenuItem("Stop service", IconsManager.Icons["stop"],
+                            async (s, e) => {
+                                await Task.Factory.StartNew(() => service.StopService());
+                                this.ShowBaloon("Stopped", $"Service `{service.DisplayName}` was stopped");
+                                this.UpdateTrayMenu();
+                            }, "StopMenuItem");
+                        var restartItem = MenuHelpers.CreateMenuItem("Restart service", IconsManager.Icons["reload"],
+                            async (s, e) => {
+                                await Task.Factory.StartNew(() => service.RestartService());
+                                this.ShowBaloon("Restrted", $"Service `{service.DisplayName}` was restarted");
+                                this.UpdateTrayMenu();
+                            }, "RestartMenuItem");
+
+                        tsmi.DropDownItems.Add(startItem);
+                        tsmi.DropDownItems.Add(restartItem);
+                        tsmi.DropDownItems.Add(stopItem);
+
+                        var configFiles = service.ConfigFiles?.Where(File.Exists);
+                        if (!configFiles.IsNullOrEmpty()) {
+                            tsmi.DropDownItems.Add("-");
+                            tsmi.DropDownItems.Add(MenuHelpers.CreateMenuHeader("Config files:"));
+
+                            foreach (string configFile in configFiles) {
+                                var title = $"Edit {Path.GetFileName(configFile)}";
+                                var item = MenuHelpers.CreateMenuItem(title, IconsManager.Icons["config"], (s, e) => {
+                                    OpenInEditor(configFile);
+                                });
+                                tsmi.DropDownItems.Add(item);
+                            }
+                        }
+                        var logFiles = service.LogFiles?.Where(File.Exists);
+                        if (!logFiles.IsNullOrEmpty()) {
+                            tsmi.DropDownItems.Add("-");
+                            tsmi.DropDownItems.Add(MenuHelpers.CreateMenuHeader("Log files:"));
+
+                            foreach (string logFile in logFiles) {
+                                var title = $"Show {Path.GetFileName(logFile)}";
+                                var item = MenuHelpers.CreateMenuItem(title, IconsManager.Icons["log"], (s, e) => {
+                                    var viewer = ConfigManager.Preferences.LogViewerPath;
+                                    if (String.IsNullOrEmpty(viewer) || viewer == "internal") {
+                                        new LogFileViewerForm(logFile).Show();
                                     } else {
-                                        MessageBox.Show($"Can't use selected log viewer `{viewer}`, check your configuration");
+                                        if (File.Exists(viewer)) {
+                                            Process.Start(viewer, logFile);
+                                        } else {
+                                            MessageBox.Show($"Can't use selected log viewer `{viewer}`, check your configuration");
+                                        }
                                     }
-                                }
 
-                            });
+                                });
+                                tsmi.DropDownItems.Add(item);
+                            }
+                        }
+
+                        if (!String.IsNullOrEmpty(service.BrowserUrl)) {
+                            tsmi.DropDownItems.Add("-");
+                            var item = MenuHelpers.CreateMenuItem("Open in browser...", IconsManager.Icons["browser"],
+                                (s, e) => Process.Start($"http://{service.BrowserUrl}"), "OpenInBrowserMenuItem");
                             tsmi.DropDownItems.Add(item);
                         }
-                    }
 
-                    if (!String.IsNullOrEmpty(service.BrowserUrl)) {
-                        tsmi.DropDownItems.Add("-");
-                        var item = MenuHelpers.CreateMenuItem("Open in browser...", IconsManager.Icons["browser"],
-                            (s, e) => Process.Start($"http://{service.BrowserUrl}"), "OpenInBrowserMenuItem");
-                        tsmi.DropDownItems.Add(item);
+                        if (Directory.Exists(service.DataDirectory)) {
+                            var item = MenuHelpers.CreateMenuItem("Open data directory...", IconsManager.Icons["folder"],
+                                (s, e) => Process.Start(service.DataDirectory));
+                            tsmi.DropDownItems.Add(item);
+                        }
+                        this.trayMenu.Items.Add(tsmi);
                     }
-
-                    if (Directory.Exists(service.DataDirectory)) {
-                        var item = MenuHelpers.CreateMenuItem("Open data directory...", IconsManager.Icons["folder"],
-                            (s, e) => Process.Start(service.DataDirectory));
-                        tsmi.DropDownItems.Add(item);
-                    }
-                    this.trayMenu.Items.Add(tsmi);
+                    // add separator between groups
+                    this.trayMenu.Items.Add("-");
                 }
-                // add separator between groups
-                this.trayMenu.Items.Add("-");
             }
 
             var confMenuItem = MenuHelpers.CreateMenuItem("Open config file", IconsManager.Icons["config"],
