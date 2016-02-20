@@ -22,5 +22,9 @@ namespace WTManager
                 Icons.Add(iconName, iconData);
             }
         }
+
+        static Image Get(string name) {
+            return Icons[name];
+        }
     }
 }

@@ -5,7 +5,9 @@ using WTManager.Helpers;
 
 namespace WTManager
 {
-    public sealed class ConfigManager
+    public delegate void ConfigSavedHandler(object sender, EventArgs e);
+
+    public class ConfigManager
     {
         private static readonly string AppData
             = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
@@ -17,35 +19,36 @@ namespace WTManager
 
         public static ConfigManager Instance => _instance.Value;
 
-        public static Preferences Preferences =>
-            _instance.Value.Config.Preferences;
+        public static Preferences Preferences => _instance.Value.Config.Preferences;
 
-        public static IEnumerable<Service> Services =>
-            _instance.Value.Config.Services;
-
+        public static IEnumerable<Service> Services => _instance.Value.Config.Services;
 
         public Configuration Config { get; private set; }
 
-        // Default configuration
-        private Configuration GetDefaults() {
-            var conf = new Configuration {
-                Preferences = new Preferences {
-                    ShowBaloon = true,
-                    BaloonTipTime = 3000
-                },
-                Services = new List<Service>()
-            };
-            return conf;
-        }
 
         private Configuration GetConfig() {
             if (!File.Exists(ConfigPath)) {
-                SerializationHelpers.SerializeFile(ConfigPath, this.GetDefaults());
+                SerializationHelpers.SerializeFile(ConfigPath, Configuration.Defaults);
             }
             return SerializationHelpers.DeserializeFile<Configuration>(ConfigPath);
         }
 
         public void ReloadConfig() => this.Config = this.GetConfig();
+
+        public void SaveConfig() {
+            try {
+                SerializationHelpers.SerializeFile(ConfigPath, this.Config);
+                this.OnConfigSaved(new EventArgs());
+            } catch {
+                // TODO
+            }
+        }
+
+        public event ConfigSavedHandler ConfigSaved;
+
+        protected virtual void OnConfigSaved(EventArgs e) {
+            ConfigSaved?.Invoke(this, new EventArgs());
+        }
 
         private ConfigManager() {
             ReloadConfig();

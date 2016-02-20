@@ -10,6 +10,7 @@ Windows tray manager. Manage your windows services with tray!
 ## Credits
 - Menu icons from "[Elysium Icons Pack (by HazelDev)](https://www.iconfinder.com/iconsets/elysium-icons)"
 - Tray and executable icon from "[One bit Pack (by Icojam)](https://www.iconfinder.com/iconsets/onebit)"
+- Dialog icons "[realistiK Reloaded (by Pavel InFeRnODeMoN)](https://www.iconfinder.com/iconsets/realistiK_new)"
 
 ## License
 Copyright (c) segrived 2015
