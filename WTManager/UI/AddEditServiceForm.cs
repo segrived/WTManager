@@ -13,8 +13,10 @@ namespace WTManager.UI
     {
         public Service Service { get; private set; }
 
-        private void InitForm() {
+        private void InitForm(Service service) {
             InitializeComponent();
+
+            this.Service = service;
 
             // default dialog result
             this.DialogResult = DialogResult.Cancel;
@@ -27,18 +29,21 @@ namespace WTManager.UI
             }
 
             var services = ServiceHelpers.GetAllServices().Select(s => s.ServiceName);
+
+            if (ConfigManager.Services != null) {
+                var alreadyAdded = ConfigManager.Services.Select(s => s.ServiceName).ToHashSet();
+                services = services.Where(s => s == service.ServiceName || !alreadyAdded.Contains(s));
+            }
+
             this.serviceNameCb.Items.AddRange(services.ToArray());
         }
 
         public AddEditServiceForm() {
-            InitForm();
-            this.Service = new Service();
+            InitForm(new Service());
         }
 
         public AddEditServiceForm(Service s) {
-            InitForm();
-
-            this.Service = s;
+            InitForm(s);
 
             this.serviceNameCb.SelectedItem = s.ServiceName;
             this.serviceDisplayNameTb.Text = s.DisplayName;

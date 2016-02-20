@@ -144,20 +144,8 @@ namespace WTManager.UI
             }
 
             var confFormMenuItem = MenuHelpers.CreateMenuItem("Open config file (form)", IconsManager.Icons["config"],
-                (s, e) => {
-                    using (var f = new ConfigurationForm()) {
-                        var result = f.ShowDialog();
-                        if (result != DialogResult.OK) {
-                            return;
-                        }
-                        this.InitTrayMenu();
-                    }
-                });
+                (s, e) => new ConfigurationForm().ShowDialog());
             this.trayMenu.Items.Add(confFormMenuItem);
-
-            var reloadMenuItem = MenuHelpers.CreateMenuItem("Reload configuration", IconsManager.Icons["reload"],
-                (s, e) => this.InitTrayMenu());
-            this.trayMenu.Items.Add(reloadMenuItem);
 
             var exitMenuItem = MenuHelpers.CreateMenuItem("Exit", IconsManager.Icons["exit"],
                 (s, e) => Application.Exit());
@@ -175,6 +163,7 @@ namespace WTManager.UI
                 var path = Path.GetDirectoryName(ConfigManager.ConfigPath);
                 Directory.CreateDirectory(path);
             }
+            ConfigManager.Instance.ConfigSaved += (s, e) => this.InitTrayMenu(true);
 
             this.InitTrayMenu(true);
         }

@@ -50,6 +50,7 @@ namespace WTManager.UI
                     return;
                 }
                 this.servicesListBox.Items.Add(f.Service);
+                SaveConfiguration();
             }
         }
 
@@ -65,26 +66,26 @@ namespace WTManager.UI
                     return;
                 }
                 this.servicesListBox.Items[index] = f.Service;
+                SaveConfiguration();
             }
         }
 
         private void removeServiceBtn_Click(object sender, EventArgs e) {
             var selectedService = this.servicesListBox.SelectedItem;
             if (selectedService != null) {
-                this.servicesListBox.Items.Remove(selectedService);
+                var mb = MessageBox.Show("Do you really want to delete this service from list?",
+                    "Removing service", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
+                if (mb == DialogResult.Yes) {
+                    this.servicesListBox.Items.Remove(selectedService);
+                    this.SaveConfiguration();
+                }
             }
         }
         #endregion
 
         #region Window-related buttons
         private void OkBtn_Click(object sender, EventArgs e) {
-            var conf = ConfigManager.Instance.Config;
-            conf.Services = this.servicesListBox.Items.OfType<Service>();
-            conf.Preferences.EditorPath = this.configEditorPathTb.Text;
-            conf.Preferences.LogViewerPath = this.logViewerPathTb.Text;
-
-            ConfigManager.Instance.SaveConfig();
-
+            this.SaveConfiguration();
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
@@ -95,6 +96,13 @@ namespace WTManager.UI
         #endregion
 
         #region Helper methods
+        private void SaveConfiguration() {
+            ConfigManager.Instance.Config.Services = this.servicesListBox.Items.OfType<Service>();
+            ConfigManager.Instance.Config.Preferences.EditorPath = this.configEditorPathTb.Text;
+            ConfigManager.Instance.Config.Preferences.LogViewerPath = this.logViewerPathTb.Text;
+            ConfigManager.Instance.SaveConfig();
+        }
+
         private string RequestExecutablePath() {
             var dialog = new OpenFileDialog {
                 Filter = "Executable files|*.exe;*.bat;*.cmd",

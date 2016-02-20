@@ -5,7 +5,9 @@ using WTManager.Helpers;
 
 namespace WTManager
 {
-    public sealed class ConfigManager
+    public delegate void ConfigSavedHandler(object sender, EventArgs e);
+
+    public class ConfigManager
     {
         private static readonly string AppData
             = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
@@ -34,7 +36,18 @@ namespace WTManager
         public void ReloadConfig() => this.Config = this.GetConfig();
 
         public void SaveConfig() {
-            SerializationHelpers.SerializeFile(ConfigPath, this.Config);
+            try {
+                SerializationHelpers.SerializeFile(ConfigPath, this.Config);
+                this.OnConfigSaved(new EventArgs());
+            } catch {
+                // TODO
+            }
+        }
+
+        public event ConfigSavedHandler ConfigSaved;
+
+        protected virtual void OnConfigSaved(EventArgs e) {
+            ConfigSaved?.Invoke(this, new EventArgs());
         }
 
         private ConfigManager() {
