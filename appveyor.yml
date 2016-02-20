@@ -1,6 +1,17 @@
 version: 1.0.{build}
 configuration: Release
 platform: Any CPU
+environment:
+  nsis_root: C:\nsis
+init:
+  - "SET PATH=%nsis_root%;%PATH%"
+install: 
+  - ps: $exePath = "$($env:USERPROFILE)\nsis-setup.exe"
+  - ps: (New-Object Net.WebClient).DownloadFile('http://heanet.dl.sourceforge.net/project/nsis/NSIS%203%20Pre-release/3.0b3/nsis-3.0b3-setup.exe', $exePath)
+  - ps: cmd /c start /wait $exePath /S /D=C:\nsis
+  - "Installer\\MakeInstallers.bat"
+artifacts:
+  - path: Installer\Target\*.exe
 before_build:
   - nuget restore
 build:
