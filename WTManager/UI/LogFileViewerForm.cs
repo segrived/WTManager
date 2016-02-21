@@ -32,7 +32,7 @@ namespace WTManager.UI
 
         private void Watcher_FileChanged(object sender, FileWatcherEventArgs e) {
             this.logFileContent.InvokeIfRequired(() => {
-                this.logFileContent.AppendText(e.AppendedContent + Environment.NewLine);
+                this.logFileContent.AppendText(e.AppendedContent);
                 this.logFileContent.ScrollToCaret();
             });
         }

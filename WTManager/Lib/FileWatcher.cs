@@ -37,9 +37,13 @@ namespace WTManager.Lib
                 if (this.token.IsCancellationRequested) {
                     return;
                 }
-                string line = reader.ReadToEnd().Trim();
-                if (line != String.Empty) {
-                    this.OnFileChanged(new FileWatcherEventArgs(line));
+                try {
+                    string line = reader.ReadToEnd();
+                    if (!String.IsNullOrEmpty(line)) {
+                        this.OnFileChanged(new FileWatcherEventArgs(line));
+                    }
+                } catch (IOException) {
+                    // nothin to do, jsut wait
                 }
                 Thread.Sleep(this.Interval);
             }
