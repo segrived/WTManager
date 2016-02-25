@@ -253,9 +253,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="MakeInstaller" DependsOnTargets="Build">
-    <Exec Command="makensis.exe /DTARG=$(OutputPath) /DPLATFORM=$(Platform) Installer\Setup.nsi" WorkingDirectory=".." />
-  </Target>
   <PropertyGroup>
     <PostBuildEvent>
     </PostBuildEvent>

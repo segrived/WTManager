@@ -4,13 +4,13 @@
 
 !define APPNAME "WTManager"
 
-!define BASE_DIR        "..\WTManager\${TARG}"
+!define BASE_DIR        "${TARGETDIR}"
 !define EXE_FILE_NAME   "WTManager.exe"
 !define PRIMARYASSEMBLY "${BASE_DIR}\${EXE_FILE_NAME}"
 
-!tempfile VERSIONHEADER
-!system 'nsisiw.exe -i "${PRIMARYASSEMBLY}" -o "${VERSIONHEADER}"'
-!include /NONFATAL "${VERSIONHEADER}"
+!define GEN_VERSIONHEADER "_version.nsi"
+!system 'nsisiw.exe -i "${PRIMARYASSEMBLY}" -o ${GEN_VERSIONHEADER}'
+!include /NONFATAL "${GEN_VERSIONHEADER}"
 
 Name "${APPNAME} (${FILE_ARCHITECTURE})"
 
@@ -83,7 +83,7 @@ Function .onInit
 FunctionEnd
 
 !system 'md "${OUTDIR}"'
-OutFile "${OUTDIR}\setup-${VI_PRODUCTIONVERSION}-${FILE_ARCHITECTURE}.exe"
+OutFile "${OUTDIR}\setup-${VI_PRODUCTIONVERSION}.exe"
 
 InstallDir "${PROGDIR}\${APPNAME}"
 InstallDirRegKey HKLM "Software\${APPNAME}" "Install_Dir"
