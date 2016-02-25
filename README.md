@@ -12,6 +12,9 @@ Windows tray manager. Manage your windows services with tray!
 - Tray and executable icon from "[One bit Pack (by Icojam)](https://www.iconfinder.com/iconsets/onebit)"
 - Dialog icons "[realistiK Reloaded (by Pavel InFeRnODeMoN)](https://www.iconfinder.com/iconsets/realistiK_new)"
 
+## Installation
+You can get latest build [here](https://ci.appveyor.com/project/segrived/wtmanager/build/artifacts)
+
 ## License
 Copyright (c) segrived 2015
 

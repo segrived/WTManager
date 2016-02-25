@@ -14,7 +14,7 @@
 
 Name "${APPNAME} (${FILE_ARCHITECTURE})"
 
-!if ${PLATFORM} == "x86"
+!if ${FILE_ARCHITECTURE} == "x86"
     !define PROGDIR "$PROGRAMFILES"
     !define FRAMEWORKDIR "Framework"
 !else
