@@ -118,6 +118,11 @@ Section "Launch after install"
     ExecShell "" "$INSTDIR\${EXE_FILE_NAME}"
 SectionEnd
 
+# Run at startup section
+Section "Add program shortcuts to start menu"
+    CreateShortCut "$SMPROGRAMS\${APPNAME}.lnk" "$INSTDIR\${EXE_FILE_NAME}"
+SectionEnd
+
 # Uninstall section
 Section "Uninstall"
     DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}"
@@ -125,6 +130,7 @@ Section "Uninstall"
     nsExec::ExecToLog '"$INSTDIR\${EXE_FILE_NAME}" /removetask'
     ${nsProcess::CloseProcess} "${EXE_FILE_NAME}" $R0
     Delete "$INSTDIR\uninstall.exe"
+    Delete "$SMPROGRAMS\${APPNAME}.lnk"
     RMDir /r "$INSTDIR"
     ${nsProcess::Unload}
     nsExec::ExecToLog '${NGEN_PATH} uninstall ${APPNAME}'
