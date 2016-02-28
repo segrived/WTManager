@@ -19,7 +19,7 @@ namespace WTManager.UI
         private const bool IsShowBaloon = true;
         private const int BaloonShowTime = 3000;
 
-        private Dictionary<string, ServiceControllerStatus> StatusCache =
+        private Dictionary<string, ServiceControllerStatus> _statusCache =
             new Dictionary<string, ServiceControllerStatus>();
 
         public MainForm() {
@@ -28,7 +28,7 @@ namespace WTManager.UI
         }
 
         private void InitTrayMenu(bool forceBaloonDisable = false) {
-            this.StatusCache.Clear();
+            this._statusCache.Clear();
             this.trayMenu.Items.Clear();
             ConfigManager.Instance.ReloadConfig();
 
@@ -96,7 +96,7 @@ namespace WTManager.UI
                             foreach (string logFile in logFiles) {
                                 var title = $"Show {Path.GetFileName(logFile)}";
                                 var item = MenuHelpers.CreateMenuItem(title, IconsManager.Icons["log"], (s, e) => {
-                                    OpenInLogViewer(logFile);
+                                    this.OpenInLogViewer(logFile);
                                 });
                                 tsmi.DropDownItems.Add(item);
                             }
@@ -116,6 +116,13 @@ namespace WTManager.UI
                                 (s, e) => Process.Start(service.DataDirectory));
                             tsmi.DropDownItems.Add(item);
                         }
+                        #endregion
+
+                        #region Service configuration menu item
+                        tsmi.DropDownItems.Add("-");
+                        var editMenuItem = MenuHelpers.CreateMenuItem("Edit configuration", IconsManager.Icons["config"],
+                            (s, e) => new AddEditServiceForm(service).ShowDialog());
+                        tsmi.DropDownItems.Add(editMenuItem);
                         #endregion
 
                         this.trayMenu.Items.Add(tsmi);
@@ -143,7 +150,9 @@ namespace WTManager.UI
 
             if (!File.Exists(ConfigManager.ConfigPath)) {
                 var path = Path.GetDirectoryName(ConfigManager.ConfigPath);
-                Directory.CreateDirectory(path);
+                if (path != null) {
+                    Directory.CreateDirectory(path);
+                }
             }
             ConfigManager.Instance.ConfigSaved += (s, e) => this.InitTrayMenu(true);
 
@@ -159,11 +168,11 @@ namespace WTManager.UI
                 var service = (Service)menuItem.Tag;
 
                 service.GetController().Refresh();
-                if (StatusCache.ContainsKey(service.ServiceName) &&
-                    service.GetController().Status == StatusCache[service.ServiceName]) {
+                if (this._statusCache.ContainsKey(service.ServiceName) &&
+                    service.GetController().Status == this._statusCache[service.ServiceName]) {
                     continue;
                 }
-                StatusCache[service.ServiceName] = service.GetController().Status;
+                this._statusCache[service.ServiceName] = service.GetController().Status;
                 switch (service.GetController().Status) {
                     case ServiceControllerStatus.Running:
                         menuItem.Image = IconsManager.Icons["started"];
@@ -222,8 +231,8 @@ namespace WTManager.UI
 
         #region Helpers methods
         void ShowBaloon(string title, string message, ToolTipIcon icon = ToolTipIcon.Info) {
-            if (!IsShowBaloon) {
-                return;
+            if (!Enum.IsDefined(typeof(ToolTipIcon), icon)) {
+                throw new ArgumentOutOfRangeException(nameof(icon));
             }
             this.trayIcon.ShowBalloonTip(BaloonShowTime, title, message, ToolTipIcon.Info);
         }

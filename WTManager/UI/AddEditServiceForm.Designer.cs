@@ -73,7 +73,7 @@
             this.groupBox2.Location = new System.Drawing.Point(13, 338);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(8);
-            this.groupBox2.Size = new System.Drawing.Size(598, 124);
+            this.groupBox2.Size = new System.Drawing.Size(555, 124);
             this.groupBox2.TabIndex = 8;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Additional features";
@@ -121,7 +121,7 @@
             // selectDataDirectoryBtn
             // 
             this.selectDataDirectoryBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.selectDataDirectoryBtn.Location = new System.Drawing.Point(552, 74);
+            this.selectDataDirectoryBtn.Location = new System.Drawing.Point(509, 74);
             this.selectDataDirectoryBtn.Name = "selectDataDirectoryBtn";
             this.selectDataDirectoryBtn.Size = new System.Drawing.Size(35, 23);
             this.selectDataDirectoryBtn.TabIndex = 1;
@@ -135,7 +135,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.serviceDataDirectoryTb.Location = new System.Drawing.Point(124, 74);
             this.serviceDataDirectoryTb.Name = "serviceDataDirectoryTb";
-            this.serviceDataDirectoryTb.Size = new System.Drawing.Size(422, 23);
+            this.serviceDataDirectoryTb.Size = new System.Drawing.Size(379, 23);
             this.serviceDataDirectoryTb.TabIndex = 0;
             // 
             // serviceBrowserUrlTb
@@ -144,7 +144,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.serviceBrowserUrlTb.Location = new System.Drawing.Point(124, 21);
             this.serviceBrowserUrlTb.Name = "serviceBrowserUrlTb";
-            this.serviceBrowserUrlTb.Size = new System.Drawing.Size(463, 23);
+            this.serviceBrowserUrlTb.Size = new System.Drawing.Size(420, 23);
             this.serviceBrowserUrlTb.TabIndex = 0;
             // 
             // logsAndConfigsGb
@@ -164,7 +164,7 @@
             this.logsAndConfigsGb.Location = new System.Drawing.Point(13, 132);
             this.logsAndConfigsGb.Name = "logsAndConfigsGb";
             this.logsAndConfigsGb.Padding = new System.Windows.Forms.Padding(8);
-            this.logsAndConfigsGb.Size = new System.Drawing.Size(598, 200);
+            this.logsAndConfigsGb.Size = new System.Drawing.Size(555, 200);
             this.logsAndConfigsGb.TabIndex = 6;
             this.logsAndConfigsGb.TabStop = false;
             this.logsAndConfigsGb.Text = "Logs and configs";
@@ -174,7 +174,7 @@
             this.removeConfigFileBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.removeConfigFileBtn.Enabled = false;
             this.removeConfigFileBtn.Image = ((System.Drawing.Image)(resources.GetObject("removeConfigFileBtn.Image")));
-            this.removeConfigFileBtn.Location = new System.Drawing.Point(537, 148);
+            this.removeConfigFileBtn.Location = new System.Drawing.Point(494, 148);
             this.removeConfigFileBtn.Name = "removeConfigFileBtn";
             this.removeConfigFileBtn.Size = new System.Drawing.Size(50, 33);
             this.removeConfigFileBtn.TabIndex = 2;
@@ -186,7 +186,7 @@
             this.removeLogFileBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.removeLogFileBtn.Enabled = false;
             this.removeLogFileBtn.Image = ((System.Drawing.Image)(resources.GetObject("removeLogFileBtn.Image")));
-            this.removeLogFileBtn.Location = new System.Drawing.Point(537, 63);
+            this.removeLogFileBtn.Location = new System.Drawing.Point(494, 63);
             this.removeLogFileBtn.Name = "removeLogFileBtn";
             this.removeLogFileBtn.Size = new System.Drawing.Size(50, 33);
             this.removeLogFileBtn.TabIndex = 2;
@@ -197,7 +197,7 @@
             // 
             this.addConfigFileBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.addConfigFileBtn.Image = global::WTManager.ButtonImages.Add;
-            this.addConfigFileBtn.Location = new System.Drawing.Point(537, 109);
+            this.addConfigFileBtn.Location = new System.Drawing.Point(494, 109);
             this.addConfigFileBtn.Name = "addConfigFileBtn";
             this.addConfigFileBtn.Size = new System.Drawing.Size(50, 33);
             this.addConfigFileBtn.TabIndex = 2;
@@ -208,7 +208,7 @@
             // 
             this.addLogFileBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.addLogFileBtn.Image = global::WTManager.ButtonImages.Add;
-            this.addLogFileBtn.Location = new System.Drawing.Point(537, 24);
+            this.addLogFileBtn.Location = new System.Drawing.Point(494, 24);
             this.addLogFileBtn.Name = "addLogFileBtn";
             this.addLogFileBtn.Size = new System.Drawing.Size(50, 33);
             this.addLogFileBtn.TabIndex = 2;
@@ -244,7 +244,7 @@
             this.configFilesLb.Location = new System.Drawing.Point(122, 109);
             this.configFilesLb.Name = "configFilesLb";
             this.configFilesLb.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.configFilesLb.Size = new System.Drawing.Size(409, 79);
+            this.configFilesLb.Size = new System.Drawing.Size(366, 79);
             this.configFilesLb.TabIndex = 0;
             this.configFilesLb.SelectedIndexChanged += new System.EventHandler(this.configFilesLb_SelectedIndexChanged);
             // 
@@ -257,7 +257,7 @@
             this.logFilesLb.Location = new System.Drawing.Point(122, 24);
             this.logFilesLb.Name = "logFilesLb";
             this.logFilesLb.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.logFilesLb.Size = new System.Drawing.Size(409, 79);
+            this.logFilesLb.Size = new System.Drawing.Size(366, 79);
             this.logFilesLb.TabIndex = 0;
             this.logFilesLb.SelectedIndexChanged += new System.EventHandler(this.logFilesLb_SelectedIndexChanged);
             // 
@@ -276,7 +276,7 @@
             this.groupBox1.Location = new System.Drawing.Point(13, 14);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(8);
-            this.groupBox1.Size = new System.Drawing.Size(598, 112);
+            this.groupBox1.Size = new System.Drawing.Size(555, 112);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Basic service configuration";
@@ -299,7 +299,7 @@
             this.serviceNameCb.FormattingEnabled = true;
             this.serviceNameCb.Location = new System.Drawing.Point(122, 21);
             this.serviceNameCb.Name = "serviceNameCb";
-            this.serviceNameCb.Size = new System.Drawing.Size(465, 23);
+            this.serviceNameCb.Size = new System.Drawing.Size(422, 23);
             this.serviceNameCb.TabIndex = 0;
             this.serviceNameCb.SelectedIndexChanged += new System.EventHandler(this.serviceNameCb_SelectedIndexChanged);
             // 
@@ -309,7 +309,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.serviceDisplayNameTb.Location = new System.Drawing.Point(122, 50);
             this.serviceDisplayNameTb.Name = "serviceDisplayNameTb";
-            this.serviceDisplayNameTb.Size = new System.Drawing.Size(465, 23);
+            this.serviceDisplayNameTb.Size = new System.Drawing.Size(422, 23);
             this.serviceDisplayNameTb.TabIndex = 2;
             // 
             // serviceGroupCb
@@ -319,7 +319,7 @@
             this.serviceGroupCb.FormattingEnabled = true;
             this.serviceGroupCb.Location = new System.Drawing.Point(122, 79);
             this.serviceGroupCb.Name = "serviceGroupCb";
-            this.serviceGroupCb.Size = new System.Drawing.Size(465, 23);
+            this.serviceGroupCb.Size = new System.Drawing.Size(422, 23);
             this.serviceGroupCb.TabIndex = 0;
             // 
             // serviceDisplayNameLbl
@@ -347,7 +347,7 @@
             this.cancelBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancelBtn.Image = global::WTManager.ButtonImages.Cancel;
             this.cancelBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.cancelBtn.Location = new System.Drawing.Point(473, 471);
+            this.cancelBtn.Location = new System.Drawing.Point(430, 471);
             this.cancelBtn.Name = "cancelBtn";
             this.cancelBtn.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.cancelBtn.Size = new System.Drawing.Size(138, 36);
@@ -361,7 +361,7 @@
             this.OkBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.OkBtn.Image = global::WTManager.ButtonImages.Ok;
             this.OkBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.OkBtn.Location = new System.Drawing.Point(340, 471);
+            this.OkBtn.Location = new System.Drawing.Point(297, 471);
             this.OkBtn.Name = "OkBtn";
             this.OkBtn.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.OkBtn.Size = new System.Drawing.Size(127, 36);
@@ -374,7 +374,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(624, 519);
+            this.ClientSize = new System.Drawing.Size(581, 519);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.cancelBtn);
             this.Controls.Add(this.OkBtn);

@@ -47,11 +47,11 @@ namespace WTManager
         public event ConfigSavedHandler ConfigSaved;
 
         protected virtual void OnConfigSaved(EventArgs e) {
-            ConfigSaved?.Invoke(this, new EventArgs());
+            this.ConfigSaved?.Invoke(this, new EventArgs());
         }
 
         private ConfigManager() {
-            ReloadConfig();
+            this.ReloadConfig();
         }
     }
 }

@@ -15,7 +15,7 @@ namespace WTManager.Lib
 
     public class FileWatcher : IDisposable
     {
-        private CancellationTokenSource token;
+        private readonly CancellationTokenSource _token;
         private FileStream _fileStream;
 
         public event EventHandler<FileWatcherEventArgs> FileChanged;
@@ -24,17 +24,19 @@ namespace WTManager.Lib
         public int Interval { get; }
 
         public FileWatcher(string fileName, int interval = 100) {
-            this.token = new CancellationTokenSource();
+            this._token = new CancellationTokenSource();
+
             this.FileName = fileName;
+            this.Interval = interval;
         }
 
         public void StartWatch() {
-            var fileShare = FileShare.ReadWrite | FileShare.Delete;
+            const FileShare fileShare = FileShare.ReadWrite | FileShare.Delete;
             this._fileStream = new FileStream(this.FileName, FileMode.Open, FileAccess.Read, fileShare);
             var reader = new StreamReader(this._fileStream);
             this._fileStream.Seek(0, SeekOrigin.End);
             while (true) {
-                if (this.token.IsCancellationRequested) {
+                if (this._token.IsCancellationRequested) {
                     return;
                 }
                 try {
@@ -50,12 +52,12 @@ namespace WTManager.Lib
         }
 
         public void Dispose() {
-            this.token?.Cancel();
+            this._token?.Cancel();
             this._fileStream?.Dispose();
         }
 
         protected virtual void OnFileChanged(FileWatcherEventArgs e) {
-            FileChanged?.Invoke(this, e);
+            this.FileChanged?.Invoke(this, e);
         }
     }
 }

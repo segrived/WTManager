@@ -7,7 +7,7 @@ namespace WTManager
 {
     public static class IconsManager
     {
-        public static Dictionary<string, Image> Icons
+        public static readonly Dictionary<string, Image> Icons
             = new Dictionary<string, Image>();
 
         static IconsManager() {
@@ -21,10 +21,6 @@ namespace WTManager
                 Image iconData = ((Icon)entry.Value).ToBitmap();
                 Icons.Add(iconName, iconData);
             }
-        }
-
-        static Image Get(string name) {
-            return Icons[name];
         }
     }
 }
