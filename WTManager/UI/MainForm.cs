@@ -62,7 +62,7 @@ namespace WTManager.UI
                         var restartItem = MenuHelpers.CreateMenuItem("Restart service", IconsManager.Icons["reload"],
                             async (s, e) => {
                                 await Task.Factory.StartNew(() => service.RestartService());
-                                this.ShowBaloon("Restrted", $"Service `{service.DisplayName}` was restarted");
+                                this.ShowBaloon("Restarted", $"Service `{service.DisplayName}` was restarted");
                                 this.UpdateTrayMenu();
                             }, "RestartMenuItem");
 
