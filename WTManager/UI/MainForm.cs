@@ -43,7 +43,8 @@ namespace WTManager.UI
                     }
                     foreach (var service in group) {
                         var tsmi = new ToolStripMenuItem(service.DisplayName) {
-                            Tag = service
+                            Tag = service,
+                            DropDownDirection = ToolStripDropDownDirection.Left
                         };
 
                         #region Service start/restart/stop menu items
