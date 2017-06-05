@@ -150,6 +150,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>IconResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Interop\Taskbar.cs" />
     <Compile Include="Lib\FileWatcher.cs" />
     <Compile Include="Lib\LimitedQueue.cs" />
     <Compile Include="UI\LogFileViewerForm.cs">

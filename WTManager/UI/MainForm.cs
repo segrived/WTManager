@@ -5,11 +5,13 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.ServiceProcess;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WTManager.Controls;
 using WTManager.Helpers;
+using WTManager.Interop;
 
 namespace WTManager.UI
 {
@@ -42,9 +44,23 @@ namespace WTManager.UI
                         this.trayMenu.Items.Add(MenuHelpers.CreateMenuHeader(group.Key));
                     }
                     foreach (var service in group) {
+                        ToolStripDropDownDirection dropDownDirection;
+                        switch (Taskbar.Position)
+                        {                            
+                            case TaskbarPosition.Right:
+                                dropDownDirection = ToolStripDropDownDirection.Left;
+                                break;
+                            case TaskbarPosition.Top:
+                            case TaskbarPosition.Bottom:
+                            case TaskbarPosition.Left:                                
+                            default:
+                                dropDownDirection = ToolStripDropDownDirection.Default;
+                                break;
+                        }                        
+
                         var tsmi = new ToolStripMenuItem(service.DisplayName) {
                             Tag = service,
-                            DropDownDirection = ToolStripDropDownDirection.Left
+                            DropDownDirection = dropDownDirection
                         };
 
                         #region Service start/restart/stop menu items
@@ -214,6 +230,24 @@ namespace WTManager.UI
 
         private void trayMenu_Opening(object sender, CancelEventArgs e) {
             this.UpdateTrayMenu();
+            ContextMenuStrip menuStrip = (sender as ContextMenuStrip);
+            ToolStripDropDownDirection dropDownDirection;
+            switch (Taskbar.Position)
+            {
+                case TaskbarPosition.Right:
+                    dropDownDirection = ToolStripDropDownDirection.Left;
+                    break;                
+                case TaskbarPosition.Left:
+                case TaskbarPosition.Top:
+                    dropDownDirection = ToolStripDropDownDirection.Right;
+                    break;
+                case TaskbarPosition.Bottom:
+                default:
+                    dropDownDirection = ToolStripDropDownDirection.Default;
+                    break;
+
+            }
+            menuStrip.Show(Cursor.Position, dropDownDirection);
         }
 
         private void trayIcon_MouseUp(object sender, MouseEventArgs e) {
