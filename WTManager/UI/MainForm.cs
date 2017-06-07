@@ -138,7 +138,24 @@ namespace WTManager.UI
                         #region Service configuration menu item
                         tsmi.DropDownItems.Add("-");
                         var editMenuItem = MenuHelpers.CreateMenuItem("Edit configuration", IconsManager.Icons["config"],
-                            (s, e) => new AddEditServiceForm(service).ShowDialog());
+                            (s, e) => {
+                                using (var f = new AddEditServiceForm(service))
+                                {
+                                    var result = f.ShowDialog();
+                                    if (f.DialogResult == DialogResult.OK)
+                                    {
+                                        var services = ConfigManager.Instance.Config.Services.ToList();                                        
+                                        var serviceToReplace = services.First(serviceToTest => serviceToTest.GetHashCode() == service.GetHashCode());
+                                        var index = services.IndexOf(serviceToReplace);
+
+                                        if (index != -1)
+                                        {
+                                            services[index] = f.Service;
+                                            ConfigManager.Instance.SaveConfig();
+                                        }                                                                               
+                                    }                                    
+                                }
+                            });
                         tsmi.DropDownItems.Add(editMenuItem);
                         #endregion
 
