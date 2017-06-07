@@ -5,7 +5,7 @@ install:
   - choco install nsis
   - appveyor DownloadFile http://nsis.sourceforge.net/mediawiki/images/1/18/NsProcess.zip
   - 7z e -o"C:\Program Files (x86)\NSIS\Include" NsProcess.zip Include\*.nsh
-  - 7z e -o"C:\Program Files (x86)\NSIS\Plugins" NsProcess.zip Plugin\*.dll
+  - 7z e -o"C:\Program Files (x86)\NSIS\Plugins\x86-ansi" NsProcess.zip Plugin\*.dll
   - set PATH="C:\Program Files (x86)\NSIS";%PATH%
 before_build:
   - nuget restore
