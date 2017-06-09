@@ -5,11 +5,13 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.ServiceProcess;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WTManager.Controls;
 using WTManager.Helpers;
+using WTManager.Interop;
 
 namespace WTManager.UI
 {
@@ -42,8 +44,23 @@ namespace WTManager.UI
                         this.trayMenu.Items.Add(MenuHelpers.CreateMenuHeader(group.Key));
                     }
                     foreach (var service in group) {
+                        ToolStripDropDownDirection dropDownDirection;
+                        switch (Taskbar.Position)
+                        {                            
+                            case TaskbarPosition.Right:
+                                dropDownDirection = ToolStripDropDownDirection.Left;
+                                break;
+                            case TaskbarPosition.Top:
+                            case TaskbarPosition.Bottom:
+                            case TaskbarPosition.Left:                                
+                            default:
+                                dropDownDirection = ToolStripDropDownDirection.Default;
+                                break;
+                        }                        
+
                         var tsmi = new ToolStripMenuItem(service.DisplayName) {
-                            Tag = service
+                            Tag = service,
+                            DropDownDirection = dropDownDirection
                         };
 
                         #region Service start/restart/stop menu items
@@ -62,7 +79,7 @@ namespace WTManager.UI
                         var restartItem = MenuHelpers.CreateMenuItem("Restart service", IconsManager.Icons["reload"],
                             async (s, e) => {
                                 await Task.Factory.StartNew(() => service.RestartService());
-                                this.ShowBaloon("Restrted", $"Service `{service.DisplayName}` was restarted");
+                                this.ShowBaloon("Restarted", $"Service `{service.DisplayName}` was restarted");
                                 this.UpdateTrayMenu();
                             }, "RestartMenuItem");
 
@@ -121,7 +138,24 @@ namespace WTManager.UI
                         #region Service configuration menu item
                         tsmi.DropDownItems.Add("-");
                         var editMenuItem = MenuHelpers.CreateMenuItem("Edit configuration", IconsManager.Icons["config"],
-                            (s, e) => new AddEditServiceForm(service).ShowDialog());
+                            (s, e) => {
+                                using (var f = new AddEditServiceForm(service))
+                                {
+                                    var result = f.ShowDialog();
+                                    if (f.DialogResult == DialogResult.OK)
+                                    {
+                                        var services = ConfigManager.Instance.Config.Services.ToList();                                        
+                                        var serviceToReplace = services.First(serviceToTest => serviceToTest.GetHashCode() == service.GetHashCode());
+                                        var index = services.IndexOf(serviceToReplace);
+
+                                        if (index != -1)
+                                        {
+                                            services[index] = f.Service;
+                                            ConfigManager.Instance.SaveConfig();
+                                        }                                                                               
+                                    }                                    
+                                }
+                            });
                         tsmi.DropDownItems.Add(editMenuItem);
                         #endregion
 
@@ -213,6 +247,24 @@ namespace WTManager.UI
 
         private void trayMenu_Opening(object sender, CancelEventArgs e) {
             this.UpdateTrayMenu();
+            ContextMenuStrip menuStrip = (sender as ContextMenuStrip);
+            ToolStripDropDownDirection dropDownDirection;
+            switch (Taskbar.Position)
+            {
+                case TaskbarPosition.Right:
+                    dropDownDirection = ToolStripDropDownDirection.Left;
+                    break;                
+                case TaskbarPosition.Left:
+                case TaskbarPosition.Top:
+                    dropDownDirection = ToolStripDropDownDirection.Right;
+                    break;
+                case TaskbarPosition.Bottom:
+                default:
+                    dropDownDirection = ToolStripDropDownDirection.Default;
+                    break;
+
+            }
+            menuStrip.Show(Cursor.Position, dropDownDirection);
         }
 
         private void trayIcon_MouseUp(object sender, MouseEventArgs e) {
