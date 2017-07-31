@@ -21,13 +21,27 @@ namespace WTManager
     public class Preferences
     {
         /// <summary>
-        /// Path to config editor executable
+        /// Path to config editor executable 
         /// </summary>
         public string EditorPath { get; set; }
+
         /// <summary>
         /// Path to log viewer executable
         /// </summary>
         public string LogViewerPath { get; set; }
+    }
+
+    public class ServiceGroup
+    {
+        public string ServiceName { get; set; }
+
+        public IEnumerable<Service> Services { get; set; }
+
+        public ServiceGroup(string name)
+        {
+            this.ServiceName = name;
+            this.Services = new List<Service>();
+        }
     }
 
     public class Service
@@ -69,7 +83,7 @@ namespace WTManager
 
         #region Equals/GetHashCode
         public override bool Equals(object obj) {
-            if (obj == null || GetType() != obj.GetType()) {
+            if (obj == null || this.GetType() != obj.GetType()) {
                 return false;
             }
             var otherService = (Service)obj;

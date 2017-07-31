@@ -64,7 +64,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "LogFileViewer";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LogFileViewer_FormClosing);
-            this.Load += new System.EventHandler(this.LogFileViewer_Load);
             this.logFileContentWrapper.ResumeLayout(false);
             this.ResumeLayout(false);
 

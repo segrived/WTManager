@@ -5,12 +5,11 @@ using WTManager.Helpers;
 
 namespace WTManager
 {
-    public delegate void ConfigSavedHandler(object sender, EventArgs e);
-
     public class ConfigManager
     {
         private static readonly string AppData
             = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+
         public static readonly string ConfigPath
             = Path.Combine(AppData, "WTManager", "config.yml");
 
@@ -21,37 +20,36 @@ namespace WTManager
 
         public static Preferences Preferences => _instance.Value.Config.Preferences;
 
+        //public static IEnumerable<ServiceGroup> ServiceGroups => _instance.Value.Config.Services;
+
         public static IEnumerable<Service> Services => _instance.Value.Config.Services;
 
         public Configuration Config { get; private set; }
 
 
-        private Configuration GetConfig() {
-            if (!File.Exists(ConfigPath)) {
+        private Configuration GetConfig()
+        {
+            if (!File.Exists(ConfigPath))
                 SerializationHelpers.SerializeFile(ConfigPath, Configuration.Defaults);
-            }
+
             return SerializationHelpers.DeserializeFile<Configuration>(ConfigPath);
         }
 
-        public void ReloadConfig() => this.Config = this.GetConfig();
+        public void ReloadConfig()
+            => this.Config = this.GetConfig();
 
-        public void SaveConfig() {
+        public void SaveConfig()
+        {
             try {
                 SerializationHelpers.SerializeFile(ConfigPath, this.Config);
-                this.OnConfigSaved(new EventArgs());
+                this.ConfigSaved?.Invoke();
             } catch {
                 // TODO
             }
         }
 
-        public event ConfigSavedHandler ConfigSaved;
+        public event Action ConfigSaved;
 
-        protected virtual void OnConfigSaved(EventArgs e) {
-            this.ConfigSaved?.Invoke(this, new EventArgs());
-        }
-
-        private ConfigManager() {
-            this.ReloadConfig();
-        }
+        private ConfigManager() => this.ReloadConfig();
     }
 }

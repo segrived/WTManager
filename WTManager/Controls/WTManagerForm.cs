@@ -4,11 +4,28 @@ using System.Windows.Forms;
 namespace WTManager.Controls
 {
     [System.ComponentModel.DesignerCategory("")]
-    public class WTManagerForm : Form
+    public class WtManagerForm : Form
     {
-        public WTManagerForm() : base() {
-            this.Font = SystemFonts.MessageBoxFont;
+        protected WtManagerForm()
+        {
+            this.WtFont = SystemFonts.MessageBoxFont;
             this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
+        }
+
+        private Font WtFont
+        {
+            get => base.Font;
+            set => base.Font = value;
+        }
+    }
+
+
+    [System.ComponentModel.DesignerCategory("")]
+    public class WtManagerMainForm : WtManagerForm
+    {
+        protected override void SetVisibleCore(bool value)
+        {
+            base.SetVisibleCore(false);
         }
     }
 }

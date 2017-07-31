@@ -7,18 +7,21 @@ namespace WTManager.Helpers
 {
     public static class Extensions
     {
-        public static bool IsNullOrEmpty<T>(this IEnumerable<T> enumerable) {
+        public static bool IsNullOrEmpty<T>(this IEnumerable<T> enumerable)
+        {
             if (enumerable == null)
                 return true;
 
             return !enumerable.Any();
         }
 
-        public static HashSet<T> ToHashSet<T>(this IEnumerable<T> collection) {
+        public static HashSet<T> ToHashSet<T>(this IEnumerable<T> collection)
+        {
             return new HashSet<T>(collection);
         }
 
-        public static void AppendText(this RichTextBox textBox, string text, Color color) {
+        public static void AppendText(this RichTextBox textBox, string text, Color color)
+        {
             textBox.SelectionStart = textBox.TextLength;
             textBox.SelectionLength = 0;
             textBox.SelectionColor = color;
@@ -26,12 +29,12 @@ namespace WTManager.Helpers
             textBox.SelectionColor = textBox.ForeColor;
         }
 
-        public static void InvokeIfRequired(this Control control, MethodInvoker action) {
-            if (control.InvokeRequired) {
+        public static void InvokeIfRequired(this Control control, MethodInvoker action)
+        {
+            if (control.InvokeRequired)
                 control.Invoke(action);
-            } else {
+            else
                 action();
-            }
         }
     }
 }

@@ -7,20 +7,24 @@ using WTManager.Controls;
 namespace WTManager.UI
 {
     [System.ComponentModel.DesignerCategory("Form")]
-    public partial class ConfigurationForm : WTManagerForm
+    public partial class ConfigurationForm : WtManagerForm
     {
         public ConfigurationForm() {
-            InitializeComponent();
+            this.InitializeComponent();
         }
 
-        private void ServiceConfigForm_Load(object sender, EventArgs e) {
-            this.servicesListBox.Format += (s, ea) => {
+        private void ServiceConfigForm_Load(object sender, EventArgs e)
+        {
+            this.servicesListBox.Format += (s, ea) =>
+            {
                 var service = (Service)ea.Value;
                 ea.Value = $"{service.ServiceName} - {service.DisplayName}";
             };
 
-            if (ConfigManager.Services != null) {
-                this.servicesListBox.Items.AddRange(ConfigManager.Services.ToArray());
+            if (ConfigManager.Services != null)
+            {
+                var items = ConfigManager.Services.Cast<object>().ToArray();
+                this.servicesListBox.Items.AddRange(items);
             }
 
             this.logViewerPathTb.Text = ConfigManager.Preferences.LogViewerPath;
@@ -28,115 +32,129 @@ namespace WTManager.UI
         }
 
 
-        private void selectConfigEditorPathBtn_Click(object sender, EventArgs e) {
-            var execPath = this.RequestExecutablePath();
-            if (execPath != null) {
+        private void selectConfigEditorPathBtn_Click(object sender, EventArgs e)
+        {
+            string execPath = this.RequestExecutablePath();
+            if (execPath != null)
                 this.configEditorPathTb.Text = execPath;
-            }
         }
 
-        private void selectLogViewerPathBtn_Click(object sender, EventArgs e) {
-            var execPath = this.RequestExecutablePath();
-            if (execPath != null) {
+        private void selectLogViewerPathBtn_Click(object sender, EventArgs e)
+        {
+            string execPath = this.RequestExecutablePath();
+            if (execPath != null)
                 this.logViewerPathTb.Text = execPath;
-            }
         }
 
-        private void servicesListBox_MouseDoubleClick(object sender, MouseEventArgs e) {
+        private void servicesListBox_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
             int index = this.servicesListBox.IndexFromPoint(e.Location);
-            if (index != ListBox.NoMatches) {
-                EditServiceByListIndex(index);
-            }
+            if (index != ListBox.NoMatches)
+                this.EditServiceByListIndex(index);
         }
 
         #region Services-related buttons
-        private void addServiceBtn_Click(object sender, EventArgs e) {
-            using (var f = new AddEditServiceForm()) {
-                var result = f.ShowDialog();
-                if (f.DialogResult != DialogResult.OK || f.Service == null) {
+        private void addServiceBtn_Click(object sender, EventArgs e)
+        {
+            using (var f = new AddEditServiceForm())
+            {
+                if (f.ShowDialog() != DialogResult.OK || f.Service == null)
                     return;
-                }
+
                 this.servicesListBox.Items.Add(f.Service);
-                SaveConfiguration();
+                this.SaveConfiguration();
             }
         }
 
-        private void editServiceBtn_Click(object sender, EventArgs e) {
+        private void editServiceBtn_Click(object sender, EventArgs e)
+        {
             var selectedService = this.servicesListBox.SelectedItem;
-            if (selectedService == null) {
+
+            if (selectedService == null)
                 return;
-            }
-            EditServiceByListIndex(this.servicesListBox.SelectedIndex);
+
+            this.EditServiceByListIndex(this.servicesListBox.SelectedIndex);
         }
 
-        private void removeServiceBtn_Click(object sender, EventArgs e) {
+        private void removeServiceBtn_Click(object sender, EventArgs e)
+        {
             var selectedService = this.servicesListBox.SelectedItem;
-            if (selectedService != null) {
-                var mb = MessageBox.Show("Do you really want to delete selected service(s) from list?",
-                    "Removing service(s)", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
-                if (mb == DialogResult.Yes) {
-                    var selServices = this.servicesListBox.SelectedItems.OfType<Service>().ToList();
-                    foreach (var service in selServices) {
-                        this.servicesListBox.Items.Remove(service);
-                    }
-                    this.SaveConfiguration();
-                }
-            }
+
+            if (selectedService == null)
+                return;
+
+            if (MessageBox.Show("Do you really want to delete selected service(s) from list?", "Removing service(s)", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) != DialogResult.Yes)
+                return;
+
+            var selServices = this.servicesListBox.SelectedItems.OfType<Service>().ToList();
+            foreach (var service in selServices)
+                this.servicesListBox.Items.Remove(service);
+
+            this.SaveConfiguration();
         }
         #endregion
 
         #region Window-related buttons
-        private void OkBtn_Click(object sender, EventArgs e) {
+        private void OkBtn_Click(object sender, EventArgs e)
+        {
             this.SaveConfiguration();
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
 
-        private void CancelBtn_Click(object sender, EventArgs e) {
+        private void CancelBtn_Click(object sender, EventArgs e)
+        {
             this.Close();
         }
         #endregion
 
         #region Helper methods
-        void SaveConfiguration() {
-            ConfigManager.Instance.Config.Services = this.servicesListBox.Items.OfType<Service>();
+        void SaveConfiguration()
+        {
+            //ConfigManager.Instance.Config.Services = this.servicesListBox.Items.OfType<Service>();
             ConfigManager.Instance.Config.Preferences.EditorPath = this.configEditorPathTb.Text;
             ConfigManager.Instance.Config.Preferences.LogViewerPath = this.logViewerPathTb.Text;
             ConfigManager.Instance.SaveConfig();
         }
 
-        string RequestExecutablePath() {
-            var dialog = new OpenFileDialog {
+        string RequestExecutablePath()
+        {
+            var dialog = new OpenFileDialog
+            {
                 Filter = "Executable files|*.exe;*.bat;*.cmd",
                 CheckFileExists = true,
                 ValidateNames = true
             };
-            if (dialog.ShowDialog() == DialogResult.OK) {
-                var execPath = dialog.FileName;
-                if (execPath != null && File.Exists(execPath)) {
-                    return execPath;
-                }
-            }
+
+            if (dialog.ShowDialog() != DialogResult.OK)
+                return null;
+
+            string execPath = dialog.FileName;
+            if (execPath != null && File.Exists(execPath))
+                return execPath;
+
             return null;
         }
 
-        void EditServiceByListIndex(int index) {
+        void EditServiceByListIndex(int index)
+        {
             var service = (Service)this.servicesListBox.Items[index];
-            using (var f = new AddEditServiceForm(service)) {
+            using (var f = new AddEditServiceForm(service))
+            {
                 var result = f.ShowDialog();
-                if (f.DialogResult != DialogResult.OK) {
+                if (result != DialogResult.OK)
                     return;
-                }
+
                 this.servicesListBox.Items[index] = f.Service;
-                SaveConfiguration();
+                this.SaveConfiguration();
             }
         }
         #endregion
 
-        private void servicesListBox_SelectedIndexChanged(object sender, EventArgs e) {
-            var isSelected = servicesListBox.SelectedIndex != -1;
-            this.editServiceBtn.Enabled = servicesListBox.SelectedIndices.Count == 1;
-            this.removeServiceBtn.Enabled = servicesListBox.SelectedIndices.Count > 0;
+        private void servicesListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            this.editServiceBtn.Enabled = this.servicesListBox.SelectedIndices.Count == 1;
+            this.removeServiceBtn.Enabled = this.servicesListBox.SelectedIndices.Count > 0;
         }
     }
 }

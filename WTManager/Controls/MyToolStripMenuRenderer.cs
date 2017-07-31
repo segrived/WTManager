@@ -14,12 +14,14 @@ namespace WTManager.Controls
     {
         public MyToolStripMenuRenderer() : base(new MyColorTable()) { }
 
-        protected override void OnRenderMenuItemBackground(ToolStripItemRenderEventArgs e) {
+        protected override void OnRenderMenuItemBackground(ToolStripItemRenderEventArgs e)
+        {
             if (e.Item.Enabled)
                 base.OnRenderMenuItemBackground(e);
         }
 
-        protected override void OnRenderButtonBackground(ToolStripItemRenderEventArgs e) {
+        protected override void OnRenderButtonBackground(ToolStripItemRenderEventArgs e)
+        {
             if (e.Item.Enabled)
                 base.OnRenderMenuItemBackground(e);
         }

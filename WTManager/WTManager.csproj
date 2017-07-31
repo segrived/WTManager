@@ -138,10 +138,12 @@
     <Compile Include="ConfigManager.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Controls\WTManagerForm.cs" />
+    <Compile Include="Controls\WtToolStripMenuItem.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Exceptions.cs" />
     <Compile Include="Helpers\Extensions.cs" />
     <Compile Include="Helpers\FileHelpers.cs" />
-    <Compile Include="Helpers\MenuHelpers.cs" />
     <Compile Include="Helpers\SchedulerHelpers.cs" />
     <Compile Include="Helpers\SerializationHelpers.cs" />
     <Compile Include="Helpers\ServiceHelpers.cs" />
@@ -153,6 +155,9 @@
     <Compile Include="Interop\Taskbar.cs" />
     <Compile Include="Lib\FileWatcher.cs" />
     <Compile Include="Lib\LimitedQueue.cs" />
+    <Compile Include="UI\IWtTrayMenuController.cs" />
+    <Compile Include="UI\MenuHandlers\ServiceEditMenuItem.cs" />
+    <Compile Include="UI\ExitMenuItem.cs" />
     <Compile Include="UI\LogFileViewerForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -181,6 +186,16 @@
     <Compile Include="UI\ConfigurationForm.Designer.cs">
       <DependentUpon>ConfigurationForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\MenuHandlers\AppConfigMenuItem.cs" />
+    <Compile Include="UI\MenuHandlers\ServiceRestartMenuItem.cs" />
+    <Compile Include="UI\MenuHandlers\SeparatorMenuItem.cs" />
+    <Compile Include="UI\MenuHandlers\ServiceMenuItem.cs" />
+    <Compile Include="UI\MenuHandlers\ServiceOpenBrowserMenuItem.cs" />
+    <Compile Include="UI\MenuHandlers\ServiceOpenDirectoryMenuItem.cs" />
+    <Compile Include="UI\MenuHandlers\ServiceStartMenuItem.cs" />
+    <Compile Include="UI\MenuHandlers\ServiceStopMenuItem.cs" />
+    <Compile Include="UI\MenuHandlers\WtMenuItem.cs" />
+    <Compile Include="UI\WtTrayMenu.cs" />
     <EmbeddedResource Include="ButtonImages.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ButtonImages.Designer.cs</LastGenOutput>

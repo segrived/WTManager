@@ -67,7 +67,7 @@ namespace WTManager.Interop
             _appBarData = new APPBARDATA
             {
                 cbSize = (uint)Marshal.SizeOf(typeof(APPBARDATA)),
-                hWnd = FindWindow(Taskbar.ClassName, null)
+                hWnd = FindWindow(ClassName, null)
             };
         }
 

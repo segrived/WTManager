@@ -9,12 +9,12 @@ using WTManager.Helpers;
 namespace WTManager.UI
 {
     [System.ComponentModel.DesignerCategory("Form")]
-    public partial class AddEditServiceForm : WTManagerForm
+    public partial class AddEditServiceForm : WtManagerForm
     {
         public Service Service { get; private set; }
 
         private void InitForm(Service service) {
-            InitializeComponent();
+            this.InitializeComponent();
 
             this.Service = service;
 
@@ -39,11 +39,11 @@ namespace WTManager.UI
         }
 
         public AddEditServiceForm() {
-            InitForm(new Service());
+            this.InitForm(new Service());
         }
 
         public AddEditServiceForm(Service s) {
-            InitForm(s);
+            this.InitForm(s);
 
             this.serviceNameCb.SelectedItem = s.ServiceName;
             this.serviceDisplayNameTb.Text = s.DisplayName;
@@ -71,32 +71,32 @@ namespace WTManager.UI
         }
 
         private void removeLogFileBtn_Click(object sender, EventArgs e) {
-            if (logFilesLb.SelectedItems.Count == 0)
+            if (this.logFilesLb.SelectedItems.Count == 0)
                 return;
-            foreach (string s in logFilesLb.SelectedItems.OfType<string>().ToList()) {
-                logFilesLb.Items.Remove(s);
+            foreach (string s in this.logFilesLb.SelectedItems.OfType<string>().ToList()) {
+                this.logFilesLb.Items.Remove(s);
             }
         }
 
         private void removeConfigFileBtn_Click(object sender, EventArgs e) {
-            if (configFilesLb.SelectedItems.Count == 0)
+            if (this.configFilesLb.SelectedItems.Count == 0)
                 return;
-            foreach (string s in configFilesLb.SelectedItems.OfType<string>().ToList()) {
-                configFilesLb.Items.Remove(s);
+            foreach (string s in this.configFilesLb.SelectedItems.OfType<string>().ToList()) {
+                this.configFilesLb.Items.Remove(s);
             }
         }
 
         private void addLogFileBtn_Click(object sender, EventArgs e) {
             var files = this.RequestFiles();
             if (files != null) {
-                logFilesLb.Items.AddRange(files);
+                this.logFilesLb.Items.AddRange(files);
             }
         }
 
         private void addConfigFileBtn_Click(object sender, EventArgs e) {
             var files = this.RequestFiles();
             if (files != null) {
-                configFilesLb.Items.AddRange(files);
+                this.configFilesLb.Items.AddRange(files);
             }
         }
 
@@ -117,13 +117,13 @@ namespace WTManager.UI
         }
 
         private void OkBtn_Click(object sender, EventArgs e) {
-            this.Service.ServiceName = serviceNameCb.Text;
-            this.Service.DisplayName = serviceDisplayNameTb.Text;
-            this.Service.Group = serviceGroupCb.Text;
-            this.Service.LogFiles = logFilesLb.Items.OfType<string>();
-            this.Service.ConfigFiles = configFilesLb.Items.OfType<string>();
-            this.Service.BrowserUrl = serviceBrowserUrlTb.Text;
-            this.Service.DataDirectory = serviceDataDirectoryTb.Text;
+            this.Service.ServiceName = this.serviceNameCb.Text;
+            this.Service.DisplayName = this.serviceDisplayNameTb.Text;
+            this.Service.Group = this.serviceGroupCb.Text;
+            this.Service.LogFiles = this.logFilesLb.Items.OfType<string>();
+            this.Service.ConfigFiles = this.configFilesLb.Items.OfType<string>();
+            this.Service.BrowserUrl = this.serviceBrowserUrlTb.Text;
+            this.Service.DataDirectory = this.serviceDataDirectoryTb.Text;
 
             this.DialogResult = DialogResult.OK;
             this.Close();
@@ -143,11 +143,11 @@ namespace WTManager.UI
         }
 
         private void logFilesLb_SelectedIndexChanged(object sender, EventArgs e) {
-            this.removeLogFileBtn.Enabled = logFilesLb.SelectedIndices.Count > 0;
+            this.removeLogFileBtn.Enabled = this.logFilesLb.SelectedIndices.Count > 0;
         }
 
         private void configFilesLb_SelectedIndexChanged(object sender, EventArgs e) {
-            this.removeConfigFileBtn.Enabled = configFilesLb.SelectedIndices.Count > 0;
+            this.removeConfigFileBtn.Enabled = this.configFilesLb.SelectedIndices.Count > 0;
         }
     }
 }

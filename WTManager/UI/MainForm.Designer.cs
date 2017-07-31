@@ -37,7 +37,6 @@
             this.trayMenu.Name = "trayMenu";
             this.trayMenu.ShowItemToolTips = false;
             this.trayMenu.Size = new System.Drawing.Size(61, 4);
-            this.trayMenu.Opening += new System.ComponentModel.CancelEventHandler(this.trayMenu_Opening);
             // 
             // trayIcon
             // 
@@ -45,7 +44,6 @@
             this.trayIcon.ContextMenuStrip = this.trayMenu;
             this.trayIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("trayIcon.Icon")));
             this.trayIcon.Visible = true;
-            this.trayIcon.MouseUp += new System.Windows.Forms.MouseEventHandler(this.trayIcon_MouseUp);
             // 
             // MainForm
             // 
