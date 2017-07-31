@@ -1,6 +1,7 @@
 version: 1.0.{build}
 configuration: Release
 platform: Any CPU
+os: Visual Studio 2017
 install:
   - choco install nsis
   - appveyor DownloadFile http://nsis.sourceforge.net/mediawiki/images/1/18/NsProcess.zip
