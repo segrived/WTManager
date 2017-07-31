@@ -20,8 +20,6 @@ namespace WTManager
 
         public static Preferences Preferences => _instance.Value.Config.Preferences;
 
-        //public static IEnumerable<ServiceGroup> ServiceGroups => _instance.Value.Config.Services;
-
         public static IEnumerable<Service> Services => _instance.Value.Config.Services;
 
         public Configuration Config { get; private set; }
@@ -40,10 +38,13 @@ namespace WTManager
 
         public void SaveConfig()
         {
-            try {
+            try
+            {
                 SerializationHelpers.SerializeFile(ConfigPath, this.Config);
                 this.ConfigSaved?.Invoke();
-            } catch {
+            }
+            catch
+            {
                 // TODO
             }
         }

@@ -7,8 +7,8 @@ namespace WTManager.Controls
     {
         public WtToolStripMenuItem()
         {
-            this.Font = new Font(FontFamily.GenericSansSerif, 9.0f, FontStyle.Bold);
             this.Enabled = false;
+            this.Font = new Font(FontFamily.GenericSansSerif, 9.0f, FontStyle.Bold);
             this.TextAlign = ContentAlignment.TopCenter;
         }
 

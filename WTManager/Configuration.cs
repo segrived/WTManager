@@ -81,6 +81,12 @@ namespace WTManager
         /// </summary>
         public string BrowserUrl { get; set; }
 
+        public Service()
+        {
+            this.LogFiles = new List<string>();
+            this.ConfigFiles = new List<string>();
+        }
+
         #region Equals/GetHashCode
         public override bool Equals(object obj) {
             if (obj == null || this.GetType() != obj.GetType()) {

@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using WTManager.Interop;
+using WTManager.UI.MenuHandlers;
 
 namespace WTManager.UI
 {
@@ -64,6 +68,58 @@ namespace WTManager.UI
                 throw new ArgumentOutOfRangeException(nameof(icon));
 
             this._notifyIcon.ShowBalloonTip(BALOON_SHOW_TIME, title, message, ToolTipIcon.Info);
+        }
+
+        public void InitMenu(IEnumerable<Service> services)
+        {
+            this.ContextMenu.Items.Clear();
+
+            var serviceGroups = services.GroupBy(s => s.Group);
+
+            foreach (var group in serviceGroups)
+            {
+                foreach (var service in group)
+                {
+                    ToolStripDropDownDirection dropDownDirection;
+                    switch (Taskbar.Position)
+                    {                            
+                        case TaskbarPosition.Right:
+                            dropDownDirection = ToolStripDropDownDirection.Left;
+                            break;
+                        default:
+                            dropDownDirection = ToolStripDropDownDirection.Default;
+                            break;
+                    }
+
+                    var tsmi = new ToolStripMenuItem(service.DisplayName)
+                    {
+                        Tag = service,
+                        DropDownDirection = dropDownDirection
+                    };
+                        
+                    tsmi.DropDownItems.Add(new ServiceStartMenuItem(this, service));
+                    tsmi.DropDownItems.Add(new ServiceStopMenuItem(this, service));
+                    tsmi.DropDownItems.Add(new ServiceRestartMenuItem(this, service));
+
+                    foreach (string file in service.ConfigFiles.Where(File.Exists))
+                        tsmi.DropDownItems.Add(new ServiceOpenConfigMenuItem(this, file));
+
+                    foreach (string file in service.LogFiles.Where(File.Exists))
+                        tsmi.DropDownItems.Add(new ServiceOpenLogMenuItem(this, file));
+
+                    tsmi.DropDownItems.Add(new ServiceOpenDirectoryMenuItem(this, service));
+                    tsmi.DropDownItems.Add(new ServiceOpenBrowserMenuItem(this, service));
+
+                    tsmi.DropDownItems.Add(new SeparatorMenuItem(this));
+                    tsmi.DropDownItems.Add(new ServiceEditMenuItem(this, service));
+
+                    this.ContextMenu.Items.Add(tsmi);
+                }
+                this.ContextMenu.Items.Add(new SeparatorMenuItem(this));
+            }
+
+            this.ContextMenu.Items.Add(new AppConfigMenuItem(this));
+            this.ContextMenu.Items.Add(new ExitMenuItem(this));
         }
 
         public void UpdateTrayMenu()

@@ -1,4 +1,6 @@
-﻿namespace WTManager.UI.MenuHandlers
+﻿using System;
+
+namespace WTManager.UI.MenuHandlers
 {
     public class ServiceMenuItem : WtMenuItem
     {

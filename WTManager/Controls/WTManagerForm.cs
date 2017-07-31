@@ -8,14 +8,13 @@ namespace WTManager.Controls
     {
         protected WtManagerForm()
         {
-            this.WtFont = SystemFonts.MessageBoxFont;
             this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
+            this.UpdateSystemFont();
         }
 
-        private Font WtFont
+        private void UpdateSystemFont()
         {
-            get => base.Font;
-            set => base.Font = value;
+            this.Font = SystemFonts.MessageBoxFont;
         }
     }
 

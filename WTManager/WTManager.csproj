@@ -156,8 +156,9 @@
     <Compile Include="Lib\FileWatcher.cs" />
     <Compile Include="Lib\LimitedQueue.cs" />
     <Compile Include="UI\IWtTrayMenuController.cs" />
+    <Compile Include="UI\MenuHandlers\FileOperationMenuItem.cs" />
     <Compile Include="UI\MenuHandlers\ServiceEditMenuItem.cs" />
-    <Compile Include="UI\ExitMenuItem.cs" />
+    <Compile Include="UI\MenuHandlers\ExitMenuItem.cs" />
     <Compile Include="UI\LogFileViewerForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -187,6 +188,8 @@
       <DependentUpon>ConfigurationForm.cs</DependentUpon>
     </Compile>
     <Compile Include="UI\MenuHandlers\AppConfigMenuItem.cs" />
+    <Compile Include="UI\MenuHandlers\ServiceOpenConfigMenuItem.cs" />
+    <Compile Include="UI\MenuHandlers\ServiceOpenLogMenuItem.cs" />
     <Compile Include="UI\MenuHandlers\ServiceRestartMenuItem.cs" />
     <Compile Include="UI\MenuHandlers\SeparatorMenuItem.cs" />
     <Compile Include="UI\MenuHandlers\ServiceMenuItem.cs" />

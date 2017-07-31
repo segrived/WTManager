@@ -28,8 +28,11 @@ namespace WTManager.UI.MenuHandlers
         {
         }
 
-        private ToolStripMenuItem ToMenuItem()
+        private ToolStripItem ToMenuItem()
         {
+            if (this.DisplayText == "-")
+                return new ToolStripSeparator();
+
             var item = new WtToolStripMenuItem(this.DisplayText);
             item.Click += (sender, args) => this.Action();
             item.Image = this.Image;
@@ -37,7 +40,7 @@ namespace WTManager.UI.MenuHandlers
             return item;
         }
 
-        public static implicit operator ToolStripMenuItem(WtMenuItem item)
+        public static implicit operator ToolStripItem(WtMenuItem item)
         {
             return item.ToMenuItem();
         }
