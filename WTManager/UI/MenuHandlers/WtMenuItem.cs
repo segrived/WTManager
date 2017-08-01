@@ -14,14 +14,17 @@ namespace WTManager.UI.MenuHandlers
 
         public IList<WtMenuItem> SubItems { get; private set; }
 
-        public virtual bool IsEnabled => true;
+        protected virtual bool IsEnabled => true;
 
         protected virtual string ImageKey { get; } = null;
+
+        private WtToolStripMenuItem _internalMenuStripItem;
 
         protected WtMenuItem(IWtTrayMenuController controller)
         {
             this.Controller = controller;
             this.SubItems = new List<WtMenuItem>();
+            this._internalMenuStripItem = null;
         }
 
         protected virtual void Action()
@@ -30,29 +33,39 @@ namespace WTManager.UI.MenuHandlers
 
         public virtual void UpdateState()
         {
+            if (this._internalMenuStripItem == null)
+                return;
+
+            // Update item enability
+            this._internalMenuStripItem.Enabled = this.IsEnabled;
+
+            // Update display text
+            this._internalMenuStripItem.Text = this.DisplayText;
+
+            // Update image
+            if (this.ImageKey == null || !IconsManager.Icons.ContainsKey(this.ImageKey))
+                return;
+
+            if (this._internalMenuStripItem.Image != IconsManager.Icons[this.ImageKey])
+                this._internalMenuStripItem.Image = IconsManager.Icons[this.ImageKey];
         }
 
-        private ToolStripItem ToMenuItem()
+        protected virtual ToolStripItem ToMenuItem()
         {
-            if (this.DisplayText == "-")
-                return new ToolStripSeparator();
-
-            var item = new WtToolStripMenuItem(this.DisplayText);
-
-            item.Click += (sender, args) => this.Action();
-
-            if (this.ImageKey != null && IconsManager.Icons.ContainsKey(this.ImageKey))
-                item.Image = IconsManager.Icons[this.ImageKey];
+            if (this._internalMenuStripItem == null)
+            {
+                this._internalMenuStripItem = new WtToolStripMenuItem(this.DisplayText);
+                this._internalMenuStripItem.Click += (sender, args) => this.Action();
+                this._internalMenuStripItem.Tag = this;
+            }
 
             if (this.SubItems != null)
             {
                 var subItems = this.SubItems.Select(si => si.ToMenuItem()).ToArray();
-                item.DropDownItems.AddRange(subItems);
+                this._internalMenuStripItem.DropDownItems.AddRange(subItems);
             }
 
-            item.Tag = this;
-
-            return item;
+            return this._internalMenuStripItem;
         }
 
         public static implicit operator ToolStripItem(WtMenuItem item)

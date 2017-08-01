@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
@@ -13,9 +12,8 @@ namespace WTManager.UI
     public partial class LogFileViewerForm : WtManagerForm
     {
         private FileWatcher watcher { get; set; }
-        private CancellationTokenSource cancelToken { get; set; }
 
-        public LogFileViewerForm()
+        private LogFileViewerForm()
         {
             this.InitializeComponent();
         }
@@ -23,9 +21,10 @@ namespace WTManager.UI
         public LogFileViewerForm(string fileName) : this()
         {
             var lastLines = FileHelpers.ReadLastLines(fileName);
-            foreach (var line in lastLines) {
+
+            foreach (string line in lastLines)
                 this.logFileContent.AppendText(line + Environment.NewLine, Color.Gray);
-            }
+
             this.Text = $"Log file viewer: {fileName}";
             this.watcher = new FileWatcher(fileName);
             this.watcher.FileChanged += this.Watcher_FileChanged;
@@ -34,7 +33,8 @@ namespace WTManager.UI
 
         private void Watcher_FileChanged(object sender, FileWatcherEventArgs e)
         {
-            this.logFileContent.InvokeIfRequired(() => {
+            this.logFileContent.InvokeIfRequired(() =>
+            {
                 this.logFileContent.AppendText(e.AppendedContent);
                 this.logFileContent.ScrollToCaret();
             });

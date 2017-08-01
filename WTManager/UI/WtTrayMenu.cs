@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using WTManager.Controls;
-using WTManager.Interop;
+using WTManager.Lib;
 using WTManager.UI.MenuHandlers;
 
 namespace WTManager.UI
@@ -19,16 +19,25 @@ namespace WTManager.UI
 
         private ContextMenuStrip ContextMenu => this._notifyIcon.ContextMenuStrip;
 
+        private Timer _updateTimer;
+
         public WtTrayMenu(NotifyIcon uiTrayIcon)
         {
             this._notifyIcon = uiTrayIcon;
             this._notifyIcon.ContextMenuStrip.Opening += this.ContextMenuStrip_OnOpening;
             this._notifyIcon.ContextMenuStrip.MouseUp += this.ContextMenuStrip_OnMouseUp;
             this._notifyIcon.ContextMenuStrip.Renderer = new WtToolStripMenuRenderer();
+
+            this._updateTimer = new Timer {Interval = 1000};
+            this._updateTimer.Tick += this.UpdateTimer_OnTick;
+            this._updateTimer.Start();
         }
 
         public void Dispose()
         {
+            this._updateTimer.Tick -= this.UpdateTimer_OnTick;
+            this._updateTimer.Stop();
+
             this._notifyIcon.ContextMenuStrip.Opening -= this.ContextMenuStrip_OnOpening;
             this._notifyIcon.ContextMenuStrip.MouseUp -= this.ContextMenuStrip_OnMouseUp;
             this._notifyIcon.Dispose();
@@ -87,13 +96,29 @@ namespace WTManager.UI
             this.UpdateTrayMenu();
         }
 
-        public void UpdateTrayMenu()
+        private void UpdateTimer_OnTick(object sender, EventArgs eventArgs)
+        {
+            this.UpdateTrayMenu();
+        }
+
+        private void UpdateTrayMenu()
         {
             foreach (ToolStripItem tsItem in this.ContextMenu.Items)
-            {
-                var tag = tsItem.Tag as WtMenuItem;
-                tag?.UpdateState();
-            }
+                this.UpdateMenuItemState(tsItem.Tag as WtMenuItem);
+        }
+
+        private void UpdateMenuItemState(WtMenuItem menuItem)
+        {
+            if (menuItem == null)
+                return;
+
+            menuItem.UpdateState();
+
+            if (menuItem.SubItems == null || menuItem.SubItems.Count == 0)
+                return;
+
+            foreach(var subItem in menuItem.SubItems)
+                this.UpdateMenuItemState(subItem);
         }
     }
 
