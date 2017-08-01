@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Xml.Serialization;
 using WTManager.Helpers;
 
 namespace WTManager
@@ -11,7 +12,7 @@ namespace WTManager
             = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
         public static readonly string ConfigPath
-            = Path.Combine(AppData, "WTManager", "config.yml");
+            = Path.Combine(AppData, "WTManager", "config.xml");
 
         private static readonly Lazy<ConfigManager> _instance =
             new Lazy<ConfigManager>(() => new ConfigManager());
@@ -40,10 +41,15 @@ namespace WTManager
         {
             try
             {
+                XmlSerializer serializer = new XmlSerializer(typeof(Configuration));
+                TextWriter writer = new StreamWriter(@"D:\Misc\config.xml");
+                serializer.Serialize(writer, this.Config);
+                writer.Close();
+
                 SerializationHelpers.SerializeFile(ConfigPath, this.Config);
                 this.ConfigSaved?.Invoke();
             }
-            catch
+            catch(Exception ex)
             {
                 // TODO
             }

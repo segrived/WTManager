@@ -119,8 +119,8 @@ namespace WTManager.UI
             this.Service.ServiceName = this.serviceNameCb.Text;
             this.Service.DisplayName = this.serviceDisplayNameTb.Text;
             this.Service.Group = this.serviceGroupCb.Text;
-            this.Service.LogFiles = this.logFilesLb.Items.OfType<string>();
-            this.Service.ConfigFiles = this.configFilesLb.Items.OfType<string>();
+            this.Service.LogFiles = this.logFilesLb.Items.OfType<string>().ToList();
+            this.Service.ConfigFiles = this.configFilesLb.Items.OfType<string>().ToList();
             this.Service.BrowserUrl = this.serviceBrowserUrlTb.Text;
             this.Service.DataDirectory = this.serviceDataDirectoryTb.Text;
 

@@ -13,19 +13,22 @@ namespace WTManager.UI
         public MainForm()
         {
             this.InitializeComponent();
+
             this._uiTrayMenu = new WtTrayMenu(this.trayIcon);
 
-            this.trayMenu.Renderer = new MyToolStripMenuRenderer();
+            ConfigManager.Instance.ConfigSaved += this.InitTrayMenu;
+            this.InitTrayMenu();
 
+        }
+
+        private void InitConfiguration()
+        {
             if (! File.Exists(ConfigManager.ConfigPath))
             {
                 string path = Path.GetDirectoryName(ConfigManager.ConfigPath);
                 if (path != null)
                     Directory.CreateDirectory(path);
             }
-            ConfigManager.Instance.ConfigSaved += this.InitTrayMenu;
-            this.InitTrayMenu();
-
         }
 
         private void InitTrayMenu()

@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using static YamlDotNet.Serialization.SerializationOptions;
+using System.Xml.Serialization;
 
 namespace WTManager.Helpers
 {
@@ -7,21 +7,18 @@ namespace WTManager.Helpers
     {
         public static void SerializeFile<T>(string fileName, T obj)
         {
-            using (var writer = File.CreateText(fileName))
-            {
-                var s = new YamlDotNet.Serialization.Serializer(EmitDefaults);
-                s.Serialize(writer, obj, typeof(T));
-            }
+            var serializer = new XmlSerializer(typeof(T));
+
+            using (var writer = new StreamWriter(fileName))
+                serializer.Serialize(writer, obj);
         }
 
         public static T DeserializeFile<T>(string fileName)
         {
-            using (var stream = File.OpenRead(fileName))
-            using (var reader = new StreamReader(stream))
-            {
-                var des = new YamlDotNet.Serialization.Deserializer(ignoreUnmatched: true);
-                return des.Deserialize<T>(reader);
-            }
+            var serializer = new XmlSerializer(typeof(T));
+
+            using (var reader = new StreamReader(fileName))
+                return (T)serializer.Deserialize(reader);
         }
     }
 }

@@ -3,9 +3,9 @@ using System.Windows.Forms;
 
 namespace WTManager.Controls
 {
-    internal class MyToolStripMenuRenderer : ToolStripProfessionalRenderer
+    internal class WtToolStripMenuRenderer : ToolStripProfessionalRenderer
     {
-        public MyToolStripMenuRenderer() 
+        public WtToolStripMenuRenderer() 
             : base(new MyColorTable()) { }
 
         protected override void OnRenderMenuItemBackground(ToolStripItemRenderEventArgs e)

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
+using WTManager.Controls;
 using WTManager.Interop;
 using WTManager.UI.MenuHandlers;
 
@@ -23,6 +24,7 @@ namespace WTManager.UI
             this._notifyIcon = uiTrayIcon;
             this._notifyIcon.ContextMenuStrip.Opening += this.ContextMenuStrip_OnOpening;
             this._notifyIcon.ContextMenuStrip.MouseUp += this.ContextMenuStrip_OnMouseUp;
+            this._notifyIcon.ContextMenuStrip.Renderer = new WtToolStripMenuRenderer();
         }
 
         public void Dispose()

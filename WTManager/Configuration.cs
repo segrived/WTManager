@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace WTManager
 {
+    [Serializable]
     public class Configuration
     {
         /// <summary>
@@ -12,12 +14,13 @@ namespace WTManager
         /// <summary>
         /// Services
         /// </summary>
-        public IEnumerable<Service> Services { get; set; }
+        public List<Service> Services { get; set; }
 
         public static Configuration Defaults =>
             new Configuration { Preferences = new Preferences(), Services = new List<Service>() };
     }
 
+    [Serializable]
     public class Preferences
     {
         /// <summary>
@@ -31,11 +34,12 @@ namespace WTManager
         public string LogViewerPath { get; set; }
     }
 
+    [Serializable]
     public class ServiceGroup
     {
         public string ServiceName { get; set; }
 
-        public IEnumerable<Service> Services { get; set; }
+        public List<Service> Services { get; set; }
 
         public ServiceGroup(string name)
         {
@@ -44,6 +48,7 @@ namespace WTManager
         }
     }
 
+    [Serializable]
     public class Service
     {
         /// <summary>
@@ -64,12 +69,12 @@ namespace WTManager
         /// <summary>
         /// Service configuration files
         /// </summary>
-        public IEnumerable<string> ConfigFiles { get; set; }
+        public List<string> ConfigFiles { get; set; }
 
         /// <summary>
         /// Service log files
         /// </summary>
-        public IEnumerable<string> LogFiles { get; set; }
+        public List<string> LogFiles { get; set; }
 
         /// <summary>
         /// Service data directory (for example WWW for web-servers)
