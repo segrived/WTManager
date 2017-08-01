@@ -108,9 +108,6 @@
     <StartupObject>WTManager.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="JetBrains.Annotations, Version=10.4.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
-      <HintPath>..\packages\TaskScheduler.2.5.28\lib\net40\JetBrains.Annotations.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Win32.TaskScheduler, Version=2.5.28.0, Culture=neutral, PublicKeyToken=0d013ddd5178a2ae, processorArchitecture=MSIL">
       <HintPath>..\packages\TaskScheduler.2.5.28\lib\net40\Microsoft.Win32.TaskScheduler.dll</HintPath>
     </Reference>
