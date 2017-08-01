@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -70,61 +69,73 @@ namespace WTManager.UI
             this._notifyIcon.ShowBalloonTip(BALOON_SHOW_TIME, title, message, ToolTipIcon.Info);
         }
 
-        public void InitMenu(IEnumerable<Service> services)
+        public void AddMenuItem(WtMenuItem menuItem)
+        {
+            this.ContextMenu.Items.Add(menuItem);
+        }
+
+        public void ClearMenu()
         {
             this.ContextMenu.Items.Clear();
+        }
 
-            var serviceGroups = services.GroupBy(s => s.Group);
-
-            foreach (var group in serviceGroups)
-            {
-                foreach (var service in group)
-                {
-                    ToolStripDropDownDirection dropDownDirection;
-                    switch (Taskbar.Position)
-                    {                            
-                        case TaskbarPosition.Right:
-                            dropDownDirection = ToolStripDropDownDirection.Left;
-                            break;
-                        default:
-                            dropDownDirection = ToolStripDropDownDirection.Default;
-                            break;
-                    }
-
-                    var tsmi = new ToolStripMenuItem(service.DisplayName)
-                    {
-                        Tag = service,
-                        DropDownDirection = dropDownDirection
-                    };
-                        
-                    tsmi.DropDownItems.Add(new ServiceStartMenuItem(this, service));
-                    tsmi.DropDownItems.Add(new ServiceStopMenuItem(this, service));
-                    tsmi.DropDownItems.Add(new ServiceRestartMenuItem(this, service));
-
-                    foreach (string file in service.ConfigFiles.Where(File.Exists))
-                        tsmi.DropDownItems.Add(new ServiceOpenConfigMenuItem(this, file));
-
-                    foreach (string file in service.LogFiles.Where(File.Exists))
-                        tsmi.DropDownItems.Add(new ServiceOpenLogMenuItem(this, file));
-
-                    tsmi.DropDownItems.Add(new ServiceOpenDirectoryMenuItem(this, service));
-                    tsmi.DropDownItems.Add(new ServiceOpenBrowserMenuItem(this, service));
-
-                    tsmi.DropDownItems.Add(new SeparatorMenuItem(this));
-                    tsmi.DropDownItems.Add(new ServiceEditMenuItem(this, service));
-
-                    this.ContextMenu.Items.Add(tsmi);
-                }
-                this.ContextMenu.Items.Add(new SeparatorMenuItem(this));
-            }
-
-            this.ContextMenu.Items.Add(new AppConfigMenuItem(this));
-            this.ContextMenu.Items.Add(new ExitMenuItem(this));
+        public void InitMenu()
+        {
+            new WtMenuGenerator().CreateRootMenu(this);
+            this.UpdateTrayMenu();
         }
 
         public void UpdateTrayMenu()
         {
+            foreach (ToolStripItem tsItem in this.ContextMenu.Items)
+            {
+                var tag = tsItem.Tag as WtMenuItem;
+                tag?.UpdateState();
+            }
+        }
+    }
 
+    public class WtMenuGenerator
+    {
+        public void CreateRootMenu(IWtTrayMenuController controller)
+        {
+            var services = ConfigManager.Services;
+
+            var serviceGroups = services.GroupBy(s => s.Group);
+
+            controller.ClearMenu();
+
+            foreach (var group in serviceGroups)
+            {
+                foreach (var service in group)
+                    controller.AddMenuItem(this.CreateServiceMenu(controller, service));
+
+                controller.AddMenuItem(new SeparatorMenuItem(controller));
+            }
+
+            controller.AddMenuItem(new AppConfigMenuItem(controller));
+            controller.AddMenuItem(new ExitMenuItem(controller));
+        }
+
+        private WtMenuItem CreateServiceMenu(IWtTrayMenuController controller, Service service)
+        {
+            var topServiceMenuItem = new ServiceTopMenuItem(controller, service);
+
+            topServiceMenuItem.SubItems.Add(new ServiceStartMenuItem(controller, service));
+            topServiceMenuItem.SubItems.Add(new ServiceRestartMenuItem(controller, service));
+
+            foreach (string file in service.ConfigFiles.Where(File.Exists))
+                topServiceMenuItem.SubItems.Add(new ServiceOpenConfigMenuItem(controller, file));
+
+            foreach (string file in service.LogFiles.Where(File.Exists))
+                topServiceMenuItem.SubItems.Add(new ServiceOpenLogMenuItem(controller, file));
+
+            topServiceMenuItem.SubItems.Add(new ServiceOpenDirectoryMenuItem(controller, service));
+            topServiceMenuItem.SubItems.Add(new ServiceOpenBrowserMenuItem(controller, service));
+            topServiceMenuItem.SubItems.Add(new SeparatorMenuItem(controller));
+            topServiceMenuItem.SubItems.Add(new ServiceEditMenuItem(controller, service));
+
+            return topServiceMenuItem;
         }
     }
 }

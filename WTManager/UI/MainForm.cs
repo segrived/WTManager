@@ -31,7 +31,7 @@ namespace WTManager.UI
         private void InitTrayMenu()
         {
             ConfigManager.Instance.ReloadConfig();
-            this._uiTrayMenu.InitMenu(ConfigManager.Services);
+            this._uiTrayMenu.InitMenu();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)

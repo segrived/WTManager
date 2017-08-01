@@ -10,6 +10,8 @@ namespace WTManager.UI.MenuHandlers
 
         protected override string DisplayText { get; } = "Edit configuration";
 
+        protected override string ImageKey => "config";
+
         protected override void Action()
         {
             using (var f = new AddEditServiceForm(this.Service))

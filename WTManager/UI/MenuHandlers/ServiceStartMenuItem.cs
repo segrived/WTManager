@@ -9,7 +9,9 @@ namespace WTManager.UI.MenuHandlers
         public ServiceStartMenuItem(IWtTrayMenuController controller, Service service) 
             : base(controller, service) { }
 
-        protected override string DisplayText { get; } = "Start service";
+        protected override string DisplayText => "Start service";
+
+        protected override string ImageKey => "start";
 
         protected override async void Action()
         {

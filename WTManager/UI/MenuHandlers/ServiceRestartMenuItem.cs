@@ -9,7 +9,9 @@ namespace WTManager.UI.MenuHandlers
         public ServiceRestartMenuItem(IWtTrayMenuController controller, Service service) 
             : base(controller, service) { }
 
-        protected override string DisplayText { get; } = "Restart service";
+        protected override string DisplayText => "Restart service";
+
+        protected override string ImageKey => "reload";
 
         protected override async void Action()
         {

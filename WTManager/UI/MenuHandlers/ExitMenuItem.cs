@@ -7,7 +7,9 @@ namespace WTManager.UI.MenuHandlers
         public ExitMenuItem(IWtTrayMenuController controller) 
             : base(controller) { }
 
-        protected override string DisplayText { get; } = "Exit";
+        protected override string DisplayText => "Exit";
+
+        protected override string ImageKey => "exit";
 
         protected override void Action()
         {

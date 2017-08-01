@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Drawing;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using WTManager.Controls;
 
@@ -11,20 +12,23 @@ namespace WTManager.UI.MenuHandlers
 
         protected virtual string DisplayText { get; } = String.Empty;
 
+        public IList<WtMenuItem> SubItems { get; private set; }
+
         public virtual bool IsEnabled => true;
 
-        protected virtual Image Image { get; } = null;
+        protected virtual string ImageKey { get; } = null;
 
         protected WtMenuItem(IWtTrayMenuController controller)
         {
             this.Controller = controller;
+            this.SubItems = new List<WtMenuItem>();
         }
 
         protected virtual void Action()
         {
         }
 
-        protected virtual void UpdateState()
+        public virtual void UpdateState()
         {
         }
 
@@ -34,9 +38,20 @@ namespace WTManager.UI.MenuHandlers
                 return new ToolStripSeparator();
 
             var item = new WtToolStripMenuItem(this.DisplayText);
+
             item.Click += (sender, args) => this.Action();
-            item.Image = this.Image;
+
+            if (this.ImageKey != null && IconsManager.Icons.ContainsKey(this.ImageKey))
+                item.Image = IconsManager.Icons[this.ImageKey];
+
+            if (this.SubItems != null)
+            {
+                var subItems = this.SubItems.Select(si => si.ToMenuItem()).ToArray();
+                item.DropDownItems.AddRange(subItems);
+            }
+
             item.Tag = this;
+
             return item;
         }
 

@@ -7,7 +7,9 @@ namespace WTManager.UI.MenuHandlers
         public ServiceOpenBrowserMenuItem(IWtTrayMenuController controller, Service service) 
             : base(controller, service) { }
 
-        protected override string DisplayText { get; } = "Open in browser…";
+        protected override string DisplayText => "Open in browser…";
+
+        protected override string ImageKey => "browser";
 
         protected override void Action()
         {

@@ -11,6 +11,8 @@ namespace WTManager.UI.MenuHandlers
         protected override string DisplayText 
             => $"Edit {Path.GetFileName(this.FileName)}";
 
+        protected override string ImageKey => "config";
+
         protected override void Action()
         {
             bool isValidEditor = File.Exists(ConfigManager.Preferences.EditorPath);

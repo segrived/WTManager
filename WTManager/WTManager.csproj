@@ -197,6 +197,7 @@
     <Compile Include="UI\MenuHandlers\ServiceOpenDirectoryMenuItem.cs" />
     <Compile Include="UI\MenuHandlers\ServiceStartMenuItem.cs" />
     <Compile Include="UI\MenuHandlers\ServiceStopMenuItem.cs" />
+    <Compile Include="UI\MenuHandlers\ServiceTopMenuItem.cs" />
     <Compile Include="UI\MenuHandlers\WtMenuItem.cs" />
     <Compile Include="UI\WtTrayMenu.cs" />
     <EmbeddedResource Include="ButtonImages.resx">

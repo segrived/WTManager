@@ -12,6 +12,8 @@ namespace WTManager.UI.MenuHandlers
         protected override string DisplayText 
             => $"Show {Path.GetFileName(this.FileName)}";
 
+        protected override string ImageKey => "log";
+
         protected override void Action()
         {
             string viewer = ConfigManager.Preferences.LogViewerPath;

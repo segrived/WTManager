@@ -9,7 +9,9 @@ namespace WTManager.UI.MenuHandlers
         public ServiceStopMenuItem(IWtTrayMenuController controller, Service service) 
             : base(controller, service) { }
 
-        protected override string DisplayText { get; } = "Stop service";
+        protected override string DisplayText => "Stop service";
+
+        protected override string ImageKey => "stop";
 
         protected override async void Action()
         {
