@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace WTManager.UI.MenuHandlers
+﻿namespace WTManager.UI.MenuHandlers
 {
     public class AppConfigMenuItem : WtMenuItem
     {

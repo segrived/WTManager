@@ -16,6 +16,8 @@ namespace WTManager.UI.MenuHandlers
 
         protected virtual bool IsEnabled => true;
 
+        protected  virtual bool IsVisible => true;
+
         protected virtual string ImageKey { get; } = null;
 
         private WtToolStripMenuItem _internalMenuStripItem;
@@ -38,6 +40,8 @@ namespace WTManager.UI.MenuHandlers
 
             // Update item enability
             this._internalMenuStripItem.Enabled = this.IsEnabled;
+
+            this._internalMenuStripItem.Visible = this.IsVisible;
 
             // Update display text
             this._internalMenuStripItem.Text = this.DisplayText;

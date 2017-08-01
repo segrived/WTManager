@@ -11,7 +11,7 @@ namespace WTManager.UI
     [System.ComponentModel.DesignerCategory("Form")]
     public partial class LogFileViewerForm : WtManagerForm
     {
-        private FileWatcher watcher { get; set; }
+        private FileWatcher Watcher { get; set; }
 
         private LogFileViewerForm()
         {
@@ -26,9 +26,9 @@ namespace WTManager.UI
                 this.logFileContent.AppendText(line + Environment.NewLine, Color.Gray);
 
             this.Text = $"Log file viewer: {fileName}";
-            this.watcher = new FileWatcher(fileName);
-            this.watcher.FileChanged += this.Watcher_FileChanged;
-            Task.Factory.StartNew(this.watcher.StartWatch);
+            this.Watcher = new FileWatcher(fileName);
+            this.Watcher.FileChanged += this.Watcher_FileChanged;
+            Task.Factory.StartNew(this.Watcher.StartWatch);
         }
 
         private void Watcher_FileChanged(object sender, FileWatcherEventArgs e)
@@ -42,8 +42,8 @@ namespace WTManager.UI
 
         private void LogFileViewer_FormClosing(object sender, FormClosingEventArgs e)
         {
-            this.watcher.FileChanged -= this.Watcher_FileChanged;
-            this.watcher.Dispose();
+            this.Watcher.FileChanged -= this.Watcher_FileChanged;
+            this.Watcher.Dispose();
         }
 
         public sealed override string Text

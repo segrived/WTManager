@@ -15,6 +15,8 @@ namespace WTManager.Lib
 
     public class FileWatcher : IDisposable
     {
+        private const FileShare FILE_SHARE_MODE = FileShare.ReadWrite | FileShare.Delete;
+
         private readonly CancellationTokenSource _token;
         private FileStream _fileStream;
 
@@ -31,8 +33,8 @@ namespace WTManager.Lib
         }
 
         public void StartWatch() {
-            const FileShare fileShare = FileShare.ReadWrite | FileShare.Delete;
-            this._fileStream = new FileStream(this.FileName, FileMode.Open, FileAccess.Read, fileShare);
+            
+            this._fileStream = new FileStream(this.FileName, FileMode.Open, FileAccess.Read, FILE_SHARE_MODE);
             var reader = new StreamReader(this._fileStream);
             this._fileStream.Seek(0, SeekOrigin.End);
             while (true) {

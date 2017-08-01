@@ -14,6 +14,8 @@ using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
 
+// ReSharper disable All
+
 namespace WTManager.Lib
 {
     public enum TaskbarPosition

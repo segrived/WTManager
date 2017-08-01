@@ -1,3 +1,4 @@
+using System.ServiceProcess;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WTManager.Helpers;
@@ -12,6 +13,8 @@ namespace WTManager.UI.MenuHandlers
         protected override string DisplayText => "Start service";
 
         protected override string ImageKey => "start";
+
+        protected override bool IsVisible => this.ServiceStatus == ServiceControllerStatus.Stopped;
 
         protected override async void Action()
         {

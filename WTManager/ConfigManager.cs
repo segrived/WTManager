@@ -49,7 +49,7 @@ namespace WTManager
                 SerializationHelpers.SerializeFile(ConfigPath, this.Config);
                 this.ConfigSaved?.Invoke();
             }
-            catch(Exception ex)
+            catch(Exception)
             {
                 // TODO
             }

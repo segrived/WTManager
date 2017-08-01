@@ -23,18 +23,22 @@ namespace WTManager.UI
             if (ConfigManager.Services != null) {
                 var groups = ConfigManager.Services
                     .Select(serv => serv.Group)
-                    .Where(g => !String.IsNullOrWhiteSpace(g));
-                this.serviceGroupCb.Items.AddRange(groups.Distinct().ToArray());
+                    .Where(g => !String.IsNullOrWhiteSpace(g))
+                    .Distinct()
+                    .Cast<object>()
+                    .ToArray();
+                this.serviceGroupCb.Items.AddRange(groups);
             }
 
             var services = ServiceHelpers.GetAllServices().Select(s => s.ServiceName);
 
-            if (ConfigManager.Services != null) {
+            if (ConfigManager.Services != null)
+            {
                 var alreadyAdded = ConfigManager.Services.Select(s => s.ServiceName).ToHashSet();
                 services = services.Where(s => s == service.ServiceName || !alreadyAdded.Contains(s));
             }
 
-            this.serviceNameCb.Items.AddRange(services.ToArray());
+            this.serviceNameCb.Items.AddRange(services.Cast<object>().ToArray());
         }
 
         public AddEditServiceForm() {
@@ -51,10 +55,10 @@ namespace WTManager.UI
             this.serviceDataDirectoryTb.Text = s.DataDirectory;
 
             if (s.LogFiles != null) {
-                this.logFilesLb.Items.AddRange(s.LogFiles.ToArray());
+                this.logFilesLb.Items.AddRange(s.LogFiles.Cast<object>().ToArray());
             }
             if (s.ConfigFiles != null) {
-                this.configFilesLb.Items.AddRange(s.ConfigFiles.ToArray());
+                this.configFilesLb.Items.AddRange(s.ConfigFiles.Cast<object>().ToArray());
             }
         }
 
@@ -85,21 +89,18 @@ namespace WTManager.UI
             }
         }
 
-        private void addLogFileBtn_Click(object sender, EventArgs e) {
-            var files = this.RequestFiles();
-            if (files != null) {
-                this.logFilesLb.Items.AddRange(files);
-            }
+        private void addLogFileBtn_Click(object sender, EventArgs e)
+        {
+            this.logFilesLb.Items.AddRange(this.RequestFiles().Cast<object>().ToArray());
         }
 
-        private void addConfigFileBtn_Click(object sender, EventArgs e) {
-            var files = this.RequestFiles();
-            if (files != null) {
-                this.configFilesLb.Items.AddRange(files);
-            }
+        private void addConfigFileBtn_Click(object sender, EventArgs e)
+        {
+            this.configFilesLb.Items.AddRange(this.RequestFiles().Cast<object>().ToArray());
         }
 
-        private string[] RequestFiles() {
+        private string[] RequestFiles()
+        {
             var dialog = new OpenFileDialog {
                 Multiselect = true,
                 DereferenceLinks = true,
@@ -108,6 +109,7 @@ namespace WTManager.UI
             var result = dialog.ShowDialog();
             if (result != DialogResult.OK && dialog.FileNames == null)
                 return null;
+
             return dialog.FileNames;
         }
 

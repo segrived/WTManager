@@ -93,15 +93,17 @@ namespace WTManager
         }
 
         #region Equals/GetHashCode
-        public override bool Equals(object obj) {
-            if (obj == null || this.GetType() != obj.GetType()) {
+        public override bool Equals(object obj)
+        {
+            if (obj == null || this.GetType() != obj.GetType())
                 return false;
-            }
+
             var otherService = (Service)obj;
             return otherService.ServiceName == this.ServiceName;
         }
 
-        public override int GetHashCode() {
+        public override int GetHashCode()
+        {
             return this.ServiceName.GetHashCode();
         }
         #endregion
