@@ -119,97 +119,77 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ButtonImages.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ButtonImages.resx</DependentUpon>
-    </Compile>
-    <Compile Include="ConfigManager.cs" />
-    <Compile Include="Configuration.cs" />
-    <Compile Include="Controls\WTManagerForm.cs" />
-    <Compile Include="Controls\WtToolStripMenuItem.cs" />
-    <Compile Include="Exceptions.cs" />
-    <Compile Include="Helpers\Extensions.cs" />
-    <Compile Include="Helpers\FileHelpers.cs" />
-    <Compile Include="Helpers\SchedulerHelpers.cs" />
-    <Compile Include="Helpers\SerializationHelpers.cs" />
-    <Compile Include="Helpers\ServiceHelpers.cs" />
-    <Compile Include="IconResources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>IconResources.resx</DependentUpon>
-    </Compile>
-    <Compile Include="Lib\Taskbar.cs" />
-    <Compile Include="Lib\FileWatcher.cs" />
-    <Compile Include="Lib\LimitedQueue.cs" />
-    <Compile Include="UI\IWtTrayMenuController.cs" />
-    <Compile Include="UI\MenuHandlers\FileOperationMenuItem.cs" />
-    <Compile Include="UI\MenuHandlers\ServiceEditMenuItem.cs" />
-    <Compile Include="UI\MenuHandlers\ExitMenuItem.cs" />
-    <Compile Include="UI\LogFileViewerForm.cs">
+    <Compile Include="src\Configuration\ConfigManager.cs" />
+    <Compile Include="src\Configuration\Configuration.cs" />
+    <Compile Include="src\Controls\WTManagerForm.cs" />
+    <Compile Include="src\Controls\WtToolStripMenuItem.cs" />
+    <Compile Include="src\Helpers\Extensions.cs" />
+    <Compile Include="src\Helpers\FileHelpers.cs" />
+    <Compile Include="src\Helpers\SchedulerHelpers.cs" />
+    <Compile Include="src\Helpers\SerializationHelpers.cs" />
+    <Compile Include="src\Helpers\ServiceHelpers.cs" />
+    <Compile Include="src\Lib\Taskbar.cs" />
+    <Compile Include="src\Lib\FileWatcher.cs" />
+    <Compile Include="src\Lib\LimitedQueue.cs" />
+    <Compile Include="src\TrayMenu\IWtTrayMenuController.cs" />
+    <Compile Include="src\TrayMenu\MenuHandlers\FileOperationMenuItem.cs" />
+    <Compile Include="src\TrayMenu\MenuHandlers\Service\ServiceEditMenuItem.cs" />
+    <Compile Include="src\TrayMenu\MenuHandlers\ApplicationExitMenuItem.cs" />
+    <Compile Include="src\Forms\LogFileViewerForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\LogFileViewerForm.Designer.cs">
+    <Compile Include="src\Forms\LogFileViewerForm.Designer.cs">
       <DependentUpon>LogFileViewerForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\MainForm.cs">
+    <Compile Include="src\Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\MainForm.Designer.cs">
+    <Compile Include="src\Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\WtToolStripMenuRenderer.cs" />
+    <Compile Include="src\Controls\WtToolStripMenuRenderer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="IconsManager.cs" />
-    <Compile Include="UI\AddEditServiceForm.cs">
+    <Compile Include="src\Lib\IconsManager.cs" />
+    <Compile Include="src\Forms\AddEditServiceForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\AddEditServiceForm.Designer.cs">
+    <Compile Include="src\Forms\AddEditServiceForm.Designer.cs">
       <DependentUpon>AddEditServiceForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\ConfigurationForm.cs">
+    <Compile Include="src\Forms\ConfigurationForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UI\ConfigurationForm.Designer.cs">
+    <Compile Include="src\Forms\ConfigurationForm.Designer.cs">
       <DependentUpon>ConfigurationForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="UI\MenuHandlers\AppConfigMenuItem.cs" />
-    <Compile Include="UI\MenuHandlers\ServiceOpenConfigMenuItem.cs" />
-    <Compile Include="UI\MenuHandlers\ServiceOpenLogMenuItem.cs" />
-    <Compile Include="UI\MenuHandlers\ServiceRestartMenuItem.cs" />
-    <Compile Include="UI\MenuHandlers\SeparatorMenuItem.cs" />
-    <Compile Include="UI\MenuHandlers\ServiceMenuItem.cs" />
-    <Compile Include="UI\MenuHandlers\ServiceOpenBrowserMenuItem.cs" />
-    <Compile Include="UI\MenuHandlers\ServiceOpenDirectoryMenuItem.cs" />
-    <Compile Include="UI\MenuHandlers\ServiceStartMenuItem.cs" />
-    <Compile Include="UI\MenuHandlers\ServiceStopMenuItem.cs" />
-    <Compile Include="UI\MenuHandlers\ServiceTopMenuItem.cs" />
-    <Compile Include="UI\MenuHandlers\WtMenuItem.cs" />
-    <Compile Include="UI\WtMenuGenerator.cs" />
-    <Compile Include="UI\WtTrayMenu.cs" />
-    <EmbeddedResource Include="ButtonImages.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ButtonImages.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="IconResources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>IconResources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UI\LogFileViewerForm.resx">
+    <Compile Include="src\TrayMenu\MenuHandlers\ApplicationConfigMenuItem.cs" />
+    <Compile Include="src\TrayMenu\MenuHandlers\Service\ServiceConfigMenuItem.cs" />
+    <Compile Include="src\TrayMenu\MenuHandlers\Service\ServiceLogMenuItem.cs" />
+    <Compile Include="src\TrayMenu\MenuHandlers\Service\ServiceRestartMenuItem.cs" />
+    <Compile Include="src\TrayMenu\MenuHandlers\SeparatorMenuItem.cs" />
+    <Compile Include="src\TrayMenu\MenuHandlers\Service\ServiceMenuItem.cs" />
+    <Compile Include="src\TrayMenu\MenuHandlers\Service\ServiceBrowserMenuItem.cs" />
+    <Compile Include="src\TrayMenu\MenuHandlers\Service\ServiceDirectoryMenuItem.cs" />
+    <Compile Include="src\TrayMenu\MenuHandlers\Service\ServiceStartMenuItem.cs" />
+    <Compile Include="src\TrayMenu\MenuHandlers\Service\ServiceStopMenuItem.cs" />
+    <Compile Include="src\TrayMenu\MenuHandlers\ServiceTopMenuItem.cs" />
+    <Compile Include="src\TrayMenu\WtMenuItem.cs" />
+    <Compile Include="src\TrayMenu\WtMenuGenerator.cs" />
+    <Compile Include="src\TrayMenu\WtTrayMenu.cs" />
+    <EmbeddedResource Include="src\Forms\LogFileViewerForm.resx">
       <DependentUpon>LogFileViewerForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\MainForm.resx">
+    <EmbeddedResource Include="src\Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\AddEditServiceForm.resx">
+    <EmbeddedResource Include="src\Forms\AddEditServiceForm.resx">
       <DependentUpon>AddEditServiceForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="UI\ConfigurationForm.resx">
+    <EmbeddedResource Include="src\Forms\ConfigurationForm.resx">
       <DependentUpon>ConfigurationForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -229,26 +209,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Add.png" />
-    <Content Include="Resources\Browser.ico" />
-    <None Include="Resources\Cancel.png" />
-    <Content Include="Resources\Command.ico" />
-    <Content Include="Resources\Config.ico" />
-    <None Include="Resources\Edit.png" />
-    <Content Include="Resources\Exit.ico" />
-    <Content Include="Resources\Folder.ico" />
-    <Content Include="Resources\Log.ico" />
-    <None Include="Resources\Ok.png" />
-    <Content Include="Resources\Pending.ico" />
-    <Content Include="Resources\Reload.ico" />
-    <None Include="Resources\Remove.png" />
-    <Content Include="Resources\Start.ico" />
-    <Content Include="Resources\Started.ico" />
-    <Content Include="Resources\Stop.ico" />
-    <Content Include="Resources\Stopped.ico" />
-    <Content Include="Resources\Tray.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.5 %28x86 and x64%29</ProductName>
@@ -259,6 +219,12 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WTManager.Resources\WTManager.Resources.csproj">
+      <Project>{8e6c262c-ab2c-4b32-b761-1cafb8dc4e93}</Project>
+      <Name>WTManager.Resources</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
