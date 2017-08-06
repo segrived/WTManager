@@ -39,9 +39,7 @@
             this.selectMenuFontBtn = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.menuFontTb = new System.Windows.Forms.TextBox();
-            this.selectCustomTrayIconBtn = new System.Windows.Forms.Button();
             this.lblCustomTrayIcon = new System.Windows.Forms.Label();
-            this.customTrayIconTb = new System.Windows.Forms.TextBox();
             this.cbAutoStartApplication = new System.Windows.Forms.CheckBox();
             this.cbShowMenuBeyondTaskbar = new System.Windows.Forms.CheckBox();
             this.cbShowPopupMessages = new System.Windows.Forms.CheckBox();
@@ -51,6 +49,7 @@
             this.logViewerPathTb = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.configEditorPathTb = new System.Windows.Forms.TextBox();
+            this.themeNameCb = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -176,12 +175,11 @@
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox2.Controls.Add(this.themeNameCb);
             this.groupBox2.Controls.Add(this.selectMenuFontBtn);
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.menuFontTb);
-            this.groupBox2.Controls.Add(this.selectCustomTrayIconBtn);
             this.groupBox2.Controls.Add(this.lblCustomTrayIcon);
-            this.groupBox2.Controls.Add(this.customTrayIconTb);
             this.groupBox2.Controls.Add(this.cbAutoStartApplication);
             this.groupBox2.Controls.Add(this.cbShowMenuBeyondTaskbar);
             this.groupBox2.Controls.Add(this.cbShowPopupMessages);
@@ -229,17 +227,6 @@
             this.menuFontTb.Size = new System.Drawing.Size(240, 23);
             this.menuFontTb.TabIndex = 7;
             // 
-            // selectCustomTrayIconBtn
-            // 
-            this.selectCustomTrayIconBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.selectCustomTrayIconBtn.Location = new System.Drawing.Point(364, 79);
-            this.selectCustomTrayIconBtn.Name = "selectCustomTrayIconBtn";
-            this.selectCustomTrayIconBtn.Size = new System.Drawing.Size(53, 23);
-            this.selectCustomTrayIconBtn.TabIndex = 6;
-            this.selectCustomTrayIconBtn.Text = "...";
-            this.selectCustomTrayIconBtn.UseVisualStyleBackColor = true;
-            this.selectCustomTrayIconBtn.Click += new System.EventHandler(this.selectCustomTrayIconBtn_Click);
-            // 
             // lblCustomTrayIcon
             // 
             this.lblCustomTrayIcon.AutoSize = true;
@@ -248,15 +235,6 @@
             this.lblCustomTrayIcon.Size = new System.Drawing.Size(101, 15);
             this.lblCustomTrayIcon.TabIndex = 5;
             this.lblCustomTrayIcon.Text = "Custom tray icon:";
-            // 
-            // customTrayIconTb
-            // 
-            this.customTrayIconTb.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.customTrayIconTb.Location = new System.Drawing.Point(118, 79);
-            this.customTrayIconTb.Name = "customTrayIconTb";
-            this.customTrayIconTb.Size = new System.Drawing.Size(240, 23);
-            this.customTrayIconTb.TabIndex = 4;
             // 
             // cbAutoStartApplication
             // 
@@ -346,6 +324,15 @@
             this.configEditorPathTb.Size = new System.Drawing.Size(240, 23);
             this.configEditorPathTb.TabIndex = 0;
             // 
+            // themeNameCb
+            // 
+            this.themeNameCb.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.themeNameCb.FormattingEnabled = true;
+            this.themeNameCb.Location = new System.Drawing.Point(118, 79);
+            this.themeNameCb.Name = "themeNameCb";
+            this.themeNameCb.Size = new System.Drawing.Size(299, 23);
+            this.themeNameCb.TabIndex = 10;
+            // 
             // ConfigurationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -383,9 +370,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox configEditorPathTb;
         private System.Windows.Forms.CheckBox cbShowPopupMessages;
-        private System.Windows.Forms.Button selectCustomTrayIconBtn;
         private System.Windows.Forms.Label lblCustomTrayIcon;
-        private System.Windows.Forms.TextBox customTrayIconTb;
         private System.Windows.Forms.CheckBox cbShowMenuBeyondTaskbar;
         private System.Windows.Forms.Button selectMenuFontBtn;
         private System.Windows.Forms.Label label2;
@@ -393,5 +378,6 @@
         private System.Windows.Forms.CheckBox cbAutoStartApplication;
         private System.Windows.Forms.Button upServiceBtn;
         private System.Windows.Forms.Button downServiceBtn;
+        private System.Windows.Forms.ComboBox themeNameCb;
     }
 }

@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 
-namespace WTManager.TrayMenu.MenuHandlers.Service
+namespace WTManager.Tray.MenuHandlers.Service
 {
     public class ServiceBrowserMenuItem : ServiceMenuItem
     {

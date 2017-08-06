@@ -1,4 +1,4 @@
-﻿namespace WTManager.TrayMenu.MenuHandlers.Service
+﻿namespace WTManager.Tray.MenuHandlers.Service
 {
     public class ServiceMenuItem : WtMenuItem
     {

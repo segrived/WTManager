@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using WTManager.Config;
 using WTManager.Forms;
+using WTManager.Resources;
 
 namespace WTManager.Controls
 {
@@ -13,6 +14,8 @@ namespace WTManager.Controls
         {
             this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
             this.UpdateSystemFont();
+            
+            ResourcesProcessor.ThemeChanged += this.ResourcesProcessor_OnThemeChanged;
         }
 
         protected override void OnShown(EventArgs e)
@@ -21,6 +24,12 @@ namespace WTManager.Controls
 
             this.ApplySettings(ConfigManager.Instance.Config);
             this.ApplyTheme();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            ResourcesProcessor.ThemeChanged -= this.ResourcesProcessor_OnThemeChanged;
         }
 
         private void UpdateSystemFont()
@@ -35,6 +44,11 @@ namespace WTManager.Controls
 
             if (autoClose)
                 this.Close();
+        }
+
+        private void ResourcesProcessor_OnThemeChanged()
+        {
+            this.ApplyTheme();
         }
 
         protected virtual void ApplyTheme()

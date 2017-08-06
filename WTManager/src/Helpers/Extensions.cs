@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
+using WTManager.Lib;
 
 namespace WTManager.Helpers
 {
@@ -66,7 +67,7 @@ namespace WTManager.Helpers
             {
                 enumerator.Dispose();
 
-                while (stack.Count > 0) // Clean up in case of an exception.
+                while (stack.Count > 0)
                 {
                     enumerator = stack.Pop();
                     enumerator.Dispose();
@@ -126,6 +127,37 @@ namespace WTManager.Helpers
             listBox.Items.Remove(selected);
             listBox.Items.Insert(newIndex, selected);
             listBox.SetSelected(newIndex, true);
+        }
+
+        public static int FindIndex<T>(this ComboBox cb, T value) where T : IEquatable<T>
+        {
+            for (int i = 0; i < cb.Items.Count; i++)
+            {
+                var comboItem = cb.Items[i] as ComboBoxItem;
+
+                if (comboItem == null)
+                {
+                    if (cb.Items[i] == null && value == null)
+                        return i;
+
+                    if (cb.Items[i] is T && ((T) cb.Items[i]).Equals(value))
+                        return i;
+                }
+                else
+                {
+                    if (comboItem.Value == null && value == null)
+                        return i;
+
+                    if (comboItem.Value is T && ((T)comboItem.Value).Equals(value))
+                        return i;
+                }
+            }
+            return -1;
+        }
+
+        public static void SelectByValue<T>(this ComboBox cb, T value) where T : IEquatable<T>
+        {
+            cb.SelectedIndex = cb.FindIndex(value);
         }
 
         #endregion

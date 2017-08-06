@@ -1,6 +1,6 @@
 ﻿using System.Drawing;
 
-namespace WTManager.TrayMenu.MenuHandlers
+namespace WTManager.Tray.MenuHandlers
 {
     public class TitleMenuItem : WtMenuItem
     {

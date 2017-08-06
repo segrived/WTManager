@@ -25,7 +25,6 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AddEditServiceForm));
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -51,7 +50,7 @@
             this.serviceDisplayNameLbl = new System.Windows.Forms.Label();
             this.serviceGroupLbl = new System.Windows.Forms.Label();
             this.cancelBtn = new System.Windows.Forms.Button();
-            this.OkBtn = new System.Windows.Forms.Button();
+            this.applyBtn = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             this.logsAndConfigsGb.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -173,7 +172,6 @@
             // 
             this.removeConfigFileBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.removeConfigFileBtn.Enabled = false;
-            this.removeConfigFileBtn.Image = ((System.Drawing.Image)(resources.GetObject("removeConfigFileBtn.Image")));
             this.removeConfigFileBtn.Location = new System.Drawing.Point(494, 148);
             this.removeConfigFileBtn.Name = "removeConfigFileBtn";
             this.removeConfigFileBtn.Size = new System.Drawing.Size(50, 33);
@@ -185,7 +183,6 @@
             // 
             this.removeLogFileBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.removeLogFileBtn.Enabled = false;
-            this.removeLogFileBtn.Image = ((System.Drawing.Image)(resources.GetObject("removeLogFileBtn.Image")));
             this.removeLogFileBtn.Location = new System.Drawing.Point(494, 63);
             this.removeLogFileBtn.Name = "removeLogFileBtn";
             this.removeLogFileBtn.Size = new System.Drawing.Size(50, 33);
@@ -196,7 +193,6 @@
             // addConfigFileBtn
             // 
             this.addConfigFileBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            //this.addConfigFileBtn.Image = global::WTManager.Resources.Graphics.Add;
             this.addConfigFileBtn.Location = new System.Drawing.Point(494, 109);
             this.addConfigFileBtn.Name = "addConfigFileBtn";
             this.addConfigFileBtn.Size = new System.Drawing.Size(50, 33);
@@ -207,7 +203,6 @@
             // addLogFileBtn
             // 
             this.addLogFileBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            //this.addLogFileBtn.Image = global::WTManager.Resources.Graphics.Add;
             this.addLogFileBtn.Location = new System.Drawing.Point(494, 24);
             this.addLogFileBtn.Name = "addLogFileBtn";
             this.addLogFileBtn.Size = new System.Drawing.Size(50, 33);
@@ -345,7 +340,6 @@
             // cancelBtn
             // 
             this.cancelBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            //this.cancelBtn.Image = global::WTManager.Resources.Graphics.Cancel;
             this.cancelBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.cancelBtn.Location = new System.Drawing.Point(430, 471);
             this.cancelBtn.Name = "cancelBtn";
@@ -356,19 +350,18 @@
             this.cancelBtn.UseVisualStyleBackColor = true;
             this.cancelBtn.Click += new System.EventHandler(this.cancelBtn_Click);
             // 
-            // OkBtn
+            // applyBtn
             // 
-            this.OkBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            //this.OkBtn.Image = global::WTManager.Resources.Graphics.Ok;
-            this.OkBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.OkBtn.Location = new System.Drawing.Point(297, 471);
-            this.OkBtn.Name = "OkBtn";
-            this.OkBtn.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
-            this.OkBtn.Size = new System.Drawing.Size(127, 36);
-            this.OkBtn.TabIndex = 7;
-            this.OkBtn.Text = "OK";
-            this.OkBtn.UseVisualStyleBackColor = true;
-            this.OkBtn.Click += new System.EventHandler(this.OkBtn_Click);
+            this.applyBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.applyBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.applyBtn.Location = new System.Drawing.Point(297, 471);
+            this.applyBtn.Name = "applyBtn";
+            this.applyBtn.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
+            this.applyBtn.Size = new System.Drawing.Size(127, 36);
+            this.applyBtn.TabIndex = 7;
+            this.applyBtn.Text = "OK";
+            this.applyBtn.UseVisualStyleBackColor = true;
+            this.applyBtn.Click += new System.EventHandler(this.OkBtn_Click);
             // 
             // AddEditServiceForm
             // 
@@ -377,7 +370,7 @@
             this.ClientSize = new System.Drawing.Size(581, 519);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.cancelBtn);
-            this.Controls.Add(this.OkBtn);
+            this.Controls.Add(this.applyBtn);
             this.Controls.Add(this.logsAndConfigsGb);
             this.Controls.Add(this.groupBox1);
             this.Name = "AddEditServiceForm";
@@ -405,7 +398,7 @@
         private System.Windows.Forms.Label serviceGroupLbl;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox logsAndConfigsGb;
-        private System.Windows.Forms.Button OkBtn;
+        private System.Windows.Forms.Button applyBtn;
         private System.Windows.Forms.Button cancelBtn;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label5;

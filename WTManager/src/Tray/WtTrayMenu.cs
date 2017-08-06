@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
 using WTManager.Config;
@@ -12,7 +11,7 @@ using WTManager.Helpers;
 using WTManager.Lib;
 using WTManager.Resources;
 
-namespace WTManager.TrayMenu
+namespace WTManager.Tray
 {
     public class TrayMenu : ITrayController, IDisposable, IEnumerable<WtMenuItem>
     {
@@ -41,31 +40,20 @@ namespace WTManager.TrayMenu
             // just cache
             this._showContextMenuMethod = typeof(NotifyIcon).GetMethod("ShowContextMenu", FLAGS);
 
-            ConfigManager.Instance.ConfigSaved += this.Instance_OnConfigSaved;
-        }
-
-        private void Instance_OnConfigSaved()
-        {
-            this.UpdateTrayIcon();
-            this.UpdateTrayMenu();
+            ConfigManager.Instance.ConfigSaved += this.ConfigManager_OnConfigSaved;
+            ResourcesProcessor.ThemeChanged += this.ResourcesProcessor_OnThemeChanged;
         }
 
         private void UpdateTrayIcon()
         {
-            string customIcon = ConfigManager.Instance.Config.CustomTrayIcon;
-
-            if (!String.IsNullOrEmpty(customIcon) && File.Exists(customIcon))
-            {
-                this._notifyIcon.Icon = Icon.ExtractAssociatedIcon(customIcon);
-            }
-            else
-            {
-                this._notifyIcon.Icon = ResourcesProcessor.GetIcon("tray");
-            }
+            this._notifyIcon.Icon = ResourcesProcessor.GetIcon("tray");
         }
 
         public void Dispose()
         {
+            ConfigManager.Instance.ConfigSaved -= this.ConfigManager_OnConfigSaved;
+            ResourcesProcessor.ThemeChanged -= this.ResourcesProcessor_OnThemeChanged;
+
             foreach (var menuItem in this)
                 menuItem.Dispose();
   
@@ -75,6 +63,23 @@ namespace WTManager.TrayMenu
             this._notifyIcon.ContextMenuStrip.Opening -= this.ContextMenuStrip_OnOpening;
             this._notifyIcon.ContextMenuStrip.MouseUp -= this.ContextMenuStrip_OnMouseUp;
             this._notifyIcon.Dispose();
+        }
+
+        #region Event handlers
+
+        private void ConfigManager_OnConfigSaved()
+        {
+            this.UpdateTrayMenu();
+        }
+
+        private void ResourcesProcessor_OnThemeChanged()
+        {
+            this.UpdateTrayIcon();
+        }
+
+        private void UpdateTimer_OnTick(object sender, EventArgs eventArgs)
+        {
+            this.UpdateTrayMenu();
         }
 
         private void ContextMenuStrip_OnMouseUp(object o, MouseEventArgs e)
@@ -89,6 +94,8 @@ namespace WTManager.TrayMenu
         {
             this.ShowContextMenu(this.ContextMenu);
         }
+
+        #endregion
 
         private void ShowContextMenu(ContextMenuStrip menu)
         {
@@ -129,11 +136,6 @@ namespace WTManager.TrayMenu
             this.UpdateTrayMenu();
         }
 
-        private void UpdateTimer_OnTick(object sender, EventArgs eventArgs)
-        {
-            this.UpdateTrayMenu();
-        }
-
         #region ITrayController
 
         public void AddMenuItem(WtMenuItem menuItem)
@@ -165,6 +167,8 @@ namespace WTManager.TrayMenu
 
         #endregion
 
+        #region IEnumerable implementation
+
         public IEnumerator<WtMenuItem> GetEnumerator()
         {
             foreach (ToolStripItem tsItem in this.ContextMenu.Items)
@@ -189,5 +193,7 @@ namespace WTManager.TrayMenu
         {
             return this.GetEnumerator();
         }
+
+        #endregion
     }
 }

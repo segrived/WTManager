@@ -117,27 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="removeConfigFileBtn.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAN
-        1wAADdcBQiibeAAAATxJREFUOE/d0VsrxEEYx/EfT9J6PV6GN8FcyCU3tsiFbG1x4XAhh5TkmPP5tLRY
-        SeQGSWT9oyiSKzmO74TyAvaGqU8zTTPze57/X/9gNGEds1jAKtLIYBcHOMIpLnCNm++9c+Rm9EiFlVKs
-        Fq0YxApIj13hBf6XD6noUip4CJfZ0Ik0Tll3HM6eSdEh9rAFWopoLxpFP7rppF16ZC8+9PMA/WXuWd5K
-        71nmY9C/X8M0uOg7wPfyddJbNTNVJqlW4nD4WOl9Nkl93pFeN7CESQygC81oAJefqr4eSLSEBxIgaXue
-        zTkqmGGewDD6wGXfhkbUI04FNcy0lOwMD4xgUyrhV5ajDC4FenfLoBK3CH6xI8DReynrCqosJjgHoxe8
-        lk+qBSQbyUaqkWi0ZFOgLaNso2IbA+l5nPn7Q/oEBbaU5de7+9sAAAAASUVORK5CYII=
-</value>
-  </data>
-  <data name="removeLogFileBtn.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAN
-        1wAADdcBQiibeAAAATxJREFUOE/d0VsrxEEYx/EfT9J6PV6GN8FcyCU3tsiFbG1x4XAhh5TkmPP5tLRY
-        SeQGSWT9oyiSKzmO74TyAvaGqU8zTTPze57/X/9gNGEds1jAKtLIYBcHOMIpLnCNm++9c+Rm9EiFlVKs
-        Fq0YxApIj13hBf6XD6noUip4CJfZ0Ik0Tll3HM6eSdEh9rAFWopoLxpFP7rppF16ZC8+9PMA/WXuWd5K
-        71nmY9C/X8M0uOg7wPfyddJbNTNVJqlW4nD4WOl9Nkl93pFeN7CESQygC81oAJefqr4eSLSEBxIgaXue
-        zTkqmGGewDD6wGXfhkbUI04FNcy0lOwMD4xgUyrhV5ajDC4FenfLoBK3CH6xI8DReynrCqosJjgHoxe8
-        lk+qBSQbyUaqkWi0ZFOgLaNso2IbA+l5nPn7Q/oEBbaU5de7+9sAAAAASUVORK5CYII=
-</value>
-  </data>
 </root>

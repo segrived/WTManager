@@ -1,5 +1,5 @@
 ﻿using System.Windows.Forms;
-using WTManager.TrayMenu;
+using WTManager.Tray;
 
 namespace WTManager
 {

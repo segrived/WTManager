@@ -119,11 +119,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="src\Config\ConfigManager.cs" />
     <Compile Include="src\Config\Configuration.cs" />
     <Compile Include="src\Controls\WtManagerForm.cs" />
@@ -134,13 +129,14 @@
     <Compile Include="src\Helpers\FileHelpers.cs" />
     <Compile Include="src\Helpers\SchedulerHelpers.cs" />
     <Compile Include="src\Helpers\ServiceHelpers.cs" />
+    <Compile Include="src\Lib\ComboBoxItem.cs" />
     <Compile Include="src\Lib\Taskbar.cs" />
     <Compile Include="src\Lib\FileWatcher.cs" />
     <Compile Include="src\Lib\LimitedQueue.cs" />
     <Compile Include="src\ITrayController.cs" />
-    <Compile Include="src\TrayMenu\MenuHandlers\FileOperationMenuItem.cs" />
-    <Compile Include="src\TrayMenu\MenuHandlers\Service\ServiceEditMenuItem.cs" />
-    <Compile Include="src\TrayMenu\MenuHandlers\ApplicationExitMenuItem.cs" />
+    <Compile Include="src\Tray\MenuHandlers\FileOperationMenuItem.cs" />
+    <Compile Include="src\Tray\MenuHandlers\Service\ServiceEditMenuItem.cs" />
+    <Compile Include="src\Tray\MenuHandlers\ApplicationExitMenuItem.cs" />
     <Compile Include="src\Forms\LogFileViewerForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -168,25 +164,21 @@
     <Compile Include="src\Forms\ConfigurationForm.Designer.cs">
       <DependentUpon>ConfigurationForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="src\TrayMenu\MenuHandlers\ApplicationConfigMenuItem.cs" />
-    <Compile Include="src\TrayMenu\MenuHandlers\Service\ServiceConfigMenuItem.cs" />
-    <Compile Include="src\TrayMenu\MenuHandlers\Service\ServiceLogMenuItem.cs" />
-    <Compile Include="src\TrayMenu\MenuHandlers\Service\ServiceRestartMenuItem.cs" />
-    <Compile Include="src\TrayMenu\MenuHandlers\SeparatorMenuItem.cs" />
-    <Compile Include="src\TrayMenu\MenuHandlers\Service\ServiceMenuItem.cs" />
-    <Compile Include="src\TrayMenu\MenuHandlers\Service\ServiceBrowserMenuItem.cs" />
-    <Compile Include="src\TrayMenu\MenuHandlers\Service\ServiceDirectoryMenuItem.cs" />
-    <Compile Include="src\TrayMenu\MenuHandlers\Service\ServiceStartMenuItem.cs" />
-    <Compile Include="src\TrayMenu\MenuHandlers\Service\ServiceStopMenuItem.cs" />
-    <Compile Include="src\TrayMenu\MenuHandlers\Service\ServiceTopMenuItem.cs" />
-    <Compile Include="src\TrayMenu\MenuHandlers\TitleMenuItem.cs" />
-    <Compile Include="src\TrayMenu\WtMenuItem.cs" />
-    <Compile Include="src\TrayMenu\WtMenuGenerator.cs" />
-    <Compile Include="src\TrayMenu\WtTrayMenu.cs" />
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
+    <Compile Include="src\Tray\MenuHandlers\ApplicationConfigMenuItem.cs" />
+    <Compile Include="src\Tray\MenuHandlers\Service\ServiceConfigMenuItem.cs" />
+    <Compile Include="src\Tray\MenuHandlers\Service\ServiceLogMenuItem.cs" />
+    <Compile Include="src\Tray\MenuHandlers\Service\ServiceRestartMenuItem.cs" />
+    <Compile Include="src\Tray\MenuHandlers\SeparatorMenuItem.cs" />
+    <Compile Include="src\Tray\MenuHandlers\Service\ServiceMenuItem.cs" />
+    <Compile Include="src\Tray\MenuHandlers\Service\ServiceBrowserMenuItem.cs" />
+    <Compile Include="src\Tray\MenuHandlers\Service\ServiceDirectoryMenuItem.cs" />
+    <Compile Include="src\Tray\MenuHandlers\Service\ServiceStartMenuItem.cs" />
+    <Compile Include="src\Tray\MenuHandlers\Service\ServiceStopMenuItem.cs" />
+    <Compile Include="src\Tray\MenuHandlers\Service\ServiceTopMenuItem.cs" />
+    <Compile Include="src\Tray\MenuHandlers\TitleMenuItem.cs" />
+    <Compile Include="src\Tray\WtMenuItem.cs" />
+    <Compile Include="src\Tray\WtMenuGenerator.cs" />
+    <Compile Include="src\Tray\WtTrayMenu.cs" />
     <EmbeddedResource Include="src\Forms\LogFileViewerForm.resx">
       <DependentUpon>LogFileViewerForm.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -208,15 +200,6 @@
     </None>
     <None Include="app.manifest" />
     <None Include="packages.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">

@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using WTManager.Config;
 using WTManager.Controls;
 using WTManager.Helpers;
+using WTManager.Resources;
 
 namespace WTManager.Forms
 {
@@ -59,12 +60,11 @@ namespace WTManager.Forms
             this.serviceBrowserUrlTb.Text = s.BrowserUrl;
             this.serviceDataDirectoryTb.Text = s.DataDirectory;
 
-            if (s.LogFiles != null) {
+            if (s.LogFiles != null)
                 this.logFilesLb.Items.AddRange(s.LogFiles.Cast<object>().ToArray());
-            }
-            if (s.ConfigFiles != null) {
+            
+            if (s.ConfigFiles != null)
                 this.configFilesLb.Items.AddRange(s.ConfigFiles.Cast<object>().ToArray());
-            }
         }
 
         private void AddEditServiceForm_Load(object sender, EventArgs e) {
@@ -121,7 +121,8 @@ namespace WTManager.Forms
             return dialog.FileNames;
         }
 
-        private void cancelBtn_Click(object sender, EventArgs e) {
+        private void cancelBtn_Click(object sender, EventArgs e)
+        {
             this.Close();
         }
 
@@ -151,12 +152,28 @@ namespace WTManager.Forms
             }
         }
 
-        private void logFilesLb_SelectedIndexChanged(object sender, EventArgs e) {
+        private void logFilesLb_SelectedIndexChanged(object sender, EventArgs e)
+        {
             this.removeLogFileBtn.Enabled = this.logFilesLb.SelectedIndices.Count > 0;
         }
 
-        private void configFilesLb_SelectedIndexChanged(object sender, EventArgs e) {
+        private void configFilesLb_SelectedIndexChanged(object sender, EventArgs e)
+        {
             this.removeConfigFileBtn.Enabled = this.configFilesLb.SelectedIndices.Count > 0;
+        }
+
+        protected override void ApplyTheme()
+        {
+            base.ApplyTheme();
+
+            this.applyBtn.Image = ResourcesProcessor.GetImage("dialog.ok");
+            this.cancelBtn.Image = ResourcesProcessor.GetImage("dialog.cancel");
+
+            this.addConfigFileBtn.Image = ResourcesProcessor.GetImage("dialog.add");
+            this.addLogFileBtn.Image = ResourcesProcessor.GetImage("dialog.add");
+
+            this.removeConfigFileBtn.Image = ResourcesProcessor.GetImage("dialog.remove");
+            this.removeLogFileBtn.Image = ResourcesProcessor.GetImage("dialog.remove");
         }
     }
 }

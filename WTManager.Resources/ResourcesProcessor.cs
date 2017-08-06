@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Reflection;
-using System.Text.RegularExpressions;
 
 namespace WTManager.Resources
 {
     public static class ResourcesProcessor
     {
         private static readonly Dictionary<string, object> ResourcesCache;
+
+        public static event Action ThemeChanged;
 
         private static string _themeName;
 
@@ -19,8 +20,13 @@ namespace WTManager.Resources
             get { return _themeName; }
             set
             {
+                if (_themeName == value)
+                    return;
+
                 _themeName = value;
                 ResourcesCache.Clear();
+
+                ThemeChanged?.Invoke();
             }
         }
 
@@ -36,7 +42,7 @@ namespace WTManager.Resources
                 : GetEmbeddedFileStream(baseCategory, resourceName);
         }
 
-        private static Stream GetThemeFileStream(string baseCategory, string resourceName)
+        public static string GetThemesRootDirectory()
         {
             string assemblyLocation = Assembly.GetExecutingAssembly().Location;
 
@@ -45,8 +51,16 @@ namespace WTManager.Resources
             if (assemblyFolder == null)
                 return null;
 
-            string themeDirectory = Path.Combine(assemblyFolder, "themes", ThemeName);
-            string fullFileName = Path.Combine(themeDirectory, baseCategory, resourceName);
+            return Path.Combine(assemblyFolder, "themes");
+        }
+
+        private static Stream GetThemeFileStream(string baseCategory, string resourceName)
+        {
+            string fullFileName = Path.Combine(GetThemesRootDirectory(), ThemeName, baseCategory, resourceName);
+
+            int lastDotIndex = fullFileName.LastIndexOf('.');
+            string subStr = fullFileName.Substring(0, lastDotIndex).Replace('.', '\\');
+            fullFileName = subStr + fullFileName.Substring(lastDotIndex);
 
             if (!File.Exists(fullFileName))
                 return null;
@@ -71,20 +85,29 @@ namespace WTManager.Resources
 
         private static T GetResource<T>(string resourceName, string baseCategory, Func<Stream, T> objectProducer)
         {
-            var resource = default(T);
+            Stream stream = null;
 
-            if (ResourcesCache.ContainsKey(resourceName) && ResourcesCache[resourceName] is T)
-                return (T)ResourcesCache[resourceName];
+            try
+            {
+                var resource = default(T);
 
-            var stream = GetResourceStream(baseCategory, $"{resourceName}");
+                if (ResourcesCache.ContainsKey(resourceName) && ResourcesCache[resourceName] is T)
+                    return (T) ResourcesCache[resourceName];
 
-            if (stream == null)
+                stream = GetResourceStream(baseCategory, $"{resourceName}");
+
+                if (stream == null)
+                    return resource;
+
+                resource = objectProducer.Invoke(stream);
+                ResourcesCache[resourceName] = resource;
+
                 return resource;
-
-            resource = objectProducer.Invoke(stream);
-            ResourcesCache[resourceName] = resource;
-
-            return resource;
+            }
+            finally
+            {
+                stream?.Dispose();
+            }
         }
 
         public static Icon GetIcon(string iconName)
@@ -95,6 +118,13 @@ namespace WTManager.Resources
         public static Image GetImage(string imageName)
         {
             return GetResource(imageName + ".png", "Images", stream => new Bitmap(stream));
+        }
+
+        public static IEnumerable<string> GetThemesList()
+        {
+            return Directory
+                .EnumerateDirectories(GetThemesRootDirectory())
+                .Select(dir => new DirectoryInfo(dir).Name);
         }
     }
 }

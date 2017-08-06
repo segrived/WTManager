@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using WTManager.Helpers;
 
-namespace WTManager.TrayMenu.MenuHandlers.Service
+namespace WTManager.Tray.MenuHandlers.Service
 {
     public class ServiceStopMenuItem : ServiceMenuItem
     {

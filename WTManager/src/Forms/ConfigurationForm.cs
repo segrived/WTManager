@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using WTManager.Config;
 using WTManager.Controls;
 using WTManager.Helpers;
+using WTManager.Lib;
 using WTManager.Resources;
 
 namespace WTManager.Forms
@@ -48,10 +49,10 @@ namespace WTManager.Forms
         {
             var selectedService = this.servicesListBox.SelectedItem;
 
-            if (selectedService == null)
+            if (!(selectedService is Service))
                 return;
 
-            this.EditServiceByListIndex(this.servicesListBox.SelectedIndex);
+            this.EditService((Service)this.servicesListBox.SelectedItem);
         }
 
         private void removeServiceBtn_Click(object sender, EventArgs e)
@@ -115,16 +116,10 @@ namespace WTManager.Forms
                 this.logViewerPathTb.Text = execPath;
         }
 
-        private void selectCustomTrayIconBtn_Click(object sender, EventArgs e)
-        {
-            string execPath = RequestFilePath(REQ_ICON);
-            if (execPath != null)
-                this.customTrayIconTb.Text = execPath;
-        }
-
         private void selectMenuFontBtn_Click(object sender, EventArgs e)
         {
-            var font = this.RequestFont();
+            var font = RequestFont();
+
             if (font == null)
                 return;
 
@@ -134,9 +129,10 @@ namespace WTManager.Forms
         
         #endregion
 
-        void EditServiceByListIndex(int index)
+        void EditService(Service service)
         {
-            var service = (Service)this.servicesListBox.Items[index];
+            int index = this.servicesListBox.Items.IndexOf(service);
+
             using (var f = new AddEditServiceForm(service))
             {
                 var result = f.ShowDialog();
@@ -153,8 +149,12 @@ namespace WTManager.Forms
         private void servicesListBox_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             int index = this.servicesListBox.IndexFromPoint(e.Location);
+
             if (index != ListBox.NoMatches)
-                this.EditServiceByListIndex(index);
+            {
+                var service = (Service) this.servicesListBox.Items[index];
+                this.EditService(service);
+            }
         }
 
         private void servicesListBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -189,7 +189,6 @@ namespace WTManager.Forms
 
             this.logViewerPathTb.Text = configuration.LogViewerPath;
             this.configEditorPathTb.Text = configuration.EditorPath;
-            this.customTrayIconTb.Text = configuration.CustomTrayIcon;
             this.cbShowPopupMessages.Checked = configuration.ShowPopups;
             this.cbShowMenuBeyondTaskbar.Checked = configuration.ShowMenuBeyondTaskbar;
 
@@ -197,6 +196,12 @@ namespace WTManager.Forms
             this.menuFontTb.Text = new FontConverter().ConvertToString(font);
 
             this.cbAutoStartApplication.Checked = SchedulerHelpers.IsAutostartTaskInstalled();
+
+            this.themeNameCb.Items.Add(new ComboBoxItem("<Internal>", null));
+            foreach(string themeName in ResourcesProcessor.GetThemesList())
+                this.themeNameCb.Items.Add(new ComboBoxItem(themeName));
+
+            this.themeNameCb.SelectByValue(configuration.ThemeName);
         }
 
         public override void UpdateSettings(Configuration configuration)
@@ -205,13 +210,22 @@ namespace WTManager.Forms
             configuration.EditorPath = this.configEditorPathTb.Text;
             configuration.LogViewerPath = this.logViewerPathTb.Text;
             configuration.ShowPopups = this.cbShowPopupMessages.Checked;
-            configuration.CustomTrayIcon = this.customTrayIconTb.Text;
             configuration.ShowMenuBeyondTaskbar = this.cbShowMenuBeyondTaskbar.Checked;
 
             if (new FontConverter().ConvertFromString(this.menuFontTb.Text) is Font font)
             {
                 configuration.MenuFontSize = font.Size;
                 configuration.MenuFontName = font.Name;
+            }
+
+            var themeValue = this.themeNameCb.SelectedItem as ComboBoxItem;
+
+            if (themeValue != null)
+            {
+                string themeName = themeValue.Value as string;
+                ResourcesProcessor.ThemeName = themeName;
+
+                configuration.ThemeName = themeName;
             }
 
             SchedulerHelpers.UpdateAutoStartSetting(this.cbAutoStartApplication.Checked);
@@ -232,7 +246,9 @@ namespace WTManager.Forms
 
         #endregion
 
-        private Font RequestFont()
+        #region Utils
+
+        private static Font RequestFont()
         {
             var fontDialog = new FontDialog
             {
@@ -263,5 +279,7 @@ namespace WTManager.Forms
 
             return null;
         }
+
+        #endregion
     }
 }

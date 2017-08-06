@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace WTManager.TrayMenu.MenuHandlers
+namespace WTManager.Tray.MenuHandlers
 {
     public sealed class SeparatorMenuItem : WtMenuItem
     {

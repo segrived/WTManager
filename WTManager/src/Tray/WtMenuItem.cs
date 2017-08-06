@@ -7,7 +7,7 @@ using WTManager.Config;
 using WTManager.Controls;
 using WTManager.Resources;
 
-namespace WTManager.TrayMenu
+namespace WTManager.Tray
 {
     public abstract class WtMenuItem : IDisposable
     {

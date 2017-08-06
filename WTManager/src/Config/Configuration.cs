@@ -35,7 +35,7 @@ namespace WTManager.Config
         /// <summary>
         /// Path to custom tray icon
         /// </summary>
-        public string CustomTrayIcon { get; set; }
+        public string ThemeName { get; set; }
 
         /// <summary>
         /// Show menu beyond taskbar

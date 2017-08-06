@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using WTManager.Helpers;
 
-namespace WTManager.TrayMenu.MenuHandlers.Service
+namespace WTManager.Tray.MenuHandlers.Service
 {
     public class ServiceRestartMenuItem : ServiceMenuItem
     {
