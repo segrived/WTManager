@@ -1,12 +1,13 @@
 using System.Linq;
 using System.Windows.Forms;
+using WTManager.Config;
 using WTManager.Forms;
 
-namespace WTManager.UI.MenuHandlers
+namespace WTManager.TrayMenu.MenuHandlers.Service
 {
     public class ServiceEditMenuItem : ServiceMenuItem
     {
-        public ServiceEditMenuItem(IWtTrayMenuController controller, Service service)
+        public ServiceEditMenuItem(IWtTrayMenuController controller, Config.Service service)
             : base(controller, service) { }
 
         protected override string DisplayText { get; } = "Edit configuration";
@@ -22,7 +23,7 @@ namespace WTManager.UI.MenuHandlers
 
                 var services = ConfigManager.Services.ToList();
 
-                bool Predicate(Service serviceToTest) 
+                bool Predicate(Config.Service serviceToTest) 
                     => Equals(serviceToTest.GetHashCode(), this.Service.GetHashCode());
                 int index = services.IndexOf(services.First(Predicate));
 

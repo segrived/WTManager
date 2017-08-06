@@ -1,8 +1,10 @@
 using System.IO;
 using System.Linq;
-using WTManager.UI.MenuHandlers;
+using WTManager.Config;
+using WTManager.TrayMenu.MenuHandlers;
+using WTManager.TrayMenu.MenuHandlers.Service;
 
-namespace WTManager.UI
+namespace WTManager.TrayMenu
 {
     /// <summary>
     /// Tray menu generator

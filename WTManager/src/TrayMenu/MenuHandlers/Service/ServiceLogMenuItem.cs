@@ -1,9 +1,10 @@
 ﻿using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
+using WTManager.Config;
 using WTManager.Forms;
 
-namespace WTManager.UI.MenuHandlers
+namespace WTManager.TrayMenu.MenuHandlers.Service
 {
     public class ServiceLogMenuItem : FileOperationMenuItem
     {

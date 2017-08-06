@@ -1,6 +1,6 @@
 ﻿using WTManager.Forms;
 
-namespace WTManager.UI.MenuHandlers
+namespace WTManager.TrayMenu.MenuHandlers
 {
     public class ApplicationConfigMenuItem : WtMenuItem
     {

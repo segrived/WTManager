@@ -1,11 +1,11 @@
 using System;
 using System.Diagnostics;
 
-namespace WTManager.UI.MenuHandlers
+namespace WTManager.TrayMenu.MenuHandlers.Service
 {
     public class ServiceBrowserMenuItem : ServiceMenuItem
     {
-        public ServiceBrowserMenuItem(IWtTrayMenuController controller, Service service) 
+        public ServiceBrowserMenuItem(IWtTrayMenuController controller, Config.Service service) 
             : base(controller, service) { }
 
         protected override string DisplayText => "Open in browser…";

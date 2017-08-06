@@ -1,20 +1,19 @@
-﻿using System.ServiceProcess;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows.Forms;
 using WTManager.Helpers;
 
-namespace WTManager.UI.MenuHandlers
+namespace WTManager.TrayMenu.MenuHandlers.Service
 {
     public class ServiceRestartMenuItem : ServiceMenuItem
     {
-        public ServiceRestartMenuItem(IWtTrayMenuController controller, Service service) 
+        public ServiceRestartMenuItem(IWtTrayMenuController controller, Config.Service service) 
             : base(controller, service) { }
 
         protected override string DisplayText => "Restart service";
 
         protected override string ImageKey => "reload";
 
-        protected override bool IsVisible => this.ServiceStatus == ServiceControllerStatus.Running;
+        protected override bool IsVisible => this.Service.IsStarted;
 
         protected override async void Action()
         {

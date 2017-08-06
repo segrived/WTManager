@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 
-namespace WTManager
+namespace WTManager.Lib
 {
     public static class IconsManager
     {

@@ -1,7 +1,6 @@
 ﻿using System.Windows.Forms;
-using WTManager.UI.MenuHandlers;
 
-namespace WTManager.UI
+namespace WTManager.TrayMenu
 {
     /// <summary>
     /// Tray menu controller

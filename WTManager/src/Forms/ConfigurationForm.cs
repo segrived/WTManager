@@ -2,12 +2,26 @@
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using WTManager.Config;
 using WTManager.Controls;
 
 namespace WTManager.Forms
 {
+    public interface IConfigurable
+    {
+        /// <summary>
+        /// Apply settings to form
+        /// </summary>
+        void ApplySettings(Configuration configuration);
+
+        /// <summary>
+        /// Updates settings before save
+        /// </summary>
+        void UpdateSettings(Configuration configuration);
+    }
+
     [System.ComponentModel.DesignerCategory("Form")]
-    public partial class ConfigurationForm : WtManagerForm
+    public partial class ConfigurationForm : WtManagerForm, IConfigurable
     {
         public ConfigurationForm() {
             this.InitializeComponent();
@@ -20,30 +34,27 @@ namespace WTManager.Forms
                 var service = (Service)ea.Value;
                 ea.Value = $"{service.ServiceName} - {service.DisplayName}";
             };
-
-            if (ConfigManager.Services != null)
-            {
-                var items = ConfigManager.Services.Cast<object>().ToArray();
-                this.servicesListBox.Items.AddRange(items);
-            }
-
-            this.logViewerPathTb.Text = ConfigManager.Preferences.LogViewerPath;
-            this.configEditorPathTb.Text = ConfigManager.Preferences.EditorPath;
         }
-
 
         private void selectConfigEditorPathBtn_Click(object sender, EventArgs e)
         {
-            string execPath = this.RequestExecutablePath();
+            string execPath = RequestExecutablePath(REQ_EXECUTABLE);
             if (execPath != null)
                 this.configEditorPathTb.Text = execPath;
         }
 
         private void selectLogViewerPathBtn_Click(object sender, EventArgs e)
         {
-            string execPath = this.RequestExecutablePath();
+            string execPath = RequestExecutablePath(REQ_EXECUTABLE);
             if (execPath != null)
                 this.logViewerPathTb.Text = execPath;
+        }
+
+        private void selectCustomTrayIconBtn_Click(object sender, EventArgs e)
+        {
+            string execPath = RequestExecutablePath(REQ_ICON);
+            if (execPath != null)
+                this.customTrayIconTb.Text = execPath;
         }
 
         private void servicesListBox_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -97,8 +108,8 @@ namespace WTManager.Forms
         #region Window-related buttons
         private void OkBtn_Click(object sender, EventArgs e)
         {
-            this.SaveConfiguration();
             this.DialogResult = DialogResult.OK;
+            this.SaveConfiguration();
             this.Close();
         }
 
@@ -108,20 +119,14 @@ namespace WTManager.Forms
         }
         #endregion
 
-        #region Helper methods
-        void SaveConfiguration()
-        {
-            //ConfigManager.Instance.Config.Services = this.servicesListBox.Items.OfType<Service>();
-            ConfigManager.Instance.Config.Preferences.EditorPath = this.configEditorPathTb.Text;
-            ConfigManager.Instance.Config.Preferences.LogViewerPath = this.logViewerPathTb.Text;
-            ConfigManager.Instance.SaveConfig();
-        }
+        private const string REQ_EXECUTABLE = "Executable files|*.exe;*.bat;*.cmd";
+        private const string REQ_ICON = "Icon|*.ico";
 
-        string RequestExecutablePath()
+        private static string RequestExecutablePath(string reqString)
         {
             var dialog = new OpenFileDialog
             {
-                Filter = "Executable files|*.exe;*.bat;*.cmd",
+                Filter = reqString,
                 CheckFileExists = true,
                 ValidateNames = true
             };
@@ -129,9 +134,10 @@ namespace WTManager.Forms
             if (dialog.ShowDialog() != DialogResult.OK)
                 return null;
 
-            string execPath = dialog.FileName;
-            if (execPath != null && File.Exists(execPath))
-                return execPath;
+            string filePath = dialog.FileName;
+
+            if (filePath != null && File.Exists(filePath))
+                return filePath;
 
             return null;
         }
@@ -149,12 +155,36 @@ namespace WTManager.Forms
                 this.SaveConfiguration();
             }
         }
-        #endregion
 
         private void servicesListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             this.editServiceBtn.Enabled = this.servicesListBox.SelectedIndices.Count == 1;
             this.removeServiceBtn.Enabled = this.servicesListBox.SelectedIndices.Count > 0;
+        }
+
+        public void ApplySettings(Configuration configuration)
+        {
+            if (configuration.Services != null)
+            {
+                var items = configuration.Services.Cast<object>().ToArray();
+                this.servicesListBox.Items.AddRange(items);
+            }
+
+            this.logViewerPathTb.Text = configuration.Preferences.LogViewerPath;
+            this.configEditorPathTb.Text = configuration.Preferences.EditorPath;
+            this.customTrayIconTb.Text = configuration.Preferences.CustomTrayIcon;
+            this.cbShowPopupMessages.Checked = configuration.Preferences.ShowPopups;
+            this.cbShowMenuBeyondTaskbar.Checked = configuration.Preferences.ShowMenuBeyondTaskbar;
+        }
+
+        public void UpdateSettings(Configuration configuration)
+        {
+            configuration.Services = this.servicesListBox.Items.OfType<Service>().ToList();
+            configuration.Preferences.EditorPath = this.configEditorPathTb.Text;
+            configuration.Preferences.LogViewerPath = this.logViewerPathTb.Text;
+            configuration.Preferences.ShowPopups = this.cbShowPopupMessages.Checked;
+            configuration.Preferences.CustomTrayIcon = this.customTrayIconTb.Text;
+            configuration.Preferences.ShowMenuBeyondTaskbar = this.cbShowMenuBeyondTaskbar.Checked;
         }
     }
 }

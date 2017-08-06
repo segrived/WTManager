@@ -119,9 +119,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="src\Configuration\ConfigManager.cs" />
-    <Compile Include="src\Configuration\Configuration.cs" />
-    <Compile Include="src\Controls\WTManagerForm.cs" />
+    <Compile Include="src\Config\ConfigManager.cs" />
+    <Compile Include="src\Config\Configuration.cs" />
+    <Compile Include="src\Controls\WtManagerForm.cs" />
+    <Compile Include="src\Controls\WtManagerMainForm.cs" />
     <Compile Include="src\Controls\WtToolStripMenuItem.cs" />
     <Compile Include="src\Helpers\Extensions.cs" />
     <Compile Include="src\Helpers\FileHelpers.cs" />
@@ -173,7 +174,7 @@
     <Compile Include="src\TrayMenu\MenuHandlers\Service\ServiceDirectoryMenuItem.cs" />
     <Compile Include="src\TrayMenu\MenuHandlers\Service\ServiceStartMenuItem.cs" />
     <Compile Include="src\TrayMenu\MenuHandlers\Service\ServiceStopMenuItem.cs" />
-    <Compile Include="src\TrayMenu\MenuHandlers\ServiceTopMenuItem.cs" />
+    <Compile Include="src\TrayMenu\MenuHandlers\Service\ServiceTopMenuItem.cs" />
     <Compile Include="src\TrayMenu\WtMenuItem.cs" />
     <Compile Include="src\TrayMenu\WtMenuGenerator.cs" />
     <Compile Include="src\TrayMenu\WtTrayMenu.cs" />

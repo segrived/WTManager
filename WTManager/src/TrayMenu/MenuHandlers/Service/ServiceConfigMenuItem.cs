@@ -1,7 +1,8 @@
 ﻿using System.Diagnostics;
 using System.IO;
+using WTManager.Config;
 
-namespace WTManager.UI.MenuHandlers
+namespace WTManager.TrayMenu.MenuHandlers.Service
 {
     public class ServiceConfigMenuItem : FileOperationMenuItem
     {

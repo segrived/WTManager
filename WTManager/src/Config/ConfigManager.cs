@@ -4,7 +4,7 @@ using System.IO;
 using System.Xml.Serialization;
 using WTManager.Helpers;
 
-namespace WTManager
+namespace WTManager.Config
 {
     public class ConfigManager
     {
@@ -42,7 +42,7 @@ namespace WTManager
             try
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(Configuration));
-                TextWriter writer = new StreamWriter(@"D:\Misc\config.xml");
+                TextWriter writer = new StreamWriter(ConfigPath);
                 serializer.Serialize(writer, this.Config);
                 writer.Close();
 

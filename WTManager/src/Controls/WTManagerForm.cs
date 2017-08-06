@@ -1,5 +1,8 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
+using WTManager.Config;
+using WTManager.Forms;
 
 namespace WTManager.Controls
 {
@@ -12,19 +15,31 @@ namespace WTManager.Controls
             this.UpdateSystemFont();
         }
 
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+
+            var configurableForm = this as IConfigurable;
+            configurableForm?.ApplySettings(ConfigManager.Instance.Config);
+        }
+
         private void UpdateSystemFont()
         {
             this.Font = SystemFonts.MessageBoxFont;
         }
-    }
 
-
-    [System.ComponentModel.DesignerCategory("")]
-    public class WtManagerMainForm : WtManagerForm
-    {
-        protected override void SetVisibleCore(bool value)
+        protected void SaveConfiguration(bool autoClose = false)
         {
-            base.SetVisibleCore(false);
+            var configurableForm = this as IConfigurable;
+
+            if (configurableForm == null)
+                return;
+
+            configurableForm.UpdateSettings(ConfigManager.Instance.Config);
+            ConfigManager.Instance.SaveConfig();
+
+            if (autoClose)
+                this.Close();
         }
     }
 }

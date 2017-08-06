@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using WTManager.Controls;
+using WTManager.Lib;
 
-namespace WTManager.UI.MenuHandlers
+namespace WTManager.TrayMenu
 {
     public abstract class WtMenuItem
     {

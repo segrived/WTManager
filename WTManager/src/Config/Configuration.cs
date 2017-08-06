@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ServiceProcess;
+using WTManager.Helpers;
 
-namespace WTManager
+namespace WTManager.Config
 {
     [Serializable]
     public class Configuration
@@ -32,6 +34,21 @@ namespace WTManager
         /// Path to log viewer executable
         /// </summary>
         public string LogViewerPath { get; set; }
+
+        /// <summary>
+        /// Show popups
+        /// </summary>
+        public bool ShowPopups { get; set; }
+
+        /// <summary>
+        /// Path to custom tray icon
+        /// </summary>
+        public string CustomTrayIcon { get; set; }
+
+        /// <summary>
+        /// Show menu beyond taskbar
+        /// </summary>
+        public bool ShowMenuBeyondTaskbar { get; set; }
     }
 
     [Serializable]
@@ -91,6 +108,31 @@ namespace WTManager
             this.LogFiles = new List<string>();
             this.ConfigFiles = new List<string>();
         }
+
+        public bool IsInPendingState
+        {
+            get
+            {
+                switch (this.Controller.Status)
+                {
+                    case ServiceControllerStatus.StopPending:
+                    case ServiceControllerStatus.ContinuePending:
+                    case ServiceControllerStatus.PausePending:
+                    case ServiceControllerStatus.StartPending:
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        }
+
+        public ServiceController Controller => this.GetController();
+
+        public ServiceControllerStatus Status => this.Controller.Status;
+
+        public bool IsStarted => this.Status == ServiceControllerStatus.Running;
+
+        public bool IsStopped => this.Status == ServiceControllerStatus.Stopped;
 
         #region Equals/GetHashCode
         public override bool Equals(object obj)

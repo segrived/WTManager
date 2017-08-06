@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using WTManager.Config;
 using WTManager.Controls;
 using WTManager.Helpers;
 

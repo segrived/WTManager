@@ -1,12 +1,14 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Drawing;
+using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
+using WTManager.Config;
 using WTManager.Controls;
 using WTManager.Lib;
-using WTManager.UI.MenuHandlers;
 
-namespace WTManager.UI
+namespace WTManager.TrayMenu
 {
     public class WtTrayMenu : IWtTrayMenuController, IDisposable
     {
@@ -25,9 +27,27 @@ namespace WTManager.UI
             this._notifyIcon.ContextMenuStrip.MouseUp += this.ContextMenuStrip_OnMouseUp;
             this._notifyIcon.ContextMenuStrip.Renderer = new WtToolStripMenuRenderer();
 
+            this.UpdateTrayIcon();
+
             this._updateTimer = new Timer {Interval = 1000};
             this._updateTimer.Tick += this.UpdateTimer_OnTick;
             this._updateTimer.Start();
+
+            ConfigManager.Instance.ConfigSaved += this.Instance_OnConfigSaved;
+        }
+
+        private void Instance_OnConfigSaved()
+        {
+            this.UpdateTrayIcon();
+            this.UpdateTrayMenu();
+        }
+
+        private void UpdateTrayIcon()
+        {
+            string customIcon = ConfigManager.Preferences.CustomTrayIcon;
+
+            if (!String.IsNullOrEmpty(customIcon) && File.Exists(customIcon))
+                this._notifyIcon.Icon = Icon.ExtractAssociatedIcon(customIcon);
         }
 
         public void Dispose()
@@ -51,22 +71,36 @@ namespace WTManager.UI
 
         private void ContextMenuStrip_OnOpening(object o, CancelEventArgs cancelEventArgs)
         {
-            ToolStripDropDownDirection dropDownDirection;
+
+            var position = Cursor.Position;
+            var dropDownDirection = ToolStripDropDownDirection.Default;
+
+            bool beyondTaskbar = ConfigManager.Preferences.ShowMenuBeyondTaskbar;
+
             switch (Taskbar.Position)
             {
                 case TaskbarPosition.Right:
                     dropDownDirection = ToolStripDropDownDirection.Left;
+                    int rightXPos = beyondTaskbar ? Taskbar.CurrentBounds.Left : Cursor.Position.X;
+                    position = new Point(rightXPos, Cursor.Position.Y);
                     break;                
                 case TaskbarPosition.Left:
+                    dropDownDirection = ToolStripDropDownDirection.Right;
+                    int leftXPos = beyondTaskbar ? Taskbar.CurrentBounds.Right : Cursor.Position.X;
+                    position = new Point(leftXPos, Cursor.Position.Y);
+                    break;
                 case TaskbarPosition.Top:
                     dropDownDirection = ToolStripDropDownDirection.Right;
+                    int topYPos = beyondTaskbar ? Taskbar.CurrentBounds.Bottom : Cursor.Position.Y;
+                    position = new Point(Cursor.Position.X, topYPos);
                     break;
-                default:
+                case TaskbarPosition.Bottom:
                     dropDownDirection = ToolStripDropDownDirection.Default;
+                    int bottomYPos = beyondTaskbar ? Taskbar.CurrentBounds.Top : Cursor.Position.Y;
+                    position = new Point(Cursor.Position.X, bottomYPos - this.ContextMenu.Height);
                     break;
-
             }
-            this.ContextMenu.Show(Cursor.Position, dropDownDirection);
+            this.ContextMenu.Show(position, dropDownDirection);
         }
 
         public void InitMenu()
@@ -114,6 +148,9 @@ namespace WTManager.UI
 
         public void ShowBaloon(string title, string message, ToolTipIcon icon)
         {
+            if (!ConfigManager.Preferences.ShowPopups)
+                return;
+
             if (!Enum.IsDefined(typeof(ToolTipIcon), icon))
                 throw new ArgumentOutOfRangeException(nameof(icon));
 

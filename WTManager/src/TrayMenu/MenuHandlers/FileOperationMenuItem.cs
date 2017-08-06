@@ -1,4 +1,4 @@
-﻿namespace WTManager.UI.MenuHandlers
+﻿namespace WTManager.TrayMenu.MenuHandlers
 {
     public class FileOperationMenuItem : WtMenuItem
     {

@@ -1,11 +1,11 @@
 ﻿using System.Diagnostics;
 using System.IO;
 
-namespace WTManager.UI.MenuHandlers
+namespace WTManager.TrayMenu.MenuHandlers.Service
 {
     public class ServiceDirectoryMenuItem : ServiceMenuItem
     {
-        public ServiceDirectoryMenuItem(IWtTrayMenuController controller, Service service) 
+        public ServiceDirectoryMenuItem(IWtTrayMenuController controller, Config.Service service) 
             : base(controller, service) { }
 
         protected override string DisplayText => "Open data directory…";

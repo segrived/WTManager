@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel;
 using System.IO;
 using System.Windows.Forms;
+using WTManager.Config;
 using WTManager.Controls;
-using WTManager.UI;
+using WTManager.TrayMenu;
 
 namespace WTManager.Forms
 {
