@@ -28,6 +28,8 @@ namespace WTManager.TrayMenu
 
             foreach (var group in serviceGroups)
             {
+                this._controller.AddMenuItem(new TitleMenuItem(this._controller, group.Key));
+
                 foreach (var service in group)
                     this._controller.AddMenuItem(this.CreateServiceMenu(service));
 

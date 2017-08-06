@@ -1,19 +1,13 @@
-﻿using System.Drawing;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace WTManager.Controls
 {
     [System.ComponentModel.DesignerCategory("")]
     public sealed class WtToolStripMenuItem : ToolStripMenuItem
     {
-        public WtToolStripMenuItem()
+        public WtToolStripMenuItem(string text)
+            : base(text)
         {
-            this.Enabled = false;
-            this.Font = new Font(FontFamily.GenericSansSerif, 9.0f, FontStyle.Bold);
-            this.TextAlign = ContentAlignment.TopCenter;
         }
-
-        public WtToolStripMenuItem(string text) 
-            : base(text) { }
     }
 }

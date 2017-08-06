@@ -25,7 +25,6 @@ namespace WTManager.Config
 
         public Configuration Config { get; private set; }
 
-
         private Configuration GetConfig()
         {
             if (!File.Exists(ConfigPath))

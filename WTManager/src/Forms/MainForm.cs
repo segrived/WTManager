@@ -23,20 +23,10 @@ namespace WTManager.Forms
 
         }
 
-        private void InitConfiguration()
-        {
-            if (! File.Exists(ConfigManager.ConfigPath))
-            {
-                string path = Path.GetDirectoryName(ConfigManager.ConfigPath);
-                if (path != null)
-                    Directory.CreateDirectory(path);
-            }
-        }
-
         private void InitTrayMenu()
         {
             ConfigManager.Instance.ReloadConfig();
-            this._uiTrayMenu.InitMenu();
+            this._uiTrayMenu.RecreateMenu();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)

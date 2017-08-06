@@ -175,6 +175,7 @@
     <Compile Include="src\TrayMenu\MenuHandlers\Service\ServiceStartMenuItem.cs" />
     <Compile Include="src\TrayMenu\MenuHandlers\Service\ServiceStopMenuItem.cs" />
     <Compile Include="src\TrayMenu\MenuHandlers\Service\ServiceTopMenuItem.cs" />
+    <Compile Include="src\TrayMenu\MenuHandlers\TitleMenuItem.cs" />
     <Compile Include="src\TrayMenu\WtMenuItem.cs" />
     <Compile Include="src\TrayMenu\WtMenuGenerator.cs" />
     <Compile Include="src\TrayMenu\WtTrayMenu.cs" />

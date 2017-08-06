@@ -46,6 +46,9 @@
             this.lblCustomTrayIcon = new System.Windows.Forms.Label();
             this.customTrayIconTb = new System.Windows.Forms.TextBox();
             this.cbShowMenuBeyondTaskbar = new System.Windows.Forms.CheckBox();
+            this.selectMenuFontBtn = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.menuFontTb = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -55,7 +58,7 @@
             this.OkBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.OkBtn.Image = ((System.Drawing.Image)(resources.GetObject("OkBtn.Image")));
             this.OkBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.OkBtn.Location = new System.Drawing.Point(230, 562);
+            this.OkBtn.Location = new System.Drawing.Point(688, 519);
             this.OkBtn.Name = "OkBtn";
             this.OkBtn.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.OkBtn.Size = new System.Drawing.Size(151, 30);
@@ -69,7 +72,7 @@
             this.cancelBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancelBtn.Image = ((System.Drawing.Image)(resources.GetObject("cancelBtn.Image")));
             this.cancelBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.cancelBtn.Location = new System.Drawing.Point(387, 562);
+            this.cancelBtn.Location = new System.Drawing.Point(845, 519);
             this.cancelBtn.Name = "cancelBtn";
             this.cancelBtn.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.cancelBtn.Size = new System.Drawing.Size(151, 30);
@@ -83,7 +86,7 @@
             this.removeServiceBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.removeServiceBtn.Enabled = false;
             this.removeServiceBtn.Image = ((System.Drawing.Image)(resources.GetObject("removeServiceBtn.Image")));
-            this.removeServiceBtn.Location = new System.Drawing.Point(462, 99);
+            this.removeServiceBtn.Location = new System.Drawing.Point(486, 99);
             this.removeServiceBtn.Name = "removeServiceBtn";
             this.removeServiceBtn.Size = new System.Drawing.Size(53, 30);
             this.removeServiceBtn.TabIndex = 1;
@@ -95,7 +98,7 @@
             this.editServiceBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.editServiceBtn.Enabled = false;
             this.editServiceBtn.Image = ((System.Drawing.Image)(resources.GetObject("editServiceBtn.Image")));
-            this.editServiceBtn.Location = new System.Drawing.Point(462, 63);
+            this.editServiceBtn.Location = new System.Drawing.Point(486, 63);
             this.editServiceBtn.Name = "editServiceBtn";
             this.editServiceBtn.Size = new System.Drawing.Size(53, 30);
             this.editServiceBtn.TabIndex = 1;
@@ -106,7 +109,7 @@
             // 
             this.addServiceBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.addServiceBtn.Image = ((System.Drawing.Image)(resources.GetObject("addServiceBtn.Image")));
-            this.addServiceBtn.Location = new System.Drawing.Point(462, 27);
+            this.addServiceBtn.Location = new System.Drawing.Point(486, 27);
             this.addServiceBtn.Name = "addServiceBtn";
             this.addServiceBtn.Size = new System.Drawing.Size(53, 30);
             this.addServiceBtn.TabIndex = 1;
@@ -124,7 +127,7 @@
             this.servicesListBox.Location = new System.Drawing.Point(181, 27);
             this.servicesListBox.Name = "servicesListBox";
             this.servicesListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.servicesListBox.Size = new System.Drawing.Size(275, 323);
+            this.servicesListBox.Size = new System.Drawing.Size(299, 463);
             this.servicesListBox.TabIndex = 0;
             this.servicesListBox.SelectedIndexChanged += new System.EventHandler(this.servicesListBox_SelectedIndexChanged);
             this.servicesListBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.servicesListBox_MouseDoubleClick);
@@ -139,10 +142,10 @@
             this.groupBox1.Controls.Add(this.addServiceBtn);
             this.groupBox1.Controls.Add(this.editServiceBtn);
             this.groupBox1.Controls.Add(this.removeServiceBtn);
-            this.groupBox1.Location = new System.Drawing.Point(12, 192);
+            this.groupBox1.Location = new System.Drawing.Point(446, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(8);
-            this.groupBox1.Size = new System.Drawing.Size(526, 361);
+            this.groupBox1.Size = new System.Drawing.Size(550, 501);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Services";
@@ -156,13 +159,17 @@
             this.groupsListBox.ItemHeight = 15;
             this.groupsListBox.Location = new System.Drawing.Point(11, 27);
             this.groupsListBox.Name = "groupsListBox";
-            this.groupsListBox.Size = new System.Drawing.Size(164, 323);
+            this.groupsListBox.Size = new System.Drawing.Size(164, 463);
             this.groupsListBox.TabIndex = 2;
             // 
             // groupBox2
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.selectMenuFontBtn);
+            this.groupBox2.Controls.Add(this.label2);
+            this.groupBox2.Controls.Add(this.menuFontTb);
             this.groupBox2.Controls.Add(this.selectCustomTrayIconBtn);
             this.groupBox2.Controls.Add(this.lblCustomTrayIcon);
             this.groupBox2.Controls.Add(this.customTrayIconTb);
@@ -177,7 +184,7 @@
             this.groupBox2.Location = new System.Drawing.Point(12, 12);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(8);
-            this.groupBox2.Size = new System.Drawing.Size(526, 174);
+            this.groupBox2.Size = new System.Drawing.Size(428, 501);
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Preferences";
@@ -185,7 +192,7 @@
             // cbShowPopupMessages
             // 
             this.cbShowPopupMessages.AutoSize = true;
-            this.cbShowPopupMessages.Location = new System.Drawing.Point(14, 107);
+            this.cbShowPopupMessages.Location = new System.Drawing.Point(14, 193);
             this.cbShowPopupMessages.Name = "cbShowPopupMessages";
             this.cbShowPopupMessages.Size = new System.Drawing.Size(147, 19);
             this.cbShowPopupMessages.TabIndex = 3;
@@ -195,7 +202,7 @@
             // selectLogViewerPathBtn
             // 
             this.selectLogViewerPathBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.selectLogViewerPathBtn.Location = new System.Drawing.Point(462, 50);
+            this.selectLogViewerPathBtn.Location = new System.Drawing.Point(364, 50);
             this.selectLogViewerPathBtn.Name = "selectLogViewerPathBtn";
             this.selectLogViewerPathBtn.Size = new System.Drawing.Size(53, 23);
             this.selectLogViewerPathBtn.TabIndex = 2;
@@ -206,7 +213,7 @@
             // selectConfigEditorPathBtn
             // 
             this.selectConfigEditorPathBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.selectConfigEditorPathBtn.Location = new System.Drawing.Point(462, 21);
+            this.selectConfigEditorPathBtn.Location = new System.Drawing.Point(364, 21);
             this.selectConfigEditorPathBtn.Name = "selectConfigEditorPathBtn";
             this.selectConfigEditorPathBtn.Size = new System.Drawing.Size(53, 23);
             this.selectConfigEditorPathBtn.TabIndex = 2;
@@ -229,7 +236,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.logViewerPathTb.Location = new System.Drawing.Point(118, 50);
             this.logViewerPathTb.Name = "logViewerPathTb";
-            this.logViewerPathTb.Size = new System.Drawing.Size(338, 23);
+            this.logViewerPathTb.Size = new System.Drawing.Size(240, 23);
             this.logViewerPathTb.TabIndex = 0;
             // 
             // label1
@@ -247,13 +254,13 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.configEditorPathTb.Location = new System.Drawing.Point(118, 21);
             this.configEditorPathTb.Name = "configEditorPathTb";
-            this.configEditorPathTb.Size = new System.Drawing.Size(338, 23);
+            this.configEditorPathTb.Size = new System.Drawing.Size(240, 23);
             this.configEditorPathTb.TabIndex = 0;
             // 
             // selectCustomTrayIconBtn
             // 
             this.selectCustomTrayIconBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.selectCustomTrayIconBtn.Location = new System.Drawing.Point(462, 79);
+            this.selectCustomTrayIconBtn.Location = new System.Drawing.Point(364, 79);
             this.selectCustomTrayIconBtn.Name = "selectCustomTrayIconBtn";
             this.selectCustomTrayIconBtn.Size = new System.Drawing.Size(53, 23);
             this.selectCustomTrayIconBtn.TabIndex = 6;
@@ -276,24 +283,54 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.customTrayIconTb.Location = new System.Drawing.Point(118, 79);
             this.customTrayIconTb.Name = "customTrayIconTb";
-            this.customTrayIconTb.Size = new System.Drawing.Size(338, 23);
+            this.customTrayIconTb.Size = new System.Drawing.Size(240, 23);
             this.customTrayIconTb.TabIndex = 4;
             // 
             // cbShowMenuBeyondTaskbar
             // 
             this.cbShowMenuBeyondTaskbar.AutoSize = true;
-            this.cbShowMenuBeyondTaskbar.Location = new System.Drawing.Point(14, 132);
+            this.cbShowMenuBeyondTaskbar.Location = new System.Drawing.Point(14, 218);
             this.cbShowMenuBeyondTaskbar.Name = "cbShowMenuBeyondTaskbar";
             this.cbShowMenuBeyondTaskbar.Size = new System.Drawing.Size(173, 19);
             this.cbShowMenuBeyondTaskbar.TabIndex = 3;
             this.cbShowMenuBeyondTaskbar.Text = "Show menu beyond taskbar";
             this.cbShowMenuBeyondTaskbar.UseVisualStyleBackColor = true;
             // 
+            // selectMenuFontBtn
+            // 
+            this.selectMenuFontBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.selectMenuFontBtn.Location = new System.Drawing.Point(364, 111);
+            this.selectMenuFontBtn.Name = "selectMenuFontBtn";
+            this.selectMenuFontBtn.Size = new System.Drawing.Size(53, 23);
+            this.selectMenuFontBtn.TabIndex = 9;
+            this.selectMenuFontBtn.Text = "...";
+            this.selectMenuFontBtn.UseVisualStyleBackColor = true;
+            this.selectMenuFontBtn.Click += new System.EventHandler(this.selectMenuFontBtn_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(11, 114);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(66, 15);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Menu font:";
+            // 
+            // menuFontTb
+            // 
+            this.menuFontTb.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.menuFontTb.Location = new System.Drawing.Point(118, 111);
+            this.menuFontTb.Name = "menuFontTb";
+            this.menuFontTb.ReadOnly = true;
+            this.menuFontTb.Size = new System.Drawing.Size(240, 23);
+            this.menuFontTb.TabIndex = 7;
+            // 
             // ConfigurationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(550, 604);
+            this.ClientSize = new System.Drawing.Size(1008, 561);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.OkBtn);
@@ -331,5 +368,8 @@
         private System.Windows.Forms.Label lblCustomTrayIcon;
         private System.Windows.Forms.TextBox customTrayIconTb;
         private System.Windows.Forms.CheckBox cbShowMenuBeyondTaskbar;
+        private System.Windows.Forms.Button selectMenuFontBtn;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox menuFontTb;
     }
 }

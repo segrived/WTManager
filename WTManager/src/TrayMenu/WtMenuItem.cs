@@ -1,16 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using WTManager.Config;
 using WTManager.Controls;
 using WTManager.Lib;
 
 namespace WTManager.TrayMenu
 {
-    public abstract class WtMenuItem
+    public abstract class WtMenuItem : IDisposable
     {
         protected IWtTrayMenuController Controller { get; private set; }
 
+        /// <summary>
+        /// Menu item display text
+        /// </summary>
         protected virtual string DisplayText { get; } = String.Empty;
 
         public IList<WtMenuItem> SubItems { get; private set; }
@@ -18,6 +23,8 @@ namespace WTManager.TrayMenu
         protected virtual bool IsEnabled => true;
 
         protected  virtual bool IsVisible => true;
+
+        protected virtual FontStyle FontStyle => FontStyle.Regular;
 
         protected virtual string ImageKey { get; } = null;
 
@@ -27,6 +34,7 @@ namespace WTManager.TrayMenu
         {
             this.Controller = controller;
             this.SubItems = new List<WtMenuItem>();
+
             this._internalMenuStripItem = null;
         }
 
@@ -42,6 +50,7 @@ namespace WTManager.TrayMenu
             // Update item enability
             this._internalMenuStripItem.Enabled = this.IsEnabled;
 
+            // Update item visibility
             this._internalMenuStripItem.Visible = this.IsVisible;
 
             // Update display text
@@ -60,22 +69,34 @@ namespace WTManager.TrayMenu
             if (this._internalMenuStripItem == null)
             {
                 this._internalMenuStripItem = new WtToolStripMenuItem(this.DisplayText);
-                this._internalMenuStripItem.Click += (sender, args) => this.Action();
+                this._internalMenuStripItem.Font = new Font(ConfigManager.Preferences.MenuFontName, ConfigManager.Preferences.MenuFontSize, this.FontStyle);
+                this._internalMenuStripItem.Click += this.InternalMenuStripItem_OnClick;
                 this._internalMenuStripItem.Tag = this;
             }
 
-            if (this.SubItems != null)
-            {
-                var subItems = this.SubItems.Select(si => si.ToMenuItem()).ToArray();
-                this._internalMenuStripItem.DropDownItems.AddRange(subItems);
-            }
+            if (this.SubItems == null)
+                return this._internalMenuStripItem;
+
+            var subItems = this.SubItems.Select(si => si.ToMenuItem()).ToArray();
+            this._internalMenuStripItem.DropDownItems.AddRange(subItems);
 
             return this._internalMenuStripItem;
+        }
+
+        private void InternalMenuStripItem_OnClick(object sender, EventArgs eventArgs)
+        {
+            this.Action();
         }
 
         public static implicit operator ToolStripItem(WtMenuItem item)
         {
             return item.ToMenuItem();
+        }
+
+        public void Dispose()
+        {
+            this._internalMenuStripItem.Click -= this.InternalMenuStripItem_OnClick;
+            this._internalMenuStripItem?.Dispose();
         }
     }
 }

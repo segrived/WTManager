@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.ServiceProcess;
 using WTManager.Helpers;
 
@@ -18,13 +19,25 @@ namespace WTManager.Config
         /// </summary>
         public List<Service> Services { get; set; }
 
-        public static Configuration Defaults =>
-            new Configuration { Preferences = new Preferences(), Services = new List<Service>() };
+        /// <summary>
+        /// Default config
+        /// </summary>
+        public static Configuration Defaults => new Configuration
+        {
+            Preferences = new Preferences(),
+            Services = new List<Service>()
+        };
     }
 
     [Serializable]
     public class Preferences
     {
+        public Preferences()
+        {
+            this.MenuFontName = SystemFonts.MenuFont.Name;
+            this.MenuFontSize = SystemFonts.MenuFont.Size;
+        }
+
         /// <summary>
         /// Path to config editor executable 
         /// </summary>
@@ -49,25 +62,21 @@ namespace WTManager.Config
         /// Show menu beyond taskbar
         /// </summary>
         public bool ShowMenuBeyondTaskbar { get; set; }
-    }
 
-    [Serializable]
-    public class ServiceGroup
-    {
-        public string ServiceName { get; set; }
+        public string MenuFontName { get; set; }
 
-        public List<Service> Services { get; set; }
-
-        public ServiceGroup(string name)
-        {
-            this.ServiceName = name;
-            this.Services = new List<Service>();
-        }
+        public float MenuFontSize { get; set; }
     }
 
     [Serializable]
     public class Service
     {
+        public Service()
+        {
+            this.LogFiles = new List<string>();
+            this.ConfigFiles = new List<string>();
+        }
+
         /// <summary>
         /// Service name
         /// </summary>
@@ -102,12 +111,6 @@ namespace WTManager.Config
         /// Browser URL
         /// </summary>
         public string BrowserUrl { get; set; }
-
-        public Service()
-        {
-            this.LogFiles = new List<string>();
-            this.ConfigFiles = new List<string>();
-        }
 
         public bool IsInPendingState
         {

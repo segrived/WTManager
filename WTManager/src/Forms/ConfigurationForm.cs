@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -175,6 +176,9 @@ namespace WTManager.Forms
             this.customTrayIconTb.Text = configuration.Preferences.CustomTrayIcon;
             this.cbShowPopupMessages.Checked = configuration.Preferences.ShowPopups;
             this.cbShowMenuBeyondTaskbar.Checked = configuration.Preferences.ShowMenuBeyondTaskbar;
+
+            var font = new Font(configuration.Preferences.MenuFontName, configuration.Preferences.MenuFontSize);
+            this.menuFontTb.Text = new FontConverter().ConvertToString(font);
         }
 
         public void UpdateSettings(Configuration configuration)
@@ -185,6 +189,36 @@ namespace WTManager.Forms
             configuration.Preferences.ShowPopups = this.cbShowPopupMessages.Checked;
             configuration.Preferences.CustomTrayIcon = this.customTrayIconTb.Text;
             configuration.Preferences.ShowMenuBeyondTaskbar = this.cbShowMenuBeyondTaskbar.Checked;
+
+            var font = new FontConverter().ConvertFromString(this.menuFontTb.Text) as Font;
+
+            if (font != null)
+            {
+                configuration.Preferences.MenuFontSize = font.Size;
+                configuration.Preferences.MenuFontName = font.Name;
+            }
+        }
+
+        private Font RequestFont()
+        {
+            var fontDialog = new FontDialog
+            {
+                ShowEffects = false,
+                ShowApply = false,
+                FontMustExist = true
+            };
+
+            return fontDialog.ShowDialog() != DialogResult.OK ? null : fontDialog.Font;
+        }
+
+        private void selectMenuFontBtn_Click(object sender, EventArgs e)
+        {
+            var font = this.RequestFont();
+            if (font == null)
+                return;
+
+            var cvt = new FontConverter();
+            this.menuFontTb.Text = cvt.ConvertToString(font);
         }
     }
 }

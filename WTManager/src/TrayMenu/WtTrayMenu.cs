@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
@@ -6,15 +8,17 @@ using System.Reflection;
 using System.Windows.Forms;
 using WTManager.Config;
 using WTManager.Controls;
+using WTManager.Helpers;
 using WTManager.Lib;
 
 namespace WTManager.TrayMenu
 {
-    public class WtTrayMenu : IWtTrayMenuController, IDisposable
+    public class WtTrayMenu : IWtTrayMenuController, IDisposable, IEnumerable<WtMenuItem>
     {
         private const int BALOON_SHOW_TIME = 3000;
         private const BindingFlags FLAGS = BindingFlags.Instance | BindingFlags.NonPublic;
 
+        private readonly MethodInfo _showContextMenuMethod = null;
         private readonly NotifyIcon _notifyIcon;
         private readonly Timer _updateTimer;
 
@@ -32,6 +36,9 @@ namespace WTManager.TrayMenu
             this._updateTimer = new Timer {Interval = 1000};
             this._updateTimer.Tick += this.UpdateTimer_OnTick;
             this._updateTimer.Start();
+
+            // just cache
+            this._showContextMenuMethod = typeof(NotifyIcon).GetMethod("ShowContextMenu", FLAGS);
 
             ConfigManager.Instance.ConfigSaved += this.Instance_OnConfigSaved;
         }
@@ -52,6 +59,9 @@ namespace WTManager.TrayMenu
 
         public void Dispose()
         {
+            foreach (var menuItem in this)
+                menuItem.Dispose();
+  
             this._updateTimer.Tick -= this.UpdateTimer_OnTick;
             this._updateTimer.Stop();
 
@@ -65,13 +75,16 @@ namespace WTManager.TrayMenu
             if (e.Button != MouseButtons.Left)
                 return;
 
-            var mi = typeof(NotifyIcon).GetMethod("ShowContextMenu", FLAGS);
-            mi.Invoke(this._notifyIcon, null);
+            this._showContextMenuMethod?.Invoke(this._notifyIcon, null);
         }
 
         private void ContextMenuStrip_OnOpening(object o, CancelEventArgs cancelEventArgs)
         {
+            this.ShowContextMenu(this.ContextMenu);
+        }
 
+        private void ShowContextMenu(ContextMenuStrip menu)
+        {
             var position = Cursor.Position;
             var dropDownDirection = ToolStripDropDownDirection.Default;
 
@@ -99,11 +112,11 @@ namespace WTManager.TrayMenu
                     int bottomYPos = beyondTaskbar ? Taskbar.CurrentBounds.Top : Cursor.Position.Y;
                     position = new Point(Cursor.Position.X, bottomYPos - this.ContextMenu.Height);
                     break;
-            }
-            this.ContextMenu.Show(position, dropDownDirection);
+            } 
+            menu.Show(position, dropDownDirection);
         }
 
-        public void InitMenu()
+        public void RecreateMenu()
         {
             new WtMenuGenerator(this).CreateRootMenu();
             this.UpdateTrayMenu();
@@ -112,20 +125,6 @@ namespace WTManager.TrayMenu
         private void UpdateTimer_OnTick(object sender, EventArgs eventArgs)
         {
             this.UpdateTrayMenu();
-        }
-
-        private void UpdateMenuItemState(WtMenuItem menuItem)
-        {
-            if (menuItem == null)
-                return;
-
-            menuItem.UpdateState();
-
-            if (menuItem.SubItems == null || menuItem.SubItems.Count == 0)
-                return;
-
-            foreach(var subItem in menuItem.SubItems)
-                this.UpdateMenuItemState(subItem);
         }
 
         #region IWtTrayMenuController
@@ -142,8 +141,8 @@ namespace WTManager.TrayMenu
 
         public void UpdateTrayMenu()
         {
-            foreach (ToolStripItem tsItem in this.ContextMenu.Items)
-                this.UpdateMenuItemState(tsItem.Tag as WtMenuItem);
+            foreach (var menuItem in this)
+                menuItem.UpdateState();
         }
 
         public void ShowBaloon(string title, string message, ToolTipIcon icon)
@@ -158,5 +157,30 @@ namespace WTManager.TrayMenu
         }
 
         #endregion
+
+        public IEnumerator<WtMenuItem> GetEnumerator()
+        {
+            foreach (ToolStripItem tsItem in this.ContextMenu.Items)
+            {
+                var wtMenuItem = tsItem.Tag as WtMenuItem;
+
+                if (wtMenuItem == null)
+                    continue;
+
+                // yield root item
+                yield return wtMenuItem;
+
+                foreach (var subItem in wtMenuItem.SubItems.RecursiveSelect(subItem => subItem.SubItems))
+                {
+                    // recursively yield all sub items
+                    yield return subItem;
+                }
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
     }
 }
