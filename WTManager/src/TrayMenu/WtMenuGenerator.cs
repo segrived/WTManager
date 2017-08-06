@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Linq;
 using WTManager.Config;
@@ -11,16 +12,16 @@ namespace WTManager.TrayMenu
     /// </summary>
     public class WtMenuGenerator
     {
-        private readonly IWtTrayMenuController _controller;
+        private readonly ITrayController _controller;
 
-        public WtMenuGenerator(IWtTrayMenuController controller)
+        public WtMenuGenerator(ITrayController controller)
         {
             this._controller = controller;
         }
 
         public void CreateRootMenu()
         {
-            var services = ConfigManager.Services;
+            var services = ConfigManager.Instance.Config.Services;
 
             var serviceGroups = services.GroupBy(s => s.Group);
 
@@ -28,7 +29,8 @@ namespace WTManager.TrayMenu
 
             foreach (var group in serviceGroups)
             {
-                this._controller.AddMenuItem(new TitleMenuItem(this._controller, group.Key));
+                if (! String.IsNullOrEmpty(group.Key))
+                    this._controller.AddMenuItem(new TitleMenuItem(this._controller, group.Key));
 
                 foreach (var service in group)
                     this._controller.AddMenuItem(this.CreateServiceMenu(service));

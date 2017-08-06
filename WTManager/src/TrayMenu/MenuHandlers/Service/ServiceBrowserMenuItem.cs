@@ -5,12 +5,12 @@ namespace WTManager.TrayMenu.MenuHandlers.Service
 {
     public class ServiceBrowserMenuItem : ServiceMenuItem
     {
-        public ServiceBrowserMenuItem(IWtTrayMenuController controller, Config.Service service) 
+        public ServiceBrowserMenuItem(ITrayController controller, Config.Service service) 
             : base(controller, service) { }
 
         protected override string DisplayText => "Open in browser…";
 
-        protected override string ImageKey => "browser";
+        protected override string ImageKey => "service-open-browser";
 
         protected override bool IsVisible => !String.IsNullOrEmpty(this.Service.BrowserUrl);
 

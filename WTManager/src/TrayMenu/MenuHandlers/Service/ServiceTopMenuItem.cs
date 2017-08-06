@@ -2,7 +2,7 @@
 {
     public class ServiceTopMenuItem : ServiceMenuItem
     {
-        public ServiceTopMenuItem(IWtTrayMenuController controller, Config.Service service)
+        public ServiceTopMenuItem(ITrayController controller, Config.Service service)
             : base(controller, service) { }
 
         protected override string DisplayText => this.Service.DisplayName;
@@ -14,11 +14,11 @@
             get
             {
                 if (this.Service.IsStarted)
-                    return "started";
+                    return "service-status-started";
                 if (this.Service.IsStopped)
-                    return "stopped";
+                    return "service-status-stopped";
                 if (this.Service.IsInPendingState)
-                    return "pending";
+                    return "service-status-pending";
 
                 return base.ImageKey;
             }

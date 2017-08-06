@@ -119,20 +119,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="src\Config\ConfigManager.cs" />
     <Compile Include="src\Config\Configuration.cs" />
     <Compile Include="src\Controls\WtManagerForm.cs" />
     <Compile Include="src\Controls\WtManagerMainForm.cs" />
     <Compile Include="src\Controls\WtToolStripMenuItem.cs" />
+    <Compile Include="src\IConfigurable.cs" />
     <Compile Include="src\Helpers\Extensions.cs" />
     <Compile Include="src\Helpers\FileHelpers.cs" />
     <Compile Include="src\Helpers\SchedulerHelpers.cs" />
-    <Compile Include="src\Helpers\SerializationHelpers.cs" />
     <Compile Include="src\Helpers\ServiceHelpers.cs" />
     <Compile Include="src\Lib\Taskbar.cs" />
     <Compile Include="src\Lib\FileWatcher.cs" />
     <Compile Include="src\Lib\LimitedQueue.cs" />
-    <Compile Include="src\TrayMenu\IWtTrayMenuController.cs" />
+    <Compile Include="src\ITrayController.cs" />
     <Compile Include="src\TrayMenu\MenuHandlers\FileOperationMenuItem.cs" />
     <Compile Include="src\TrayMenu\MenuHandlers\Service\ServiceEditMenuItem.cs" />
     <Compile Include="src\TrayMenu\MenuHandlers\ApplicationExitMenuItem.cs" />
@@ -151,7 +156,6 @@
     <Compile Include="src\Controls\WtToolStripMenuRenderer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="src\Lib\IconsManager.cs" />
     <Compile Include="src\Forms\AddEditServiceForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -179,6 +183,10 @@
     <Compile Include="src\TrayMenu\WtMenuItem.cs" />
     <Compile Include="src\TrayMenu\WtMenuGenerator.cs" />
     <Compile Include="src\TrayMenu\WtTrayMenu.cs" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="src\Forms\LogFileViewerForm.resx">
       <DependentUpon>LogFileViewerForm.cs</DependentUpon>
       <SubType>Designer</SubType>

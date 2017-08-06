@@ -196,7 +196,7 @@
             // addConfigFileBtn
             // 
             this.addConfigFileBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.addConfigFileBtn.Image = global::WTManager.Resources.Graphics.Add;
+            //this.addConfigFileBtn.Image = global::WTManager.Resources.Graphics.Add;
             this.addConfigFileBtn.Location = new System.Drawing.Point(494, 109);
             this.addConfigFileBtn.Name = "addConfigFileBtn";
             this.addConfigFileBtn.Size = new System.Drawing.Size(50, 33);
@@ -207,7 +207,7 @@
             // addLogFileBtn
             // 
             this.addLogFileBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.addLogFileBtn.Image = global::WTManager.Resources.Graphics.Add;
+            //this.addLogFileBtn.Image = global::WTManager.Resources.Graphics.Add;
             this.addLogFileBtn.Location = new System.Drawing.Point(494, 24);
             this.addLogFileBtn.Name = "addLogFileBtn";
             this.addLogFileBtn.Size = new System.Drawing.Size(50, 33);
@@ -345,7 +345,7 @@
             // cancelBtn
             // 
             this.cancelBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cancelBtn.Image = global::WTManager.Resources.Graphics.Cancel;
+            //this.cancelBtn.Image = global::WTManager.Resources.Graphics.Cancel;
             this.cancelBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.cancelBtn.Location = new System.Drawing.Point(430, 471);
             this.cancelBtn.Name = "cancelBtn";
@@ -359,7 +359,7 @@
             // OkBtn
             // 
             this.OkBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.OkBtn.Image = global::WTManager.Resources.Graphics.Ok;
+            //this.OkBtn.Image = global::WTManager.Resources.Graphics.Ok;
             this.OkBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.OkBtn.Location = new System.Drawing.Point(297, 471);
             this.OkBtn.Name = "OkBtn";

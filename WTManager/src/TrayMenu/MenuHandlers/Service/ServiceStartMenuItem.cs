@@ -6,12 +6,12 @@ namespace WTManager.TrayMenu.MenuHandlers.Service
 {
     public class ServiceStartMenuItem : ServiceMenuItem
     {
-        public ServiceStartMenuItem(IWtTrayMenuController controller, Config.Service service) 
+        public ServiceStartMenuItem(ITrayController controller, Config.Service service) 
             : base(controller, service) { }
 
         protected override string DisplayText => "Start service";
 
-        protected override string ImageKey => "start";
+        protected override string ImageKey => "service-start";
 
         protected override bool IsVisible => this.Service.IsStopped;
 

@@ -4,7 +4,7 @@
     {
         protected string FileName { get; private set; }
 
-        protected FileOperationMenuItem(IWtTrayMenuController controller, string fileName)
+        protected FileOperationMenuItem(ITrayController controller, string fileName)
             : base(controller)
         {
             this.FileName = fileName;

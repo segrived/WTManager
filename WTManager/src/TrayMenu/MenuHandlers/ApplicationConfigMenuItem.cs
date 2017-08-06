@@ -4,12 +4,12 @@ namespace WTManager.TrayMenu.MenuHandlers
 {
     public class ApplicationConfigMenuItem : WtMenuItem
     {
-        public ApplicationConfigMenuItem(IWtTrayMenuController controller) 
+        public ApplicationConfigMenuItem(ITrayController controller) 
             : base(controller) { }
 
         protected override string DisplayText => "Program configuration";
 
-        protected override string ImageKey => "config";
+        protected override string ImageKey => "settings-manager";
 
         protected override void Action()
         {

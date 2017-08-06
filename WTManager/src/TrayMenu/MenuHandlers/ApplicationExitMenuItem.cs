@@ -4,12 +4,12 @@ namespace WTManager.TrayMenu.MenuHandlers
 {
     public class ApplicationExitMenuItem : WtMenuItem
     {
-        public ApplicationExitMenuItem(IWtTrayMenuController controller) 
+        public ApplicationExitMenuItem(ITrayController controller) 
             : base(controller) { }
 
         protected override string DisplayText => "Exit";
 
-        protected override string ImageKey => "exit";
+        protected override string ImageKey => "app-exit";
 
         protected override void Action()
         {

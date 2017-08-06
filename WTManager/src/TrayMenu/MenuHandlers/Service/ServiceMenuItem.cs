@@ -4,7 +4,7 @@
     {
         protected Config.Service Service { get; private set; }
 
-        protected ServiceMenuItem(IWtTrayMenuController controller, Config.Service service)
+        protected ServiceMenuItem(ITrayController controller, Config.Service service)
             : base(controller)
         {
             this.Service = service;

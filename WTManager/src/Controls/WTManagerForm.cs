@@ -7,7 +7,7 @@ using WTManager.Forms;
 namespace WTManager.Controls
 {
     [System.ComponentModel.DesignerCategory("")]
-    public class WtManagerForm : Form
+    public class WtManagerForm : Form, IConfigurable
     {
         protected WtManagerForm()
         {
@@ -19,8 +19,8 @@ namespace WTManager.Controls
         {
             base.OnShown(e);
 
-            var configurableForm = this as IConfigurable;
-            configurableForm?.ApplySettings(ConfigManager.Instance.Config);
+            this.ApplySettings(ConfigManager.Instance.Config);
+            this.ApplyTheme();
         }
 
         private void UpdateSystemFont()
@@ -30,16 +30,24 @@ namespace WTManager.Controls
 
         protected void SaveConfiguration(bool autoClose = false)
         {
-            var configurableForm = this as IConfigurable;
-
-            if (configurableForm == null)
-                return;
-
-            configurableForm.UpdateSettings(ConfigManager.Instance.Config);
+            this.UpdateSettings(ConfigManager.Instance.Config);
             ConfigManager.Instance.SaveConfig();
 
             if (autoClose)
                 this.Close();
+        }
+
+        protected virtual void ApplyTheme()
+        {
+            
+        }
+
+        public virtual void ApplySettings(Configuration configuration)
+        {
+        }
+
+        public virtual void UpdateSettings(Configuration configuration)
+        {
         }
     }
 }

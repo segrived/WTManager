@@ -5,13 +5,13 @@ using System.Linq;
 using System.Windows.Forms;
 using WTManager.Config;
 using WTManager.Controls;
-using WTManager.Lib;
+using WTManager.Resources;
 
 namespace WTManager.TrayMenu
 {
     public abstract class WtMenuItem : IDisposable
     {
-        protected IWtTrayMenuController Controller { get; private set; }
+        protected ITrayController Controller { get; private set; }
 
         /// <summary>
         /// Menu item display text
@@ -30,7 +30,7 @@ namespace WTManager.TrayMenu
 
         private WtToolStripMenuItem _internalMenuStripItem;
 
-        protected WtMenuItem(IWtTrayMenuController controller)
+        protected WtMenuItem(ITrayController controller)
         {
             this.Controller = controller;
             this.SubItems = new List<WtMenuItem>();
@@ -57,11 +57,16 @@ namespace WTManager.TrayMenu
             this._internalMenuStripItem.Text = this.DisplayText;
 
             // Update image
-            if (this.ImageKey == null || !IconsManager.Icons.ContainsKey(this.ImageKey))
+            if (this.ImageKey == null)
                 return;
 
-            if (this._internalMenuStripItem.Image != IconsManager.Icons[this.ImageKey])
-                this._internalMenuStripItem.Image = IconsManager.Icons[this.ImageKey];
+            var icon = ResourcesProcessor.GetImage($"menu.{this.ImageKey}");
+
+            if (icon == null)
+                return;
+            
+            if (this._internalMenuStripItem.Image != icon)
+                this._internalMenuStripItem.Image = icon;
         }
 
         protected virtual ToolStripItem ToMenuItem()
@@ -69,7 +74,11 @@ namespace WTManager.TrayMenu
             if (this._internalMenuStripItem == null)
             {
                 this._internalMenuStripItem = new WtToolStripMenuItem(this.DisplayText);
-                this._internalMenuStripItem.Font = new Font(ConfigManager.Preferences.MenuFontName, ConfigManager.Preferences.MenuFontSize, this.FontStyle);
+
+                string fontName = ConfigManager.Instance.Config.MenuFontName;
+                float fontSize = ConfigManager.Instance.Config.MenuFontSize;
+                this._internalMenuStripItem.Font = new Font(fontName, fontSize, this.FontStyle);
+
                 this._internalMenuStripItem.Click += this.InternalMenuStripItem_OnClick;
                 this._internalMenuStripItem.Tag = this;
             }

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 
 namespace WTManager.Helpers
 {
@@ -71,5 +73,61 @@ namespace WTManager.Helpers
                 }
             }
         }
+
+        #region Serialization helpers
+
+        public static bool SerializeFile<T>(this T obj, string fileName)
+        {
+            try
+            {
+                var serializer = new XmlSerializer(typeof(T));
+
+                using (var writer = new StreamWriter(fileName))
+                    serializer.Serialize(writer, obj);
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static T DeserializeFile<T>(string fileName) where T : new()
+        {
+            try
+            {
+                var serializer = new XmlSerializer(typeof(T));
+
+                using (var reader = new StreamReader(fileName))
+                    return (T) serializer.Deserialize(reader);
+            }
+            catch
+            {
+                return new T();
+            }
+        }
+
+        #endregion
+
+        #region UI extensions
+
+        public static void MoveSelectedItem(this ListBox listBox, int direction)
+        {
+            if (listBox.SelectedItem == null || listBox.SelectedIndex < 0)
+                return;
+            
+            int newIndex = listBox.SelectedIndex + direction;
+            if (newIndex < 0 || newIndex >= listBox.Items.Count)
+                return;
+
+            var selected = listBox.SelectedItem;
+
+            listBox.Items.Remove(selected);
+            listBox.Items.Insert(newIndex, selected);
+            listBox.SetSelected(newIndex, true);
+        }
+
+        #endregion
     }
 }

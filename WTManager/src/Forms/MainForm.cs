@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.IO;
 using System.Windows.Forms;
 using WTManager.Config;
 using WTManager.Controls;
@@ -10,13 +9,13 @@ namespace WTManager.Forms
     [DesignerCategory("Form")]
     public partial class MainForm : WtManagerMainForm
     {
-        private readonly WtTrayMenu _uiTrayMenu;
+        private readonly TrayMenu.TrayMenu _uiTray;
 
         public MainForm()
         {
             this.InitializeComponent();
 
-            this._uiTrayMenu = new WtTrayMenu(this.trayIcon);
+            this._uiTray = new TrayMenu.TrayMenu(this.trayIcon);
 
             ConfigManager.Instance.ConfigSaved += this.InitTrayMenu;
             this.InitTrayMenu();
@@ -25,8 +24,7 @@ namespace WTManager.Forms
 
         private void InitTrayMenu()
         {
-            ConfigManager.Instance.ReloadConfig();
-            this._uiTrayMenu.RecreateMenu();
+            this._uiTray.RecreateMenu();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)

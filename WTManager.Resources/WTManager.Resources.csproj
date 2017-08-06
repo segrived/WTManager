@@ -42,38 +42,52 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Graphics.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Graphics.resx</DependentUpon>
-      <CustomToolNamespace>WTManager</CustomToolNamespace>
-    </Compile>
+    <Compile Include="ResourcesProcessor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Graphics.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Graphics.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\add.png" />
+    <EmbeddedResource Include="Resources\Images\dialog\add.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\browser.ico" />
-    <EmbeddedResource Include="Resources\command.ico" />
-    <EmbeddedResource Include="Resources\config.ico" />
-    <EmbeddedResource Include="Resources\exit.ico" />
-    <EmbeddedResource Include="Resources\folder.ico" />
-    <EmbeddedResource Include="Resources\log.ico" />
-    <EmbeddedResource Include="Resources\pending.ico" />
-    <EmbeddedResource Include="Resources\reload.ico" />
-    <EmbeddedResource Include="Resources\start.ico" />
-    <EmbeddedResource Include="Resources\started.ico" />
-    <EmbeddedResource Include="Resources\stop.ico" />
-    <EmbeddedResource Include="Resources\stopped.ico" />
-    <EmbeddedResource Include="Resources\tray.ico" />
-    <EmbeddedResource Include="Resources\remove.png" />
-    <EmbeddedResource Include="Resources\ok.png" />
-    <EmbeddedResource Include="Resources\edit.png" />
-    <EmbeddedResource Include="Resources\cancel.png" />
+    <EmbeddedResource Include="Resources\Images\tray.ico" />
+    <EmbeddedResource Include="Resources\Images\dialog\remove.png" />
+    <EmbeddedResource Include="Resources\Images\dialog\ok.png" />
+    <EmbeddedResource Include="Resources\Images\dialog\edit.png" />
+    <EmbeddedResource Include="Resources\Images\dialog\cancel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Images\dialog\down.png" />
+    <EmbeddedResource Include="Resources\Images\dialog\up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Images\menu\service-config.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Images\menu\service-edit-config.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Images\menu\service-show-log.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Images\menu\service-open-browser.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Images\menu\service-open-data-directory.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Images\menu\service-restart.png" />
+    <EmbeddedResource Include="Resources\Images\menu\service-start.png" />
+    <EmbeddedResource Include="Resources\Images\menu\service-stop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Images\menu\service-status-pending.png" />
+    <EmbeddedResource Include="Resources\Images\menu\service-status-started.png" />
+    <EmbeddedResource Include="Resources\Images\menu\service-status-stopped.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Images\menu\settings-manager.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Images\menu\app-exit.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

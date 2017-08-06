@@ -4,7 +4,7 @@ namespace WTManager.TrayMenu.MenuHandlers
 {
     public sealed class SeparatorMenuItem : WtMenuItem
     {
-        public SeparatorMenuItem(IWtTrayMenuController controller)
+        public SeparatorMenuItem(ITrayController controller)
             : base(controller) { }
 
         protected override ToolStripItem ToMenuItem()

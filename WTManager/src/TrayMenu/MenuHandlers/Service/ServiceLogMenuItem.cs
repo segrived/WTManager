@@ -8,17 +8,17 @@ namespace WTManager.TrayMenu.MenuHandlers.Service
 {
     public class ServiceLogMenuItem : FileOperationMenuItem
     {
-        public ServiceLogMenuItem(IWtTrayMenuController controller, string fileName) 
+        public ServiceLogMenuItem(ITrayController controller, string fileName) 
             : base(controller, fileName) { }
 
         protected override string DisplayText 
             => $"Show {Path.GetFileName(this.FileName)}";
 
-        protected override string ImageKey => "log";
+        protected override string ImageKey => "service-show-log";
 
         protected override void Action()
         {
-            string viewer = ConfigManager.Preferences.LogViewerPath;
+            string viewer = ConfigManager.Instance.Config.LogViewerPath;
 
             if (string.IsNullOrEmpty(viewer) || viewer == "internal")
             {

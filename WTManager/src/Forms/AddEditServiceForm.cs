@@ -13,7 +13,8 @@ namespace WTManager.Forms
     {
         public Service Service { get; private set; }
 
-        private void InitForm(Service service) {
+        private void InitForm(Service service)
+        {
             this.InitializeComponent();
 
             this.Service = service;
@@ -21,8 +22,9 @@ namespace WTManager.Forms
             // default dialog result
             this.DialogResult = DialogResult.Cancel;
 
-            if (ConfigManager.Services != null) {
-                var groups = ConfigManager.Services
+            if (ConfigManager.Instance.Config.Services != null)
+            {
+                var groups = ConfigManager.Instance.Config.Services
                     .Select(serv => serv.Group)
                     .Where(g => !String.IsNullOrWhiteSpace(g))
                     .Distinct()
@@ -33,20 +35,22 @@ namespace WTManager.Forms
 
             var services = ServiceHelpers.GetAllServices().Select(s => s.ServiceName);
 
-            if (ConfigManager.Services != null)
+            if (ConfigManager.Instance.Config.Services != null)
             {
-                var alreadyAdded = ConfigManager.Services.Select(s => s.ServiceName).ToHashSet();
+                var alreadyAdded = ConfigManager.Instance.Config.Services.Select(s => s.ServiceName).ToHashSet();
                 services = services.Where(s => s == service.ServiceName || !alreadyAdded.Contains(s));
             }
 
             this.serviceNameCb.Items.AddRange(services.Cast<object>().ToArray());
         }
 
-        public AddEditServiceForm() {
+        public AddEditServiceForm()
+        {
             this.InitForm(new Service());
         }
 
-        public AddEditServiceForm(Service s) {
+        public AddEditServiceForm(Service s)
+        {
             this.InitForm(s);
 
             this.serviceNameCb.SelectedItem = s.ServiceName;
@@ -67,14 +71,16 @@ namespace WTManager.Forms
 
         }
 
-        private void serviceNameCb_SelectedIndexChanged(object sender, EventArgs e) {
-            if (this.serviceNameCb.SelectedItem == null) {
+        private void serviceNameCb_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.serviceNameCb.SelectedItem == null)
                 return;
-            }
+
             this.serviceDisplayNameTb.Text = this.serviceNameCb.Text;
         }
 
-        private void removeLogFileBtn_Click(object sender, EventArgs e) {
+        private void removeLogFileBtn_Click(object sender, EventArgs e) 
+        {
             if (this.logFilesLb.SelectedItems.Count == 0)
                 return;
             foreach (string s in this.logFilesLb.SelectedItems.OfType<string>().ToList()) {
@@ -82,12 +88,13 @@ namespace WTManager.Forms
             }
         }
 
-        private void removeConfigFileBtn_Click(object sender, EventArgs e) {
+        private void removeConfigFileBtn_Click(object sender, EventArgs e)
+        {
             if (this.configFilesLb.SelectedItems.Count == 0)
                 return;
-            foreach (string s in this.configFilesLb.SelectedItems.OfType<string>().ToList()) {
+
+            foreach (string s in this.configFilesLb.SelectedItems.OfType<string>().ToList())
                 this.configFilesLb.Items.Remove(s);
-            }
         }
 
         private void addLogFileBtn_Click(object sender, EventArgs e)

@@ -1,11 +1,12 @@
 ﻿using System.Windows.Forms;
+using WTManager.TrayMenu;
 
-namespace WTManager.TrayMenu
+namespace WTManager
 {
     /// <summary>
     /// Tray menu controller
     /// </summary>
-    public interface IWtTrayMenuController
+    public interface ITrayController
     {
         /// <summary>
         /// Display system baloon message

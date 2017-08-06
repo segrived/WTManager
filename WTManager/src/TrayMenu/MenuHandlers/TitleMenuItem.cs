@@ -10,7 +10,7 @@ namespace WTManager.TrayMenu.MenuHandlers
 
         protected override bool IsEnabled => false;
 
-        public TitleMenuItem(IWtTrayMenuController controller, string text)
+        public TitleMenuItem(ITrayController controller, string text)
             : base(controller)
         {
             this.DisplayText = text;

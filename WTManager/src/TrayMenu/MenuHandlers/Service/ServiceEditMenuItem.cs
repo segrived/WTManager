@@ -7,12 +7,12 @@ namespace WTManager.TrayMenu.MenuHandlers.Service
 {
     public class ServiceEditMenuItem : ServiceMenuItem
     {
-        public ServiceEditMenuItem(IWtTrayMenuController controller, Config.Service service)
+        public ServiceEditMenuItem(ITrayController controller, Config.Service service)
             : base(controller, service) { }
 
         protected override string DisplayText { get; } = "Edit configuration";
 
-        protected override string ImageKey => "config";
+        protected override string ImageKey => "service-config";
 
         protected override void Action()
         {
@@ -21,7 +21,7 @@ namespace WTManager.TrayMenu.MenuHandlers.Service
                 if (f.ShowDialog() != DialogResult.OK)
                     return;
 
-                var services = ConfigManager.Services.ToList();
+                var services = ConfigManager.Instance.Config.Services.ToList();
 
                 bool Predicate(Config.Service serviceToTest) 
                     => Equals(serviceToTest.GetHashCode(), this.Service.GetHashCode());

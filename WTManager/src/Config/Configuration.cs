@@ -9,33 +9,12 @@ namespace WTManager.Config
     [Serializable]
     public class Configuration
     {
-        /// <summary>
-        /// Program preferences
-        /// </summary>
-        public Preferences Preferences { get; set; }
-
-        /// <summary>
-        /// Services
-        /// </summary>
-        public List<Service> Services { get; set; }
-
-        /// <summary>
-        /// Default config
-        /// </summary>
-        public static Configuration Defaults => new Configuration
-        {
-            Preferences = new Preferences(),
-            Services = new List<Service>()
-        };
-    }
-
-    [Serializable]
-    public class Preferences
-    {
-        public Preferences()
+        public Configuration()
         {
             this.MenuFontName = SystemFonts.MenuFont.Name;
             this.MenuFontSize = SystemFonts.MenuFont.Size;
+
+            this.Services = new List<Service>();
         }
 
         /// <summary>
@@ -66,6 +45,11 @@ namespace WTManager.Config
         public string MenuFontName { get; set; }
 
         public float MenuFontSize { get; set; }
+
+        /// <summary>
+        /// Services
+        /// </summary>
+        public List<Service> Services { get; set; }
     }
 
     [Serializable]

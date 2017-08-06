@@ -10,10 +10,11 @@ using WTManager.Config;
 using WTManager.Controls;
 using WTManager.Helpers;
 using WTManager.Lib;
+using WTManager.Resources;
 
 namespace WTManager.TrayMenu
 {
-    public class WtTrayMenu : IWtTrayMenuController, IDisposable, IEnumerable<WtMenuItem>
+    public class TrayMenu : ITrayController, IDisposable, IEnumerable<WtMenuItem>
     {
         private const int BALOON_SHOW_TIME = 3000;
         private const BindingFlags FLAGS = BindingFlags.Instance | BindingFlags.NonPublic;
@@ -24,7 +25,7 @@ namespace WTManager.TrayMenu
 
         private ContextMenuStrip ContextMenu => this._notifyIcon.ContextMenuStrip;
 
-        public WtTrayMenu(NotifyIcon uiTrayIcon)
+        public TrayMenu(NotifyIcon uiTrayIcon)
         {
             this._notifyIcon = uiTrayIcon;
             this._notifyIcon.ContextMenuStrip.Opening += this.ContextMenuStrip_OnOpening;
@@ -51,10 +52,16 @@ namespace WTManager.TrayMenu
 
         private void UpdateTrayIcon()
         {
-            string customIcon = ConfigManager.Preferences.CustomTrayIcon;
+            string customIcon = ConfigManager.Instance.Config.CustomTrayIcon;
 
             if (!String.IsNullOrEmpty(customIcon) && File.Exists(customIcon))
+            {
                 this._notifyIcon.Icon = Icon.ExtractAssociatedIcon(customIcon);
+            }
+            else
+            {
+                this._notifyIcon.Icon = ResourcesProcessor.GetIcon("tray");
+            }
         }
 
         public void Dispose()
@@ -88,7 +95,7 @@ namespace WTManager.TrayMenu
             var position = Cursor.Position;
             var dropDownDirection = ToolStripDropDownDirection.Default;
 
-            bool beyondTaskbar = ConfigManager.Preferences.ShowMenuBeyondTaskbar;
+            bool beyondTaskbar = ConfigManager.Instance.Config.ShowMenuBeyondTaskbar;
 
             switch (Taskbar.Position)
             {
@@ -127,7 +134,7 @@ namespace WTManager.TrayMenu
             this.UpdateTrayMenu();
         }
 
-        #region IWtTrayMenuController
+        #region ITrayController
 
         public void AddMenuItem(WtMenuItem menuItem)
         {
@@ -147,7 +154,7 @@ namespace WTManager.TrayMenu
 
         public void ShowBaloon(string title, string message, ToolTipIcon icon)
         {
-            if (!ConfigManager.Preferences.ShowPopups)
+            if (!ConfigManager.Instance.Config.ShowPopups)
                 return;
 
             if (!Enum.IsDefined(typeof(ToolTipIcon), icon))
