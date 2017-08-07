@@ -2,7 +2,6 @@
 using System.Drawing;
 using System.Windows.Forms;
 using WTManager.Config;
-using WTManager.Forms;
 using WTManager.Resources;
 
 namespace WTManager.Controls
@@ -22,7 +21,7 @@ namespace WTManager.Controls
         {
             base.OnShown(e);
 
-            this.ApplySettings(ConfigManager.Instance.Config);
+            this.ApplySettings();
             this.ApplyTheme();
         }
 
@@ -39,7 +38,7 @@ namespace WTManager.Controls
 
         protected void SaveConfiguration(bool autoClose = false)
         {
-            this.UpdateSettings(ConfigManager.Instance.Config);
+            this.UpdateSettings();
             ConfigManager.Instance.SaveConfig();
 
             if (autoClose)
@@ -56,11 +55,11 @@ namespace WTManager.Controls
             
         }
 
-        public virtual void ApplySettings(Configuration configuration)
+        public virtual void ApplySettings()
         {
         }
 
-        public virtual void UpdateSettings(Configuration configuration)
+        public virtual void UpdateSettings()
         {
         }
     }

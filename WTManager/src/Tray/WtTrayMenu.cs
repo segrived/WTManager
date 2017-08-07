@@ -18,7 +18,8 @@ namespace WTManager.Tray
         private const int BALOON_SHOW_TIME = 3000;
         private const BindingFlags FLAGS = BindingFlags.Instance | BindingFlags.NonPublic;
 
-        private readonly MethodInfo _showContextMenuMethod = null;
+        private readonly WtMenuGenerator _menuGenerator;
+        private readonly MethodInfo _showContextMenuMethod;
         private readonly NotifyIcon _notifyIcon;
         private readonly Timer _updateTimer;
 
@@ -26,22 +27,29 @@ namespace WTManager.Tray
 
         public TrayMenu(NotifyIcon uiTrayIcon)
         {
+            // Notify icon
             this._notifyIcon = uiTrayIcon;
+            this._notifyIcon.MouseUp += this.NotifyIcon_OnMouseUp;
+
+            // Notify icon context menu
             this._notifyIcon.ContextMenuStrip.Opening += this.ContextMenuStrip_OnOpening;
-            this._notifyIcon.ContextMenuStrip.MouseUp += this.ContextMenuStrip_OnMouseUp;
             this._notifyIcon.ContextMenuStrip.Renderer = new WtToolStripMenuRenderer();
 
-            this.UpdateTrayIcon();
-
+            // Update menu items state timer
             this._updateTimer = new Timer {Interval = 1000};
             this._updateTimer.Tick += this.UpdateTimer_OnTick;
             this._updateTimer.Start();
 
-            // just cache
+            this._menuGenerator = new WtMenuGenerator(this);
+
             this._showContextMenuMethod = typeof(NotifyIcon).GetMethod("ShowContextMenu", FLAGS);
 
+            // Config / theme subscription
             ConfigManager.Instance.ConfigSaved += this.ConfigManager_OnConfigSaved;
             ResourcesProcessor.ThemeChanged += this.ResourcesProcessor_OnThemeChanged;
+
+            this.RecreateMenu();
+            this.UpdateTrayIcon();
         }
 
         private void UpdateTrayIcon()
@@ -51,25 +59,26 @@ namespace WTManager.Tray
 
         public void Dispose()
         {
-            ConfigManager.Instance.ConfigSaved -= this.ConfigManager_OnConfigSaved;
-            ResourcesProcessor.ThemeChanged -= this.ResourcesProcessor_OnThemeChanged;
-
             foreach (var menuItem in this)
                 menuItem.Dispose();
   
             this._updateTimer.Tick -= this.UpdateTimer_OnTick;
             this._updateTimer.Stop();
+            this._updateTimer.Dispose();
 
             this._notifyIcon.ContextMenuStrip.Opening -= this.ContextMenuStrip_OnOpening;
-            this._notifyIcon.ContextMenuStrip.MouseUp -= this.ContextMenuStrip_OnMouseUp;
+            this._notifyIcon.MouseUp -= this.NotifyIcon_OnMouseUp;
             this._notifyIcon.Dispose();
+
+            ConfigManager.Instance.ConfigSaved -= this.ConfigManager_OnConfigSaved;
+            ResourcesProcessor.ThemeChanged -= this.ResourcesProcessor_OnThemeChanged;
         }
 
         #region Event handlers
 
         private void ConfigManager_OnConfigSaved()
         {
-            this.UpdateTrayMenu();
+            this.RecreateMenu();
         }
 
         private void ResourcesProcessor_OnThemeChanged()
@@ -82,9 +91,12 @@ namespace WTManager.Tray
             this.UpdateTrayMenu();
         }
 
-        private void ContextMenuStrip_OnMouseUp(object o, MouseEventArgs e)
+        private void NotifyIcon_OnMouseUp(object o, MouseEventArgs e)
         {
-            if (e.Button != MouseButtons.Left)
+            if (e.Button != MouseButtons.Left && e.Button != MouseButtons.Right)
+                return;
+
+            if (e.Button == MouseButtons.Left && !ConfigManager.Instance.Config.OpenTrayMenuLeftClick)
                 return;
 
             this._showContextMenuMethod?.Invoke(this._notifyIcon, null);
@@ -130,9 +142,9 @@ namespace WTManager.Tray
             menu.Show(position, dropDownDirection);
         }
 
-        public void RecreateMenu()
+        private void RecreateMenu()
         {
-            new WtMenuGenerator(this).CreateRootMenu();
+            this._menuGenerator.CreateRootMenu();
             this.UpdateTrayMenu();
         }
 

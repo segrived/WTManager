@@ -16,15 +16,6 @@ namespace WTManager.Forms
             this.InitializeComponent();
 
             this._uiTray = new TrayMenu(this.trayIcon);
-
-            ConfigManager.Instance.ConfigSaved += this.InitTrayMenu;
-            this.InitTrayMenu();
-
-        }
-
-        private void InitTrayMenu()
-        {
-            this._uiTray.RecreateMenu();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)

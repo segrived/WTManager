@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using WTManager.Config;
 using WTManager.Controls;
 using WTManager.Resources;
+using WTManager.Tray.MenuHandlers;
 
 namespace WTManager.Tray
 {
@@ -36,6 +37,11 @@ namespace WTManager.Tray
             this.SubItems = new List<WtMenuItem>();
 
             this._internalMenuStripItem = null;
+        }
+
+        public void AddSubItem(WtMenuItem menuItem)
+        {
+            this.SubItems.Add(menuItem);
         }
 
         protected virtual void Action()

@@ -16,7 +16,7 @@ namespace WTManager.Tray.MenuHandlers.Service
 
         protected override void Action()
         {
-            Process.Start($"http://{this.Service.BrowserUrl}");
+            Process.Start(this.Service.DataDirectory);
         }
     }
 }

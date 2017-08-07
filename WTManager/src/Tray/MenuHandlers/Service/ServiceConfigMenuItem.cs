@@ -18,7 +18,7 @@ namespace WTManager.Tray.MenuHandlers.Service
         {
             bool isValidEditor = File.Exists(ConfigManager.Instance.Config.EditorPath);
 
-            string editorPath = isValidEditor 
+            string editorPath = !isValidEditor 
                 ? "notepad.exe" 
                 : ConfigManager.Instance.Config.EditorPath;
 

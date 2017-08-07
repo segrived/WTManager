@@ -46,22 +46,35 @@ namespace WTManager.Tray
         {
             var topServiceMenuItem = new ServiceTopMenuItem(this._controller, service);
 
-            topServiceMenuItem.SubItems.Add(new ServiceStartMenuItem(this._controller, service));
-            topServiceMenuItem.SubItems.Add(new ServiceRestartMenuItem(this._controller, service));
-            topServiceMenuItem.SubItems.Add(new ServiceStopMenuItem(this._controller, service));
+            topServiceMenuItem.AddSubItem(new ServiceStartMenuItem(this._controller, service));
+            topServiceMenuItem.AddSubItem(new ServiceRestartMenuItem(this._controller, service));
+            topServiceMenuItem.AddSubItem(new ServiceStopMenuItem(this._controller, service));
 
-            topServiceMenuItem.SubItems.Add(new SeparatorMenuItem(this._controller));
+            topServiceMenuItem.AddSubItem(new SeparatorMenuItem(this._controller));
 
-            foreach (string file in service.ConfigFiles.Where(File.Exists))
-                topServiceMenuItem.SubItems.Add(new ServiceConfigMenuItem(this._controller, file));
+            if (service.ConfigFiles.Count > 0)
+            {
+                topServiceMenuItem.AddSubItem(new TitleMenuItem(this._controller, "Config files"));
+                foreach (string file in service.ConfigFiles.Where(File.Exists))
+                    topServiceMenuItem.AddSubItem(new ServiceConfigMenuItem(this._controller, file));
 
-            foreach (string file in service.LogFiles.Where(File.Exists))
-                topServiceMenuItem.SubItems.Add(new ServiceLogMenuItem(this._controller, file));
+                topServiceMenuItem.AddSubItem(new SeparatorMenuItem(this._controller));
+            }
+            if (service.LogFiles.Count > 0)
+            {
+                topServiceMenuItem.AddSubItem(new TitleMenuItem(this._controller, "Log files"));
+                foreach (string file in service.LogFiles.Where(File.Exists))
+                    topServiceMenuItem.AddSubItem(new ServiceLogMenuItem(this._controller, file));
 
-            topServiceMenuItem.SubItems.Add(new ServiceDirectoryMenuItem(this._controller, service));
-            topServiceMenuItem.SubItems.Add(new ServiceBrowserMenuItem(this._controller, service));
-            topServiceMenuItem.SubItems.Add(new SeparatorMenuItem(this._controller));
-            topServiceMenuItem.SubItems.Add(new ServiceEditMenuItem(this._controller, service));
+                topServiceMenuItem.AddSubItem(new SeparatorMenuItem(this._controller));
+            }
+
+            topServiceMenuItem.AddSubItem(new ServiceDirectoryMenuItem(this._controller, service));
+            topServiceMenuItem.AddSubItem(new ServiceBrowserMenuItem(this._controller, service));
+
+            topServiceMenuItem.AddSubItem(new SeparatorMenuItem(this._controller));
+
+            topServiceMenuItem.AddSubItem(new ServiceEditMenuItem(this._controller, service));
 
             return topServiceMenuItem;
         }

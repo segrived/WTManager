@@ -36,6 +36,7 @@
             this.upServiceBtn = new System.Windows.Forms.Button();
             this.downServiceBtn = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.themeNameCb = new System.Windows.Forms.ComboBox();
             this.selectMenuFontBtn = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.menuFontTb = new System.Windows.Forms.TextBox();
@@ -49,7 +50,7 @@
             this.logViewerPathTb = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.configEditorPathTb = new System.Windows.Forms.TextBox();
-            this.themeNameCb = new System.Windows.Forms.ComboBox();
+            this.cbOpenMenuByLeftClick = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -180,6 +181,7 @@
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.menuFontTb);
             this.groupBox2.Controls.Add(this.lblCustomTrayIcon);
+            this.groupBox2.Controls.Add(this.cbOpenMenuByLeftClick);
             this.groupBox2.Controls.Add(this.cbAutoStartApplication);
             this.groupBox2.Controls.Add(this.cbShowMenuBeyondTaskbar);
             this.groupBox2.Controls.Add(this.cbShowPopupMessages);
@@ -196,6 +198,15 @@
             this.groupBox2.TabIndex = 3;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Preferences";
+            // 
+            // themeNameCb
+            // 
+            this.themeNameCb.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.themeNameCb.FormattingEnabled = true;
+            this.themeNameCb.Location = new System.Drawing.Point(97, 79);
+            this.themeNameCb.Name = "themeNameCb";
+            this.themeNameCb.Size = new System.Drawing.Size(320, 23);
+            this.themeNameCb.TabIndex = 10;
             // 
             // selectMenuFontBtn
             // 
@@ -221,10 +232,10 @@
             // 
             this.menuFontTb.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.menuFontTb.Location = new System.Drawing.Point(118, 111);
+            this.menuFontTb.Location = new System.Drawing.Point(97, 111);
             this.menuFontTb.Name = "menuFontTb";
             this.menuFontTb.ReadOnly = true;
-            this.menuFontTb.Size = new System.Drawing.Size(240, 23);
+            this.menuFontTb.Size = new System.Drawing.Size(261, 23);
             this.menuFontTb.TabIndex = 7;
             // 
             // lblCustomTrayIcon
@@ -232,9 +243,9 @@
             this.lblCustomTrayIcon.AutoSize = true;
             this.lblCustomTrayIcon.Location = new System.Drawing.Point(11, 82);
             this.lblCustomTrayIcon.Name = "lblCustomTrayIcon";
-            this.lblCustomTrayIcon.Size = new System.Drawing.Size(101, 15);
+            this.lblCustomTrayIcon.Size = new System.Drawing.Size(70, 15);
             this.lblCustomTrayIcon.TabIndex = 5;
-            this.lblCustomTrayIcon.Text = "Custom tray icon:";
+            this.lblCustomTrayIcon.Text = "Icon theme:";
             // 
             // cbAutoStartApplication
             // 
@@ -301,9 +312,9 @@
             // 
             this.logViewerPathTb.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.logViewerPathTb.Location = new System.Drawing.Point(118, 50);
+            this.logViewerPathTb.Location = new System.Drawing.Point(97, 50);
             this.logViewerPathTb.Name = "logViewerPathTb";
-            this.logViewerPathTb.Size = new System.Drawing.Size(240, 23);
+            this.logViewerPathTb.Size = new System.Drawing.Size(261, 23);
             this.logViewerPathTb.TabIndex = 0;
             // 
             // label1
@@ -319,19 +330,20 @@
             // 
             this.configEditorPathTb.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.configEditorPathTb.Location = new System.Drawing.Point(118, 21);
+            this.configEditorPathTb.Location = new System.Drawing.Point(97, 21);
             this.configEditorPathTb.Name = "configEditorPathTb";
-            this.configEditorPathTb.Size = new System.Drawing.Size(240, 23);
+            this.configEditorPathTb.Size = new System.Drawing.Size(261, 23);
             this.configEditorPathTb.TabIndex = 0;
             // 
-            // themeNameCb
+            // cbOpenMenuByLeftClick
             // 
-            this.themeNameCb.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.themeNameCb.FormattingEnabled = true;
-            this.themeNameCb.Location = new System.Drawing.Point(118, 79);
-            this.themeNameCb.Name = "themeNameCb";
-            this.themeNameCb.Size = new System.Drawing.Size(299, 23);
-            this.themeNameCb.TabIndex = 10;
+            this.cbOpenMenuByLeftClick.AutoSize = true;
+            this.cbOpenMenuByLeftClick.Location = new System.Drawing.Point(14, 215);
+            this.cbOpenMenuByLeftClick.Name = "cbOpenMenuByLeftClick";
+            this.cbOpenMenuByLeftClick.Size = new System.Drawing.Size(175, 19);
+            this.cbOpenMenuByLeftClick.TabIndex = 3;
+            this.cbOpenMenuByLeftClick.Text = "Open tray menu by left click";
+            this.cbOpenMenuByLeftClick.UseVisualStyleBackColor = true;
             // 
             // ConfigurationForm
             // 
@@ -379,5 +391,6 @@
         private System.Windows.Forms.Button upServiceBtn;
         private System.Windows.Forms.Button downServiceBtn;
         private System.Windows.Forms.ComboBox themeNameCb;
+        private System.Windows.Forms.CheckBox cbOpenMenuByLeftClick;
     }
 }

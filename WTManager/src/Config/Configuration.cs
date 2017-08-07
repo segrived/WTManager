@@ -46,6 +46,8 @@ namespace WTManager.Config
 
         public float MenuFontSize { get; set; }
 
+        public bool OpenTrayMenuLeftClick { get; set; }
+
         /// <summary>
         /// Services
         /// </summary>

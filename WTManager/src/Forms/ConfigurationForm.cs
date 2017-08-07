@@ -15,7 +15,6 @@ namespace WTManager.Forms
     public partial class ConfigurationForm : WtManagerForm
     {
         private const string REQ_EXECUTABLE = "Executable files|*.exe;*.bat;*.cmd";
-        private const string REQ_ICON = "Icon|*.ico";
 
         public ConfigurationForm()
         {
@@ -179,8 +178,10 @@ namespace WTManager.Forms
 
         #region Base form override
 
-        public override void ApplySettings(Configuration configuration)
+        public override void ApplySettings()
         {
+            var configuration = ConfigManager.Instance.Config;
+
             if (configuration.Services != null)
             {
                 var items = configuration.Services.Cast<object>().ToArray();
@@ -191,6 +192,7 @@ namespace WTManager.Forms
             this.configEditorPathTb.Text = configuration.EditorPath;
             this.cbShowPopupMessages.Checked = configuration.ShowPopups;
             this.cbShowMenuBeyondTaskbar.Checked = configuration.ShowMenuBeyondTaskbar;
+            this.cbOpenMenuByLeftClick.Checked = configuration.OpenTrayMenuLeftClick;
 
             var font = new Font(configuration.MenuFontName, configuration.MenuFontSize);
             this.menuFontTb.Text = new FontConverter().ConvertToString(font);
@@ -204,13 +206,16 @@ namespace WTManager.Forms
             this.themeNameCb.SelectByValue(configuration.ThemeName);
         }
 
-        public override void UpdateSettings(Configuration configuration)
+        public override void UpdateSettings()
         {
+            var configuration = ConfigManager.Instance.Config;
+
             configuration.Services = this.servicesListBox.Items.OfType<Service>().ToList();
             configuration.EditorPath = this.configEditorPathTb.Text;
             configuration.LogViewerPath = this.logViewerPathTb.Text;
             configuration.ShowPopups = this.cbShowPopupMessages.Checked;
             configuration.ShowMenuBeyondTaskbar = this.cbShowMenuBeyondTaskbar.Checked;
+            configuration.OpenTrayMenuLeftClick = this.cbOpenMenuByLeftClick.Checked;
 
             if (new FontConverter().ConvertFromString(this.menuFontTb.Text) is Font font)
             {
