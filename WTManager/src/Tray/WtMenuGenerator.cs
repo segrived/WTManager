@@ -38,6 +38,9 @@ namespace WTManager.Tray
                 this._controller.AddMenuItem(new SeparatorMenuItem(this._controller));
             }
 
+            this._controller.AddMenuItem(new SystemServicesManagerMenuItem(this._controller));
+            this._controller.AddMenuItem(new SeparatorMenuItem(this._controller));
+
             this._controller.AddMenuItem(new ApplicationConfigMenuItem(this._controller));
             this._controller.AddMenuItem(new ApplicationExitMenuItem(this._controller));
         }
