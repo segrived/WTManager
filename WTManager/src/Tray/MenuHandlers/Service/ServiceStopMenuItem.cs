@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using System.Windows.Forms;
 using WTManager.Helpers;
 
 namespace WTManager.Tray.MenuHandlers.Service
@@ -17,7 +18,7 @@ namespace WTManager.Tray.MenuHandlers.Service
         protected override async void Action()
         {
             await Task.Factory.StartNew(this.Service.StopService);
-            //this.Controller.ShowBaloon("Started", $"Service {this.Service.DisplayName} was stopped", ToolTipIcon.Info);
+            this.Controller.ShowBaloon("Started", $"Service {this.Service.DisplayName} was stopped", ToolTipIcon.Info);
         }
     }
 }
