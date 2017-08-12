@@ -13,12 +13,13 @@ using WTManager.Resources;
 
 namespace WTManager.Tray
 {
-    public class TrayMenu : ITrayController, IDisposable, IEnumerable<WtMenuItem>
+    public class TrayMenu : ITrayController, IEnumerable<WtMenuItem>, IDisposable
     {
-        private const int BALOON_SHOW_TIME = 3000;
+        private const int BALOON_SHOW_TIME = 10000;
         private const BindingFlags FLAGS = BindingFlags.Instance | BindingFlags.NonPublic;
 
-        private readonly WtMenuGenerator _menuGenerator;
+        private readonly IMenuGenerator _menuGenerator;
+
         private readonly MethodInfo _showContextMenuMethod;
         private readonly NotifyIcon _notifyIcon;
         private readonly Timer _updateTimer;
@@ -40,7 +41,7 @@ namespace WTManager.Tray
             this._updateTimer.Tick += this.UpdateTimer_OnTick;
             this._updateTimer.Start();
 
-            this._menuGenerator = new WtMenuGenerator(this);
+            this._menuGenerator = new MenuGenerator(this);
 
             this._showContextMenuMethod = typeof(NotifyIcon).GetMethod("ShowContextMenu", FLAGS);
 
@@ -144,7 +145,11 @@ namespace WTManager.Tray
 
         private void RecreateMenu()
         {
-            this._menuGenerator.CreateRootMenu();
+            this.ClearMenu();
+
+            foreach(var menuItem in this._menuGenerator.GenerateMenu())
+                this.AddMenuItem(menuItem);
+            
             this.UpdateTrayMenu();
         }
 
@@ -208,4 +213,38 @@ namespace WTManager.Tray
 
         #endregion
     }
+
+    #region Utils
+
+    /// <summary>
+    /// Tray menu controller
+    /// </summary>
+    public interface ITrayController
+    {
+        /// <summary>
+        /// Display system baloon message
+        /// </summary>
+        /// <param name="title">Message title</param>
+        /// <param name="message">Message text</param>
+        /// <param name="icon">Message icon key</param>
+        void ShowBaloon(string title, string message, ToolTipIcon icon);
+
+        /// <summary>
+        /// Adds new item to menu
+        /// </summary>
+        /// <param name="menuItem">Menu item instance</param>
+        void AddMenuItem(WtMenuItem menuItem);
+
+        /// <summary>
+        /// Removes all exists menu items
+        /// </summary>
+        void ClearMenu();
+
+        /// <summary>
+        /// Force update all exists menu items
+        /// </summary>
+        void UpdateTrayMenu();
+    }
+
+    #endregion
 }

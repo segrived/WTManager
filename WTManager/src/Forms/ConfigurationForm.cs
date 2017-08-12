@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using WTManager.Config;
@@ -14,8 +13,6 @@ namespace WTManager.Forms
     [System.ComponentModel.DesignerCategory("Form")]
     public partial class ConfigurationForm : WtManagerForm
     {
-        private const string REQ_EXECUTABLE = "Executable files|*.exe;*.bat;*.cmd";
-
         public ConfigurationForm()
         {
             this.InitializeComponent();
@@ -99,35 +96,6 @@ namespace WTManager.Forms
 
         #endregion
 
-        #region Preferences option buttons (File & font selection)
-        
-        private void selectConfigEditorPathBtn_Click(object sender, EventArgs e)
-        {
-            string execPath = RequestFilePath(REQ_EXECUTABLE);
-            if (execPath != null)
-                this.configEditorPathTb.Text = execPath;
-        }
-
-        private void selectLogViewerPathBtn_Click(object sender, EventArgs e)
-        {
-            string execPath = RequestFilePath(REQ_EXECUTABLE);
-            if (execPath != null)
-                this.logViewerPathTb.Text = execPath;
-        }
-
-        private void selectMenuFontBtn_Click(object sender, EventArgs e)
-        {
-            var font = RequestFont();
-
-            if (font == null)
-                return;
-
-            var cvt = new FontConverter();
-            this.menuFontTb.Text = cvt.ConvertToString(font);
-        }
-        
-        #endregion
-
         void EditService(Service service)
         {
             int index = this.servicesListBox.Items.IndexOf(service);
@@ -188,14 +156,13 @@ namespace WTManager.Forms
                 this.servicesListBox.Items.AddRange(items);
             }
 
-            this.logViewerPathTb.Text = configuration.LogViewerPath;
-            this.configEditorPathTb.Text = configuration.EditorPath;
+            this.logEditorSelector.CurrentState = configuration.LogViewerPath;
+            this.configEditorSelector.CurrentState = configuration.EditorPath;
+            this.fontSelector.CurrentState = new Font(configuration.MenuFontName, configuration.MenuFontSize);
+
             this.cbShowPopupMessages.Checked = configuration.ShowPopups;
             this.cbShowMenuBeyondTaskbar.Checked = configuration.ShowMenuBeyondTaskbar;
             this.cbOpenMenuByLeftClick.Checked = configuration.OpenTrayMenuLeftClick;
-
-            var font = new Font(configuration.MenuFontName, configuration.MenuFontSize);
-            this.menuFontTb.Text = new FontConverter().ConvertToString(font);
 
             this.cbAutoStartApplication.Checked = SchedulerHelpers.IsAutostartTaskInstalled();
 
@@ -211,17 +178,14 @@ namespace WTManager.Forms
             var configuration = ConfigManager.Instance.Config;
 
             configuration.Services = this.servicesListBox.Items.OfType<Service>().ToList();
-            configuration.EditorPath = this.configEditorPathTb.Text;
-            configuration.LogViewerPath = this.logViewerPathTb.Text;
             configuration.ShowPopups = this.cbShowPopupMessages.Checked;
             configuration.ShowMenuBeyondTaskbar = this.cbShowMenuBeyondTaskbar.Checked;
             configuration.OpenTrayMenuLeftClick = this.cbOpenMenuByLeftClick.Checked;
 
-            if (new FontConverter().ConvertFromString(this.menuFontTb.Text) is Font font)
-            {
-                configuration.MenuFontSize = font.Size;
-                configuration.MenuFontName = font.Name;
-            }
+            configuration.EditorPath = this.configEditorSelector.CurrentState;
+            configuration.LogViewerPath = this.logEditorSelector.CurrentState;
+            configuration.MenuFontSize = this.fontSelector.CurrentState.Size;
+            configuration.MenuFontName = this.fontSelector.CurrentState.Name;
 
             var themeValue = this.themeNameCb.SelectedItem as ComboBoxItem;
 
@@ -247,42 +211,6 @@ namespace WTManager.Forms
 
             this.upServiceBtn.Image = ResourcesProcessor.GetImage("dialog.up");
             this.downServiceBtn.Image = ResourcesProcessor.GetImage("dialog.down");
-        }
-
-        #endregion
-
-        #region Utils
-
-        private static Font RequestFont()
-        {
-            var fontDialog = new FontDialog
-            {
-                ShowEffects = false,
-                ShowApply = false,
-                FontMustExist = true
-            };
-
-            return fontDialog.ShowDialog() != DialogResult.OK ? null : fontDialog.Font;
-        }
-
-        private static string RequestFilePath(string reqString)
-        {
-            var dialog = new OpenFileDialog
-            {
-                Filter = reqString,
-                CheckFileExists = true,
-                ValidateNames = true
-            };
-
-            if (dialog.ShowDialog() != DialogResult.OK)
-                return null;
-
-            string filePath = dialog.FileName;
-
-            if (filePath != null && File.Exists(filePath))
-                return filePath;
-
-            return null;
         }
 
         #endregion

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
@@ -10,26 +9,19 @@ namespace WTManager.Helpers
 {
     public static class Extensions
     {
-        public static HashSet<T> ToHashSet<T>(this IEnumerable<T> collection)
-        {
-            return new HashSet<T>(collection);
-        }
-
-        public static void AppendText(this RichTextBox textBox, string text, Color color)
-        {
-            textBox.SelectionStart = textBox.TextLength;
-            textBox.SelectionLength = 0;
-            textBox.SelectionColor = color;
-            textBox.AppendText(text);
-            textBox.SelectionColor = textBox.ForeColor;
-        }
-
         public static void InvokeIfRequired(this Control control, MethodInvoker action)
         {
             if (control.InvokeRequired)
                 control.Invoke(action);
             else
                 action();
+        }
+
+        #region IEnumerable helpers
+
+        public static HashSet<T> ToHashSet<T>(this IEnumerable<T> collection)
+        {
+            return new HashSet<T>(collection);
         }
 
         /// <summary>
@@ -75,6 +67,8 @@ namespace WTManager.Helpers
             }
         }
 
+        #endregion
+
         #region Serialization helpers
 
         public static bool SerializeFile<T>(this T obj, string fileName)
@@ -96,8 +90,12 @@ namespace WTManager.Helpers
 
         public static T DeserializeFile<T>(string fileName) where T : new()
         {
+            var resultObj = new T();
             try
             {
+                if (!File.Exists(fileName))
+                    return resultObj;
+
                 var serializer = new XmlSerializer(typeof(T));
 
                 using (var reader = new StreamReader(fileName))
@@ -105,7 +103,7 @@ namespace WTManager.Helpers
             }
             catch
             {
-                return new T();
+                return resultObj;
             }
         }
 

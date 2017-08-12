@@ -1,48 +1,51 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using WTManager.Config;
-using WTManager.Tray.MenuHandlers;
-using WTManager.Tray.MenuHandlers.Service;
 
 namespace WTManager.Tray
 {
     /// <summary>
     /// Tray menu generator
     /// </summary>
-    public class WtMenuGenerator
+    public class MenuGenerator : IMenuGenerator
     {
         private readonly ITrayController _controller;
 
-        public WtMenuGenerator(ITrayController controller)
+        public MenuGenerator(ITrayController controller)
         {
             this._controller = controller;
         }
 
-        public void CreateRootMenu()
+        public IEnumerable<WtMenuItem> GenerateMenu()
         {
             var services = ConfigManager.Instance.Config.Services;
 
             var serviceGroups = services.GroupBy(s => s.Group);
+
+            var menuItems = new List<WtMenuItem>();
 
             this._controller.ClearMenu();
 
             foreach (var group in serviceGroups)
             {
                 if (! String.IsNullOrEmpty(group.Key))
-                    this._controller.AddMenuItem(new TitleMenuItem(this._controller, group.Key));
+                    menuItems.Add(new TitleMenuItem(this._controller, group.Key));
 
                 foreach (var service in group)
-                    this._controller.AddMenuItem(this.CreateServiceMenu(service));
+                    menuItems.Add(this.CreateServiceMenu(service));
 
-                this._controller.AddMenuItem(new SeparatorMenuItem(this._controller));
+                menuItems.Add(new SeparatorMenuItem(this._controller));
             }
 
-            this._controller.AddMenuItem(new SystemServicesManagerMenuItem(this._controller));
-            this._controller.AddMenuItem(new SeparatorMenuItem(this._controller));
+            menuItems.Add(new SystemServicesManagerMenuItem(this._controller));
+            menuItems.Add(new SeparatorMenuItem(this._controller));
 
-            this._controller.AddMenuItem(new ApplicationConfigMenuItem(this._controller));
-            this._controller.AddMenuItem(new ApplicationExitMenuItem(this._controller));
+            menuItems.Add(new ApplicationConfigMenuItem(this._controller));
+            menuItems.Add(new ApplicationExitMenuItem(this._controller));
+
+            return menuItems;
         }
 
         private WtMenuItem CreateServiceMenu(Service service)
@@ -82,4 +85,13 @@ namespace WTManager.Tray
             return topServiceMenuItem;
         }
     }
+
+    #region Utils
+
+    public interface IMenuGenerator
+    {
+        IEnumerable<WtMenuItem> GenerateMenu();
+    }
+
+    #endregion
 }

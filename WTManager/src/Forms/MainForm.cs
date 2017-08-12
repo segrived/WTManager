@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Windows.Forms;
-using WTManager.Config;
 using WTManager.Controls;
 using WTManager.Tray;
 
@@ -27,6 +26,16 @@ namespace WTManager.Forms
             this.ShowInTaskbar = false;
 
             e.Cancel = true;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            this._uiTray?.Dispose();
+
+            if (disposing)
+                this.components?.Dispose();
+
+            base.Dispose(disposing);
         }
     }
 }

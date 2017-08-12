@@ -6,7 +6,6 @@ using System.Windows.Forms;
 using WTManager.Config;
 using WTManager.Controls;
 using WTManager.Resources;
-using WTManager.Tray.MenuHandlers;
 
 namespace WTManager.Tray
 {
@@ -110,8 +109,11 @@ namespace WTManager.Tray
 
         public void Dispose()
         {
-            this._internalMenuStripItem.Click -= this.InternalMenuStripItem_OnClick;
-            this._internalMenuStripItem?.Dispose();
+            if (this._internalMenuStripItem != null)
+            {
+                this._internalMenuStripItem.Click -= this.InternalMenuStripItem_OnClick;
+                this._internalMenuStripItem.Dispose();
+            }
         }
     }
 }

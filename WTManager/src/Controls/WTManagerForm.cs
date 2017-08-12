@@ -7,7 +7,7 @@ using WTManager.Resources;
 namespace WTManager.Controls
 {
     [System.ComponentModel.DesignerCategory("")]
-    public class WtManagerForm : Form, IConfigurable
+    public class WtManagerForm : Form, IConfigurableForm
     {
         protected WtManagerForm()
         {
@@ -63,4 +63,21 @@ namespace WTManager.Controls
         {
         }
     }
+
+    #region 
+
+    public interface IConfigurableForm
+    {
+        /// <summary>
+        /// Apply settings to form
+        /// </summary>
+        void ApplySettings();
+
+        /// <summary>
+        /// Updates settings before save
+        /// </summary>
+        void UpdateSettings();
+    }
+
+    #endregion
 }
