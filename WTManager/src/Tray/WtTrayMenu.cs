@@ -97,7 +97,7 @@ namespace WTManager.Tray
             if (e.Button != MouseButtons.Left && e.Button != MouseButtons.Right)
                 return;
 
-            if (e.Button == MouseButtons.Left && !ConfigManager.Instance.Config.OpenTrayMenuLeftClick)
+            if (e.Button == MouseButtons.Left && !ConfigManager.Instance.Config.OpenTrayMenuOnLeftClick)
                 return;
 
             this._showContextMenuMethod?.Invoke(this._notifyIcon, null);
@@ -115,7 +115,7 @@ namespace WTManager.Tray
             var position = Cursor.Position;
             var dropDownDirection = ToolStripDropDownDirection.Default;
 
-            bool beyondTaskbar = ConfigManager.Instance.Config.ShowMenuBeyondTaskbar;
+            bool beyondTaskbar = ConfigManager.Instance.Config.ShowMenuBeyoundTaskbar;
 
             switch (Taskbar.Position)
             {
@@ -173,7 +173,7 @@ namespace WTManager.Tray
 
         public void ShowBaloon(string title, string message, ToolTipIcon icon)
         {
-            if (!ConfigManager.Instance.Config.ShowPopups)
+            if (!ConfigManager.Instance.Config.ShowPopup)
                 return;
 
             if (!Enum.IsDefined(typeof(ToolTipIcon), icon))

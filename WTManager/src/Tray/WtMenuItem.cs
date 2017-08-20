@@ -79,10 +79,7 @@ namespace WTManager.Tray
             if (this._internalMenuStripItem == null)
             {
                 this._internalMenuStripItem = new WtToolStripMenuItem(this.DisplayText);
-
-                string fontName = ConfigManager.Instance.Config.MenuFontName;
-                float fontSize = ConfigManager.Instance.Config.MenuFontSize;
-                this._internalMenuStripItem.Font = new Font(fontName, fontSize, this.FontStyle);
+                this._internalMenuStripItem.Font = ConfigManager.Instance.Config.MenuFont;
 
                 this._internalMenuStripItem.Click += this.InternalMenuStripItem_OnClick;
                 this._internalMenuStripItem.Tag = this;

@@ -1,6 +1,6 @@
-﻿namespace WTManager.Controls.WtSelectorControl
+﻿namespace WTManager.Controls.WtStyle
 {
-    partial class MetaSelectorControl<T>
+    partial class MetaSelector<T>
     {
         /// <summary> 
         /// Required designer variable.
@@ -57,12 +57,12 @@
             this.SelectedDataTextBox.Size = new System.Drawing.Size(140, 21);
             this.SelectedDataTextBox.TabIndex = 0;
             // 
-            // MetaSelectorControl
+            // MetaSelector
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.SelectObjectButton);
             this.Controls.Add(this.SelectedDataTextBox);
-            this.Name = "MetaSelectorControl";
+            this.Name = "MetaSelector";
             this.Size = new System.Drawing.Size(200, 21);
             this.ResumeLayout(false);
 

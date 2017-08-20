@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using WTManager.Helpers;
+using Newtonsoft.Json;
 
 namespace WTManager.Config
 {
@@ -17,13 +17,31 @@ namespace WTManager.Config
 
         private ConfigManager()
         {
-            this.Config = Extensions.DeserializeFile<Configuration>(this.GetConfigFileName());
+            var resultObj = new Configuration();
+
+            try
+            {
+                string configFileName = this.GetConfigFileName();
+                if (File.Exists(configFileName))
+                {
+                    string fileContent = File.ReadAllText(configFileName);
+                    resultObj = JsonConvert.DeserializeObject<Configuration>(fileContent);
+                }
+            }
+            catch { /* ... */ }
+
+            this.Config = resultObj;
         }
 
         public void SaveConfig()
         {
-            if (this.Config.SerializeFile(this.GetConfigFileName()))
+            try
+            {
+                string configFileName = this.GetConfigFileName();
+                File.WriteAllText(configFileName, JsonConvert.SerializeObject(this.Config, Formatting.Indented));
                 this.ConfigSaved?.Invoke();
+            }
+            catch { /* ... */ }    
         }
 
         #region Utils
@@ -31,7 +49,7 @@ namespace WTManager.Config
         private string GetConfigFileName()
         {
             string appDataDir = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            return Path.Combine(appDataDir, "WTManager", "config.xml");
+            return Path.Combine(appDataDir, "WTManager", "config.json");
         }
 
         #endregion

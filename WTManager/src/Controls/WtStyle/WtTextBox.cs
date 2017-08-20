@@ -1,16 +1,16 @@
 ﻿using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace WTManager.Controls
+namespace WTManager.Controls.WtStyle
 {
     public class WtTextBox : TextBox
     {
         public WtTextBox()
         {
-            this.InitializeCompontents();
+            this.SetControlDefaults();
         }
 
-        private void InitializeCompontents()
+        private void SetControlDefaults()
         {
             this.AutoSize = false;
         }
@@ -22,10 +22,5 @@ namespace WTManager.Controls
             get { return base.AutoSize; }
             set { base.AutoSize = value; }
         }
-    }
-
-    public class WtComboBox : ComboBox
-    {
-        
     }
 }

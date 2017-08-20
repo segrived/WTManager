@@ -111,6 +111,9 @@
     <Reference Include="Microsoft.Win32.TaskScheduler, Version=2.5.28.0, Culture=neutral, PublicKeyToken=0d013ddd5178a2ae, processorArchitecture=MSIL">
       <HintPath>..\packages\TaskScheduler.2.5.28\lib\net40\Microsoft.Win32.TaskScheduler.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -118,32 +121,50 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="src\Config\ConfigManager.cs" />
     <Compile Include="src\Config\Configuration.cs" />
+    <Compile Include="src\Controls\WtStyle\WtCheckBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="src\Controls\WtManagerForm.cs" />
     <Compile Include="src\Controls\WtManagerMainForm.cs" />
-    <Compile Include="src\Controls\WtSelectorControl\FileSelectorControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="src\Controls\WtSelectorControl\FontSelectorControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="src\Controls\WtSelectorControl\WtSelectorControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="src\Controls\WtSelectorControl\WtSelectorControl.Designer.cs">
-      <DependentUpon>WtSelectorControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="src\Controls\WtTextBox.cs">
+    <Compile Include="src\Controls\WtStyle\WtComboBox.cs">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="src\Controls\WtStyle\WtItemEditor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="src\Controls\WtStyle\WtItemEditor.Designer.cs">
+      <DependentUpon>WtItemEditor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\Controls\WtStyle\WtSelector.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="src\Controls\WtStyle\WtSelector.Designer.cs">
+      <DependentUpon>WtSelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="src\Controls\WtStyle\WtTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="src\Controls\WtStyle\WtUserControl.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="src\Controls\WtToolStripMenuItem.cs" />
     <Compile Include="src\Helpers\Extensions.cs" />
     <Compile Include="src\Helpers\SchedulerHelpers.cs" />
     <Compile Include="src\Helpers\ServiceHelpers.cs" />
     <Compile Include="src\Lib\ComboBoxItem.cs" />
+    <Compile Include="src\Controls\WtStyle\WtConfigurator.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="src\Lib\Taskbar.cs" />
     <Compile Include="src\Lib\FileWatcher.cs" />
     <Compile Include="src\Lib\LimitedQueue.cs" />
@@ -178,8 +199,15 @@
     <Compile Include="src\Tray\WtMenuItem.cs" />
     <Compile Include="src\Tray\MenuGenerator.cs" />
     <Compile Include="src\Tray\WtTrayMenu.cs" />
-    <EmbeddedResource Include="src\Controls\WtSelectorControl\WtSelectorControl.resx">
-      <DependentUpon>WtSelectorControl.cs</DependentUpon>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Controls\WtStyle\WtItemEditor.resx">
+      <DependentUpon>WtItemEditor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="src\Controls\WtStyle\WtSelector.resx">
+      <DependentUpon>WtSelector.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="src\Forms\LogFileViewerForm.resx">
       <DependentUpon>LogFileViewerForm.cs</DependentUpon>

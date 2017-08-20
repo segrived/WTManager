@@ -85,12 +85,12 @@ namespace WTManager.Tray
 
         protected override void Action()
         {
-            bool isValidEditor = File.Exists(ConfigManager.Instance.Config.EditorPath);
+            bool isValidEditor = File.Exists(ConfigManager.Instance.Config.ConfigEditorPath);
 
             // if config editor wasn't set we will just use default notepad application
             string editorPath = !isValidEditor 
                 ? "notepad.exe" 
-                : ConfigManager.Instance.Config.EditorPath;
+                : ConfigManager.Instance.Config.ConfigEditorPath;
 
             Process.Start(editorPath, this.FileName);
         }
@@ -256,7 +256,7 @@ namespace WTManager.Tray
     
     #region Root menu items
 
-    class SystemServicesManagerMenuItem : WtMenuItem
+    public class SystemServicesManagerMenuItem : WtMenuItem
     {
         public SystemServicesManagerMenuItem(ITrayController controller) 
             : base(controller) { }
@@ -318,7 +318,7 @@ namespace WTManager.Tray
         }
     }
 
-    public sealed class SeparatorMenuItem : WtMenuItem
+    public class SeparatorMenuItem : WtMenuItem
     {
         public SeparatorMenuItem(ITrayController controller)
             : base(controller) { }

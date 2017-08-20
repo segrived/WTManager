@@ -40,6 +40,7 @@ namespace WTManager.Forms
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(260, 35);
             this.Name = "MainForm";
+            this.ShowInTaskbar = false;
             this.Text = "Main Form";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.ResumeLayout(false);

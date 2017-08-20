@@ -23,7 +23,6 @@ namespace WTManager.Forms
                 return;
 
             this.Hide();
-            this.ShowInTaskbar = false;
 
             e.Cancel = true;
         }
