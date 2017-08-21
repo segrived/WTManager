@@ -2,10 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.ServiceProcess;
 using Newtonsoft.Json;
-using WTManager.Controls.WtStyle;
 using WTManager.Helpers;
 using WTManager.Lib;
 using WTManager.Resources;
@@ -13,12 +11,6 @@ using SystemFontConverter = System.Drawing.FontConverter;
 
 namespace WTManager.Config
 {
-    [Flags]
-    public enum VisualItemFlags
-    {
-        RestrictManualEdit = 1 << 0
-    }
-
     [Serializable]
     [VisualProvider]
     public class Configuration 
@@ -30,40 +22,50 @@ namespace WTManager.Config
             this.Services = new List<Service>();
         }
 
-        [JsonProperty(PropertyName = "editor.config")]
         [VisualItemRenderer(typeof(VisualFileSelectorRenderer), "Config editor path", 0)]
+        [VisualItemRendererGroup("Basic preferences")]
         public string ConfigEditorPath { get; set; }
 
-        [JsonProperty(PropertyName = "editor.log")]
         [VisualItemRenderer(typeof(VisualFileSelectorRenderer), "Log viewer path", 100)]
+        [VisualItemRendererGroup("Basic preferences")]
         public string LogViewerPath { get; set; }
 
-        [JsonProperty(PropertyName = "ui.menu-font")]
-        [VisualItemRenderer(typeof(VisualFontSelectorRenderer), "Tray menu font", 200)]
         [JsonConverter(typeof(FontConverter))]
+        [VisualItemRenderer(typeof(VisualFontSelectorRenderer), "Tray menu font", 200)]
+        [VisualItemRendererGroup("Basic preferences")]
         public Font MenuFont { get; set; }
 
-        [JsonProperty(PropertyName = "ui.show-popup")]
         [VisualItemRenderer(typeof(VisualCheckboxRenderer), "Show tray menu popups", 300)]
+        [VisualItemRendererGroup("Basic preferences")]
         public bool ShowPopup { get; set; }
 
-        [JsonProperty(PropertyName = "ui.show-menu-beyound-taskbar")]
         [VisualItemRenderer(typeof(VisualCheckboxRenderer), "Show menu beyound taskbar", 400)]
+        [VisualItemRendererGroup("Basic preferences")]
         public bool ShowMenuBeyoundTaskbar { get; set; }
 
-        [JsonProperty(PropertyName = "system.run-on-start")]
         [VisualItemRenderer(typeof(VisualCheckboxRenderer), "Run WTManager on start", 500)]
+        [VisualItemRendererGroup("System preferences")]
         public bool RunOnStart { get; set; }
 
-        [JsonProperty(PropertyName = "ui.tray-open-on-left-click")]
         [VisualItemRenderer(typeof(VisualCheckboxRenderer), "Open tray menu on left click", 600)]
+        [VisualItemRendererGroup("System preferences")]
         public bool OpenTrayMenuOnLeftClick { get; set; }
 
-        [JsonProperty(PropertyName = "ui.theme-name")]
         [VisualItemRenderer(typeof(VisualThemeSelectorRenderer), "Theme name", 250)]
+        [VisualItemRendererGroup("System preferences")]
         public string ThemeName { get; set; }
 
         public List<Service> Services { get; set; }
+    }
+
+    public class VisualItemRendererGroupAttribute : Attribute
+    {
+        public string Group { get; private set; }
+
+        public VisualItemRendererGroupAttribute(string groupName)
+        {
+            this.Group = groupName;
+        }
     }
 
     public class FontConverter : JsonConverter

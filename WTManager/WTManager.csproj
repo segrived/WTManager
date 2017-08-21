@@ -131,6 +131,7 @@
     </Compile>
     <Compile Include="src\Config\ConfigManager.cs" />
     <Compile Include="src\Config\Configuration.cs" />
+    <Compile Include="src\Lib\VisualItemRenderer.cs" />
     <Compile Include="src\Controls\WtStyle\WtCheckBox.cs">
       <SubType>Component</SubType>
     </Compile>

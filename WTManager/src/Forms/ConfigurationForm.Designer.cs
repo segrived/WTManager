@@ -26,28 +26,13 @@
         /// </summary>
         private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigurationForm));
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.wtListTest1 = new WTManager.Controls.WtStyle.WtItemEditor();
             this.applyBtn = new System.Windows.Forms.Button();
             this.cancelBtn = new System.Windows.Forms.Button();
             this._wtConfigurator1 = new WTManager.Controls.WtStyle.WtConfigurator();
-            this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.groupBox2.Controls.Add(this._wtConfigurator1);
-            this.groupBox2.Location = new System.Drawing.Point(12, 12);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(8);
-            this.groupBox2.Size = new System.Drawing.Size(428, 501);
-            this.groupBox2.TabIndex = 3;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Preferences";
             // 
             // groupBox1
             // 
@@ -113,25 +98,23 @@
             // 
             // _wtConfigurator1
             // 
-            this._wtConfigurator1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._wtConfigurator1.Location = new System.Drawing.Point(8, 24);
+            this._wtConfigurator1.Location = new System.Drawing.Point(12, 12);
             this._wtConfigurator1.Name = "_wtConfigurator1";
-            this._wtConfigurator1.Size = new System.Drawing.Size(412, 469);
-            this._wtConfigurator1.TabIndex = 0;
+            this._wtConfigurator1.Size = new System.Drawing.Size(428, 501);
+            this._wtConfigurator1.TabIndex = 1;
             // 
             // ConfigurationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(816, 561);
-            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this._wtConfigurator1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.applyBtn);
             this.Controls.Add(this.cancelBtn);
             this.Name = "ConfigurationForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "WTManager Configuration";
-            this.groupBox2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -141,7 +124,6 @@
         private System.Windows.Forms.Button cancelBtn;
         private System.Windows.Forms.Button applyBtn;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.GroupBox groupBox2;
         private Controls.WtStyle.WtItemEditor wtListTest1;
         private Controls.WtStyle.WtConfigurator _wtConfigurator1;
     }
