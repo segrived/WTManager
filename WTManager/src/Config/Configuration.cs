@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.ServiceProcess;
 using Newtonsoft.Json;
 using WTManager.Helpers;
 using WTManager.Lib;
-using WTManager.Resources;
 using SystemFontConverter = System.Drawing.FontConverter;
 
 namespace WTManager.Config
@@ -18,6 +16,7 @@ namespace WTManager.Config
         public Configuration()
         {
             this.MenuFont = SystemFonts.MenuFont;
+            this.MenuTitleFont = new Font(SystemFonts.MenuFont.FontFamily, SystemFonts.MenuFont.Size, FontStyle.Bold);
             this.ConfigEditorPath = "notepad.exe";
             this.Services = new List<Service>();
         }
@@ -35,6 +34,10 @@ namespace WTManager.Config
         [VisualItemRendererGroup("Basic preferences")]
         public Font MenuFont { get; set; }
 
+        [JsonConverter(typeof(FontConverter))]
+        [VisualItemRenderer(typeof(VisualFontSelectorRenderer), "Tray menu title font", 225)]
+        [VisualItemRendererGroup("Basic preferences")]
+        public Font MenuTitleFont { get; set; }
 
         [VisualItemRenderer(typeof(VisualThemeSelectorRenderer), "Theme name", 250)]
         [VisualItemRendererGroup("Basic preferences")]
@@ -56,6 +59,10 @@ namespace WTManager.Config
         [VisualItemRendererGroup("Basic preferences")]
         public bool OpenTrayMenuOnLeftClick { get; set; }
 
+        [VisualItemRenderer(typeof(VisualCheckboxRenderer), "Use nested service groups in menu", 700)]
+        [VisualItemRendererGroup("Basic preferences")]
+        public bool UseNestedServiceGroups { get; set; }
+
         public List<Service> Services { get; set; }
     }
 
@@ -66,6 +73,26 @@ namespace WTManager.Config
         public VisualItemRendererGroupAttribute(string groupName)
         {
             this.Group = groupName;
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Class)]
+    public class VisualProviderAttribute : Attribute
+    {
+    }
+
+    [AttributeUsage(AttributeTargets.Property)]
+    public class VisualItemRendererAttribute : Attribute
+    {
+        public Type RendererType { get; private set; }
+        public string DisplayText { get; private set; }
+        public int SortIndex { get; private set; }
+
+        public VisualItemRendererAttribute(Type rendererType, string displayText, int sortIndex)
+        {
+            this.RendererType = rendererType;
+            this.DisplayText = displayText;
+            this.SortIndex = sortIndex;
         }
     }
 
@@ -102,35 +129,6 @@ namespace WTManager.Config
             => objectType == typeof(Font);
     }
 
-    [AttributeUsage(AttributeTargets.Class)]
-    public class VisualProviderAttribute : Attribute
-    {
-    }
-
-    [AttributeUsage(AttributeTargets.Property)]
-    public class VisualItemRendererAttribute : Attribute
-    {
-        public Type RendererType { get; private set; }
-        public string DisplayText { get; private set; }
-        public int SortIndex { get; private set; }
-
-        public VisualItemRendererAttribute(Type rendererType, string displayText, int sortIndex)
-        {
-            this.RendererType = rendererType;
-            this.DisplayText = displayText;
-            this.SortIndex = sortIndex;
-        }
-    }
-
-    public class ThemesColectionProvider : IEnumerable
-    {
-        public IEnumerator GetEnumerator()
-        {
-            yield return new ComboBoxItem("Default", null);
-            foreach(string themeName in ResourcesProcessor.GetThemesList())
-                yield return new ComboBoxItem(themeName);
-        }
-    }
 
 
     [Serializable]

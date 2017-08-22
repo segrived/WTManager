@@ -70,6 +70,19 @@ namespace WTManager.Tray
         }
     }
 
+    public class ServiceGroupMenuItem : WtMenuItem
+    {
+        private string GroupName { get; set; }
+
+        public ServiceGroupMenuItem(ITrayController controller, string groupName)
+            : base(controller)
+        {
+            this.GroupName = groupName;
+        }
+
+        protected override string DisplayText => this.GroupName;
+    }
+
     /// <summary>
     /// "Edit configuration" service menu item
     /// </summary>
@@ -305,7 +318,7 @@ namespace WTManager.Tray
 
     public class TitleMenuItem : WtMenuItem
     {
-        protected override FontStyle FontStyle => FontStyle.Bold;
+        protected override Font ItemFont => ConfigManager.Instance.Config.MenuTitleFont;
 
         protected override string DisplayText { get; }
 

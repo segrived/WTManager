@@ -22,9 +22,9 @@ namespace WTManager.Tray
 
         protected virtual bool IsEnabled => true;
 
-        protected  virtual bool IsVisible => true;
+        protected virtual bool IsVisible => true;
 
-        protected virtual FontStyle FontStyle => FontStyle.Regular;
+        protected virtual Font ItemFont => ConfigManager.Instance.Config.MenuFont;
 
         protected virtual string ImageKey { get; } = null;
 
@@ -79,7 +79,7 @@ namespace WTManager.Tray
             if (this._internalMenuStripItem == null)
             {
                 this._internalMenuStripItem = new WtToolStripMenuItem(this.DisplayText);
-                this._internalMenuStripItem.Font = ConfigManager.Instance.Config.MenuFont;
+                this._internalMenuStripItem.Font = this.ItemFont;
 
                 this._internalMenuStripItem.Click += this.InternalMenuStripItem_OnClick;
                 this._internalMenuStripItem.Tag = this;

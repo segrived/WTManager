@@ -30,13 +30,25 @@ namespace WTManager.Tray
 
             foreach (var group in serviceGroups)
             {
-                if (! String.IsNullOrEmpty(group.Key))
-                    menuItems.Add(new TitleMenuItem(this._controller, group.Key));
+                if (ConfigManager.Instance.Config.UseNestedServiceGroups)
+                {
+                    var groupMenuItem = new ServiceGroupMenuItem(this._controller, group.Key);
 
-                foreach (var service in group)
-                    menuItems.Add(this.CreateServiceMenu(service));
+                    foreach (var service in group)
+                        groupMenuItem.AddSubItem(this.CreateServiceMenu(service));
 
-                menuItems.Add(new SeparatorMenuItem(this._controller));
+                    menuItems.Add(groupMenuItem);
+                }
+                else
+                {
+                    if (!String.IsNullOrEmpty(group.Key))
+                        menuItems.Add(new TitleMenuItem(this._controller, group.Key));
+
+                    foreach (var service in group)
+                        menuItems.Add(this.CreateServiceMenu(service));
+                    
+                    menuItems.Add(new SeparatorMenuItem(this._controller));
+                }
             }
 
             menuItems.Add(new SystemServicesManagerMenuItem(this._controller));
