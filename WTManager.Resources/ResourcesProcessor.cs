@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 
 namespace WTManager.Resources
@@ -122,9 +121,12 @@ namespace WTManager.Resources
 
         public static IEnumerable<string> GetThemesList()
         {
-            return Directory
-                .EnumerateDirectories(GetThemesRootDirectory())
-                .Select(dir => new DirectoryInfo(dir).Name);
+            if (! Directory.Exists(GetThemesRootDirectory()))
+                yield break;
+
+            var subDirs = Directory.EnumerateDirectories(GetThemesRootDirectory());
+            foreach (string dir in subDirs)
+                yield return new DirectoryInfo(dir).Name;
         }
     }
 }
