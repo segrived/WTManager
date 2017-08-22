@@ -27,10 +27,10 @@
         private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigurationForm));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.wtListTest1 = new WTManager.Controls.WtStyle.WtItemEditor();
+            this.servicesList = new WTManager.Controls.WtStyle.WtItemEditor();
             this.applyBtn = new System.Windows.Forms.Button();
             this.cancelBtn = new System.Windows.Forms.Button();
-            this._wtConfigurator1 = new WTManager.Controls.WtStyle.WtConfigurator();
+            this.basicConfigurationEditor = new WTManager.Controls.WtStyle.WtConfigurator();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -39,7 +39,7 @@
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.wtListTest1);
+            this.groupBox1.Controls.Add(this.servicesList);
             this.groupBox1.Location = new System.Drawing.Point(446, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(8);
@@ -48,25 +48,25 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Services";
             // 
-            // wtListTest1
+            // servicesList
             // 
-            this.wtListTest1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.servicesList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.wtListTest1.ButtonSize = 30;
-            this.wtListTest1.EditOnDoubleClick = true;
-            this.wtListTest1.Location = new System.Drawing.Point(11, 27);
-            this.wtListTest1.Name = "wtListTest1";
-            this.wtListTest1.RemoveConfirmationText = "";
-            this.wtListTest1.RemoveItemOnDeleteKeyPress = true;
-            this.wtListTest1.ShowAddButton = true;
-            this.wtListTest1.ShowDownButton = true;
-            this.wtListTest1.ShowEditButton = true;
-            this.wtListTest1.ShowRemoveButton = true;
-            this.wtListTest1.ShowUpButton = true;
-            this.wtListTest1.Size = new System.Drawing.Size(336, 463);
-            this.wtListTest1.TabIndex = 0;
-            this.wtListTest1.UseRemoveConfirmation = true;
-            this.wtListTest1.VerticalPaddingBetweenButtons = 5;
+            this.servicesList.ButtonSize = 30;
+            this.servicesList.EditOnDoubleClick = true;
+            this.servicesList.Location = new System.Drawing.Point(11, 27);
+            this.servicesList.Name = "servicesList";
+            this.servicesList.RemoveConfirmationText = "";
+            this.servicesList.RemoveItemOnDeleteKeyPress = true;
+            this.servicesList.ShowAddButton = true;
+            this.servicesList.ShowDownButton = true;
+            this.servicesList.ShowEditButton = true;
+            this.servicesList.ShowRemoveButton = true;
+            this.servicesList.ShowUpButton = true;
+            this.servicesList.Size = new System.Drawing.Size(336, 463);
+            this.servicesList.TabIndex = 0;
+            this.servicesList.UseRemoveConfirmation = true;
+            this.servicesList.VerticalPaddingBetweenButtons = 5;
             // 
             // applyBtn
             // 
@@ -96,19 +96,19 @@
             this.cancelBtn.UseVisualStyleBackColor = true;
             this.cancelBtn.Click += new System.EventHandler(this.cancelBtn_Click);
             // 
-            // _wtConfigurator1
+            // basicConfigurationEditor
             // 
-            this._wtConfigurator1.Location = new System.Drawing.Point(12, 12);
-            this._wtConfigurator1.Name = "_wtConfigurator1";
-            this._wtConfigurator1.Size = new System.Drawing.Size(428, 501);
-            this._wtConfigurator1.TabIndex = 1;
+            this.basicConfigurationEditor.Location = new System.Drawing.Point(12, 12);
+            this.basicConfigurationEditor.Name = "basicConfigurationEditor";
+            this.basicConfigurationEditor.Size = new System.Drawing.Size(428, 501);
+            this.basicConfigurationEditor.TabIndex = 1;
             // 
             // ConfigurationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(816, 561);
-            this.Controls.Add(this._wtConfigurator1);
+            this.Controls.Add(this.basicConfigurationEditor);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.applyBtn);
             this.Controls.Add(this.cancelBtn);
@@ -124,7 +124,7 @@
         private System.Windows.Forms.Button cancelBtn;
         private System.Windows.Forms.Button applyBtn;
         private System.Windows.Forms.GroupBox groupBox1;
-        private Controls.WtStyle.WtItemEditor wtListTest1;
-        private Controls.WtStyle.WtConfigurator _wtConfigurator1;
+        private Controls.WtStyle.WtItemEditor servicesList;
+        private Controls.WtStyle.WtConfigurator basicConfigurationEditor;
     }
 }

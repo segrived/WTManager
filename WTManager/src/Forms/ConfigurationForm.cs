@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 using WTManager.Config;
 using WTManager.Controls;
@@ -12,16 +13,16 @@ namespace WTManager.Forms
         {
             this.InitializeComponent();
 
-            this._wtConfigurator1.FillSettings(ConfigManager.Instance.Config);
+            this.basicConfigurationEditor.FillSettings(ConfigManager.Instance.Config);
 
-            this.wtListTest1.AddRequest = AddServiceRequest;
-            this.wtListTest1.EditRequest = EditServiceRequest;
-            this.wtListTest1.SetItems(ConfigManager.Instance.Config.Services);
+            this.servicesList.AddRequest = AddServiceRequest;
+            this.servicesList.EditRequest = EditServiceRequest;
+            this.servicesList.SetItems(ConfigManager.Instance.Config.Services);
         }
 
         private static object AddServiceRequest()
         {
-            using (var f = new AddEditServiceForm())
+            using (var f = new AddEditServiceForm(new Service()))
                 return f.ShowDialog() == DialogResult.OK ? f.Service : null;
         }
 
@@ -36,7 +37,10 @@ namespace WTManager.Forms
         private void okBtn_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
-            this._wtConfigurator1.ApplySettings();
+            this.basicConfigurationEditor.ApplySettings();
+
+            ConfigManager.Instance.Config.Services = this.servicesList.GetItems<Service>().ToList();
+
             this.SaveConfiguration();
             this.Close();
         }

@@ -35,6 +35,11 @@ namespace WTManager.Config
         [VisualItemRendererGroup("Basic preferences")]
         public Font MenuFont { get; set; }
 
+
+        [VisualItemRenderer(typeof(VisualThemeSelectorRenderer), "Theme name", 250)]
+        [VisualItemRendererGroup("Basic preferences")]
+        public string ThemeName { get; set; }
+
         [VisualItemRenderer(typeof(VisualCheckboxRenderer), "Show tray menu popups", 300)]
         [VisualItemRendererGroup("Basic preferences")]
         public bool ShowPopup { get; set; }
@@ -44,16 +49,12 @@ namespace WTManager.Config
         public bool ShowMenuBeyoundTaskbar { get; set; }
 
         [VisualItemRenderer(typeof(VisualCheckboxRenderer), "Run WTManager on start", 500)]
-        [VisualItemRendererGroup("System preferences")]
+        [VisualItemRendererGroup("Basic preferences")]
         public bool RunOnStart { get; set; }
 
         [VisualItemRenderer(typeof(VisualCheckboxRenderer), "Open tray menu on left click", 600)]
-        [VisualItemRendererGroup("System preferences")]
+        [VisualItemRendererGroup("Basic preferences")]
         public bool OpenTrayMenuOnLeftClick { get; set; }
-
-        [VisualItemRenderer(typeof(VisualThemeSelectorRenderer), "Theme name", 250)]
-        [VisualItemRendererGroup("System preferences")]
-        public string ThemeName { get; set; }
 
         public List<Service> Services { get; set; }
     }
@@ -193,12 +194,16 @@ namespace WTManager.Config
             }
         }
 
+        [JsonIgnore]
         public ServiceController Controller => this.GetController();
 
+        [JsonIgnore]
         public ServiceControllerStatus Status => this.Controller.Status;
 
+        [JsonIgnore]
         public bool IsStarted => this.Status == ServiceControllerStatus.Running;
 
+        [JsonIgnore]
         public bool IsStopped => this.Status == ServiceControllerStatus.Stopped;
 
         public override string ToString()
