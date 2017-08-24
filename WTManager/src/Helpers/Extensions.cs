@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace WTManager.Helpers
 {
     public static class Extensions
     {
+        #region UI extensions
+
         public static void InvokeIfRequired(this Control control, MethodInvoker action)
         {
             if (control.InvokeRequired)
@@ -13,6 +16,22 @@ namespace WTManager.Helpers
             else
                 action();
         }
+
+        public static IEnumerable<Control> GetAllChildren(this Control ctrl)
+        {
+            var stack = new Stack<Control>();
+            stack.Push(ctrl);
+
+            while (stack.Any())
+            {
+                var next = stack.Pop();
+                foreach (Control child in next.Controls)
+                    stack.Push(child);
+                yield return next;
+            }
+        }
+
+        #endregion
 
         #region IEnumerable helpers
 
@@ -65,5 +84,6 @@ namespace WTManager.Helpers
         }
 
         #endregion
+
     }
 }

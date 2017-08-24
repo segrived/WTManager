@@ -18,10 +18,10 @@ namespace WTManager
                 switch (args[0])
                 {
                     case "/installtask":
-                        SchedulerHelpers.UpdateAutoStartSetting(true);
+                        SchedulerHelpers.AutoStartTaskState = true;
                         break;
                     case "/removetask":
-                        SchedulerHelpers.UpdateAutoStartSetting(false);
+                        SchedulerHelpers.AutoStartTaskState = false;
                         break;
                 }
                 Environment.Exit(0);

@@ -131,6 +131,18 @@
     </Compile>
     <Compile Include="src\Config\ConfigManager.cs" />
     <Compile Include="src\Config\Configuration.cs" />
+    <Compile Include="src\Controls\WtStyle\WtConfigurator\DynamicPropertiesProcessor.cs" />
+    <Compile Include="src\Controls\WtStyle\WtConfigurator\IVisualProviderObject.cs" />
+    <Compile Include="src\Controls\WtStyle\WtConfigurator\LabelRendererConfiguration.cs" />
+    <Compile Include="src\Controls\WtStyle\WtConfigurator\VisualItemAttributes.cs" />
+    <Compile Include="src\Controls\WtStyle\WtConfigurator\WtConfiguratorProperties.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="src\Converters\FontConverter.cs" />
+    <Compile Include="src\VisualItemRenderers\VisualItemsEditorRenderer.cs" />
+    <Compile Include="src\VisualItemRenderers\VisualCheckboxRenderer.cs" />
+    <Compile Include="src\VisualItemRenderers\VisualFileSelectorRenderer.cs" />
+    <Compile Include="src\VisualItemRenderers\VisualFontSelectorRenderer.cs" />
     <Compile Include="src\Lib\VisualItemRenderer.cs" />
     <Compile Include="src\Controls\WtStyle\WtCheckBox.cs">
       <SubType>Component</SubType>
@@ -163,7 +175,7 @@
     <Compile Include="src\Helpers\SchedulerHelpers.cs" />
     <Compile Include="src\Helpers\ServiceHelpers.cs" />
     <Compile Include="src\Lib\ComboBoxItem.cs" />
-    <Compile Include="src\Controls\WtStyle\WtConfigurator.cs">
+    <Compile Include="src\Controls\WtStyle\WtConfigurator\WtConfigurator.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="src\Lib\Taskbar.cs" />
@@ -196,6 +208,8 @@
     <Compile Include="src\Forms\ConfigurationForm.Designer.cs">
       <DependentUpon>ConfigurationForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="src\VisualItemRenderers\VisualSelectorRenderer.cs" />
+    <Compile Include="src\VisualItemRenderers\VisualTextRenderer.cs" />
     <Compile Include="src\Tray\MenuHandlers.cs" />
     <Compile Include="src\Tray\WtMenuItem.cs" />
     <Compile Include="src\Tray\MenuGenerator.cs" />

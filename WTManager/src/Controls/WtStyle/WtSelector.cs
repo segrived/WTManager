@@ -145,4 +145,27 @@ namespace WTManager.Controls.WtStyle
             return serializedData;
         }
     }
+
+    public class WtDirectorySelector : MetaSelector<string>
+    {
+        protected override string Request()
+        {
+            var dialog = new FolderBrowserDialog();
+
+            if (dialog.ShowDialog() != DialogResult.OK)
+                return null;
+
+            string dirPath = dialog.SelectedPath;
+
+            if (dirPath != null && Directory.Exists(dirPath))
+                return dirPath;
+
+            return null;
+        }
+
+        protected override string Deserialize(string serializedData)
+        {
+            return serializedData;
+        }
+    }
 }

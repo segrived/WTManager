@@ -1,18 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.ServiceProcess;
 using Newtonsoft.Json;
+using WTManager.Controls.WtStyle.WtConfigurator;
 using WTManager.Helpers;
-using WTManager.Lib;
-using SystemFontConverter = System.Drawing.FontConverter;
+using WTManager.VisualItemRenderers;
+
+// ReSharper disable UnusedMember.Global
+// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable CollectionNeverUpdated.Global
 
 namespace WTManager.Config
 {
     [Serializable]
-    [VisualProvider]
-    public class Configuration 
+    public class Configuration : IVisualProviderObject
     {
+        public const string GROUP_GENERAL = "General";
+        public const string GROUP_UI = "UI settings";
+        public const string GROUP_SERVICES = "Services";
+        public const string GROUP_SYSTEM = "System";
+
         public Configuration()
         {
             this.MenuFont = SystemFonts.MenuFont;
@@ -21,119 +30,86 @@ namespace WTManager.Config
             this.Services = new List<Service>();
         }
 
-        [VisualItemRenderer(typeof(VisualFileSelectorRenderer), "Config editor path", 0)]
-        [VisualItemRendererGroup("Basic preferences")]
+        #region General settings
+
+        /// <summary>
+        /// Path to configuration files executable file editor
+        /// </summary>
+        [VisualItem(typeof(VisualFileSelectorRenderer), "Config editor path", GROUP_GENERAL)]
         public string ConfigEditorPath { get; set; }
 
-        [VisualItemRenderer(typeof(VisualFileSelectorRenderer), "Log viewer path", 100)]
-        [VisualItemRendererGroup("Basic preferences")]
+        /// <summary>
+        /// Path to log viewer executable file editor
+        /// </summary>
+        [VisualItem(typeof(VisualFileSelectorRenderer), "Log viewer path", GROUP_GENERAL)]
         public string LogViewerPath { get; set; }
 
-        [JsonConverter(typeof(FontConverter))]
-        [VisualItemRenderer(typeof(VisualFontSelectorRenderer), "Tray menu font", 200)]
-        [VisualItemRendererGroup("Basic preferences")]
+        #endregion
+
+        #region System settings
+
+        [JsonIgnore]
+        [VisualItem(typeof(VisualCheckboxRenderer), "Run WTManager on start", GROUP_SYSTEM)]
+        public bool RunOnStart
+        {
+            get { return SchedulerHelpers.AutoStartTaskState; }
+            set { SchedulerHelpers.AutoStartTaskState = value; }
+        }
+
+        #endregion
+
+        #region UI settings
+
+        /// <summary>
+        /// Tray menu item font, except group titles
+        /// </summary>
+        [JsonConverter(typeof(Converters.FontConverter))]
+        [VisualItem(typeof(VisualFontSelectorRenderer), "Tray menu font", GROUP_UI)]
         public Font MenuFont { get; set; }
 
-        [JsonConverter(typeof(FontConverter))]
-        [VisualItemRenderer(typeof(VisualFontSelectorRenderer), "Tray menu title font", 225)]
-        [VisualItemRendererGroup("Basic preferences")]
+        /// <summary>
+        /// Tray menu group title items font
+        /// </summary>
+        [JsonConverter(typeof(Converters.FontConverter))]
+        [VisualItem(typeof(VisualFontSelectorRenderer), "Tray menu title font", GROUP_UI)]
         public Font MenuTitleFont { get; set; }
 
-        [VisualItemRenderer(typeof(VisualThemeSelectorRenderer), "Theme name", 250)]
-        [VisualItemRendererGroup("Basic preferences")]
+        /// <summary>
+        /// Current icons theme name
+        /// </summary>
+        [VisualItem(typeof(VisualThemeSelectorRenderer), "Theme name", GROUP_UI)]
         public string ThemeName { get; set; }
 
-        [VisualItemRenderer(typeof(VisualCheckboxRenderer), "Show tray menu popups", 300)]
-        [VisualItemRendererGroup("Basic preferences")]
+        [VisualItem(typeof(VisualCheckboxRenderer), "Show tray menu popups", GROUP_UI)]
         public bool ShowPopup { get; set; }
 
-        [VisualItemRenderer(typeof(VisualCheckboxRenderer), "Show menu beyound taskbar", 400)]
-        [VisualItemRendererGroup("Basic preferences")]
+        [VisualItem(typeof(VisualCheckboxRenderer), "Show menu beyound taskbar", GROUP_UI)]
         public bool ShowMenuBeyoundTaskbar { get; set; }
 
-        [VisualItemRenderer(typeof(VisualCheckboxRenderer), "Run WTManager on start", 500)]
-        [VisualItemRendererGroup("Basic preferences")]
-        public bool RunOnStart { get; set; }
-
-        [VisualItemRenderer(typeof(VisualCheckboxRenderer), "Open tray menu on left click", 600)]
-        [VisualItemRendererGroup("Basic preferences")]
+        [VisualItem(typeof(VisualCheckboxRenderer), "Open tray menu on left click", GROUP_UI)]
         public bool OpenTrayMenuOnLeftClick { get; set; }
 
-        [VisualItemRenderer(typeof(VisualCheckboxRenderer), "Use nested service groups in menu", 700)]
-        [VisualItemRendererGroup("Basic preferences")]
+        [VisualItem(typeof(VisualCheckboxRenderer), "Use nested service groups in menu", GROUP_UI)]
         public bool UseNestedServiceGroups { get; set; }
 
-        public List<Service> Services { get; set; }
+        #endregion
+
+        #region Services settings
+
+        [VisualItem(typeof(VisualServicesItemsEditorRenderer), "Services", GROUP_SERVICES)]
+        public IEnumerable<Service> Services { get; set; }
+
+        #endregion
     }
-
-    public class VisualItemRendererGroupAttribute : Attribute
-    {
-        public string Group { get; private set; }
-
-        public VisualItemRendererGroupAttribute(string groupName)
-        {
-            this.Group = groupName;
-        }
-    }
-
-    [AttributeUsage(AttributeTargets.Class)]
-    public class VisualProviderAttribute : Attribute
-    {
-    }
-
-    [AttributeUsage(AttributeTargets.Property)]
-    public class VisualItemRendererAttribute : Attribute
-    {
-        public Type RendererType { get; private set; }
-        public string DisplayText { get; private set; }
-        public int SortIndex { get; private set; }
-
-        public VisualItemRendererAttribute(Type rendererType, string displayText, int sortIndex)
-        {
-            this.RendererType = rendererType;
-            this.DisplayText = displayText;
-            this.SortIndex = sortIndex;
-        }
-    }
-
-    public class FontConverter : JsonConverter
-    {
-        private readonly SystemFontConverter _converter;
-
-        public FontConverter()
-        {
-            this._converter = new SystemFontConverter();
-        }
-
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
-            var fontObject = value as Font;
-
-            if (fontObject == null)
-                return;
-
-            writer.WriteValue(this._converter.ConvertToString(fontObject));
-        }
-
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-        {
-            string serializedData = reader.Value as string;
-
-            if (serializedData == null)
-                return null;
-
-            return this._converter.ConvertFromString(serializedData);
-        }
-
-        public override bool CanConvert(Type objectType) 
-            => objectType == typeof(Font);
-    }
-
 
 
     [Serializable]
-    public class Service
+    public class Service : IVisualProviderObject
     {
+        public const string GROUP_GENERAL = "Basic service configuration";
+        public const string GROUP_LOGCONFIG = "Logs and config";
+        public const string GROUP_ADDITIONAL = "Additional features";
+
         public Service()
         {
             this.LogFiles = new List<string>();
@@ -143,86 +119,50 @@ namespace WTManager.Config
         /// <summary>
         /// Service name
         /// </summary>
+        [VisualItem(typeof(VisualServiceSelectorRenderer), "Service name", GROUP_GENERAL)]
         public string ServiceName { get; set; }
 
         /// <summary>
         /// Service display name (will be displayed in menu)
         /// </summary>
+        [VisualItem(typeof(VisualTextRenderer), "Service display name", GROUP_GENERAL)]
         public string DisplayName { get; set; }
 
         /// <summary>
         /// Service group (for menu generation)
         /// </summary>
+        [VisualItem(typeof(VisualServiceGroupSelectorRenderer), "Service group (optional)", GROUP_GENERAL)]
         public string Group { get; set; }
 
         /// <summary>
         /// Service configuration files
         /// </summary>
-        public List<string> ConfigFiles { get; set; }
+        [VisualItem(typeof(VisualFilesItemsEditorRenderer), "Config files", GROUP_LOGCONFIG)]
+        [VisualItemCustomization(customHeight: 80)]
+        public IEnumerable<string> ConfigFiles { get; set; }
 
         /// <summary>
         /// Service log files
         /// </summary>
-        public List<string> LogFiles { get; set; }
+        [VisualItem(typeof(VisualFilesItemsEditorRenderer), "Log files", GROUP_LOGCONFIG)]
+        [VisualItemCustomization(customHeight: 80)]
+        public IEnumerable<string> LogFiles { get; set; }
 
         /// <summary>
         /// Service data directory (for example WWW for web-servers)
         /// </summary>
+        [VisualItem(typeof(VisualDirectorySelectorRenderer), "Data directory", GROUP_ADDITIONAL)]
         public string DataDirectory { get; set; }
 
         /// <summary>
         /// Browser URL
         /// </summary>
+        [VisualItem(typeof(VisualFileSelectorRenderer), "Browser URL", GROUP_ADDITIONAL)]
         public string BrowserUrl { get; set; }
-
-        public bool IsInPendingState
-        {
-            get
-            {
-                switch (this.Controller.Status)
-                {
-                    case ServiceControllerStatus.StopPending:
-                    case ServiceControllerStatus.ContinuePending:
-                    case ServiceControllerStatus.PausePending:
-                    case ServiceControllerStatus.StartPending:
-                        return true;
-                    default:
-                        return false;
-                }
-            }
-        }
-
-        [JsonIgnore]
-        public ServiceController Controller => this.GetController();
-
-        [JsonIgnore]
-        public ServiceControllerStatus Status => this.Controller.Status;
-
-        [JsonIgnore]
-        public bool IsStarted => this.Status == ServiceControllerStatus.Running;
-
-        [JsonIgnore]
-        public bool IsStopped => this.Status == ServiceControllerStatus.Stopped;
 
         public override string ToString()
         {
             return this.DisplayName;
         }
-
-        #region Equals/GetHashCode
-        public override bool Equals(object obj)
-        {
-            if (obj == null || this.GetType() != obj.GetType())
-                return false;
-
-            var otherService = (Service)obj;
-            return otherService.ServiceName == this.ServiceName;
-        }
-
-        public override int GetHashCode()
-        {
-            return this.ServiceName.GetHashCode();
-        }
-        #endregion
     }
 }

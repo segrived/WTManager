@@ -31,22 +31,22 @@ namespace WTManager.Helpers
                 ts.RootFolder.DeleteTask(TASK_NAME);
         }
 
-        public static bool IsAutostartTaskInstalled()
+        public static bool AutoStartTaskState
         {
-            using (var ts = new TaskService())
-                return ts.RootFolder.AllTasks.Any(task => task.Name == TASK_NAME);
-        }
+            get
+            {
+                using (var ts = new TaskService())
+                    return ts.RootFolder.AllTasks.Any(task => task.Name == TASK_NAME);
+            }
+            set
+            {
+                bool isTaskAlreadyInstalled = AutoStartTaskState;
 
-        public static void UpdateAutoStartSetting(bool isAutoStart)
-        {
-            bool isTaskAlreadyInstalled = IsAutostartTaskInstalled();
-
-            if (isTaskAlreadyInstalled && !isAutoStart)
-                RemoveAutoStartTask();
-            else if (!isTaskAlreadyInstalled && isAutoStart)
-                InstallAutoStartTask();
-
-            // otherwise we do nothing
+                if (isTaskAlreadyInstalled && !value)
+                    RemoveAutoStartTask();
+                else if (!isTaskAlreadyInstalled && value)
+                    InstallAutoStartTask();
+            }
         }
     }
 }

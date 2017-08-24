@@ -13,6 +13,15 @@ namespace WTManager.Helpers
         private static readonly Dictionary<Service, ServiceController> ControllerCache =
             new Dictionary<Service, ServiceController>();
 
+        public static ServiceControllerStatus Status(this Service service) 
+            => service.GetController().Status;
+
+        public static bool IsStarted(this Service service) 
+            => service.Status() == ServiceControllerStatus.Running;
+
+        public static bool IsStopped(this Service service) 
+            => service.Status() == ServiceControllerStatus.Stopped;
+
         public static void StartService(this Service s)
         {
             var controller = s.GetController();
@@ -51,6 +60,20 @@ namespace WTManager.Helpers
             catch (Exception)
             {
                 return null;
+            }
+        }
+
+        public static bool IsInPendingState(this Service service)
+        {
+            switch (service.GetController().Status)
+            {
+                case ServiceControllerStatus.StopPending:
+                case ServiceControllerStatus.ContinuePending:
+                case ServiceControllerStatus.PausePending:
+                case ServiceControllerStatus.StartPending:
+                    return true;
+                default:
+                    return false;
             }
         }
     }

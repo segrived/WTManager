@@ -6,11 +6,6 @@ using WTManager.Lib;
 
 namespace WTManager.Controls.WtStyle
 {
-    public interface IWtCollectionControl
-    {
-        void SetItems(IEnumerable items);
-    }
-
     public class WtComboBox : ComboBox
     {
         public object GetSelectedValue()
@@ -20,7 +15,10 @@ namespace WTManager.Controls.WtStyle
             if (comboItem != null)
                 return comboItem.Value;
 
-            return this.SelectedItem;
+            if (this.SelectedItem != null)
+                return this.SelectedItem;
+
+            return this.Text;
         }
 
         public void SetItems(IEnumerable items)

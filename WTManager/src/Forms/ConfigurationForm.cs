@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Windows.Forms;
 using WTManager.Config;
 using WTManager.Controls;
@@ -13,23 +12,8 @@ namespace WTManager.Forms
         {
             this.InitializeComponent();
 
-            this.basicConfigurationEditor.FillSettings(ConfigManager.Instance.Config);
-
-            this.servicesList.AddRequest = AddServiceRequest;
-            this.servicesList.EditRequest = EditServiceRequest;
-            this.servicesList.SetItems(ConfigManager.Instance.Config.Services);
-        }
-
-        private static object AddServiceRequest()
-        {
-            using (var f = new AddEditServiceForm(new Service()))
-                return f.ShowDialog() == DialogResult.OK ? f.Service : null;
-        }
-
-        private static object EditServiceRequest(object arg)
-        {
-            using (var f = new AddEditServiceForm(arg as Service))
-                return f.ShowDialog() == DialogResult.OK ? f.Service : null;
+            this.basicConfigurationEditor.FillSettings(ConfigManager.Instance.Config, Configuration.GROUP_GENERAL, Configuration.GROUP_SYSTEM, Configuration.GROUP_UI);
+            this.servicesConfigurationEditor.FillSettings(ConfigManager.Instance.Config, Configuration.GROUP_SERVICES);
         }
 
         #region Window-related buttons
@@ -37,9 +21,9 @@ namespace WTManager.Forms
         private void okBtn_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.OK;
-            this.basicConfigurationEditor.ApplySettings();
 
-            ConfigManager.Instance.Config.Services = this.servicesList.GetItems<Service>().ToList();
+            this.basicConfigurationEditor.ApplySettings();
+            this.servicesConfigurationEditor.ApplySettings();
 
             this.SaveConfiguration();
             this.Close();

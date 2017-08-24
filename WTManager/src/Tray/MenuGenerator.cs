@@ -70,7 +70,7 @@ namespace WTManager.Tray
 
             topServiceMenuItem.AddSubItem(new SeparatorMenuItem(this._controller));
 
-            if (service.ConfigFiles.Count > 0)
+            if (service.ConfigFiles.Any())
             {
                 topServiceMenuItem.AddSubItem(new TitleMenuItem(this._controller, "Config files"));
                 foreach (string file in service.ConfigFiles.Where(File.Exists))
@@ -78,7 +78,7 @@ namespace WTManager.Tray
 
                 topServiceMenuItem.AddSubItem(new SeparatorMenuItem(this._controller));
             }
-            if (service.LogFiles.Count > 0)
+            if (service.LogFiles.Any())
             {
                 topServiceMenuItem.AddSubItem(new TitleMenuItem(this._controller, "Log files"));
                 foreach (string file in service.LogFiles.Where(File.Exists))

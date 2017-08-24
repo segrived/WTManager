@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WTManager.Config;
@@ -52,17 +51,17 @@ namespace WTManager.Tray
 
         protected override string DisplayText => this.Service.DisplayName;
 
-        protected override bool IsEnabled => !this.Service.IsInPendingState;
+        protected override bool IsEnabled => !this.Service.IsInPendingState();
 
         protected override string ImageKey
         {
             get
             {
-                if (this.Service.IsStarted)
+                if (this.Service.IsStarted())
                     return "service-status-started";
-                if (this.Service.IsStopped)
+                if (this.Service.IsStopped())
                     return "service-status-stopped";
-                if (this.Service.IsInPendingState)
+                if (this.Service.IsInPendingState())
                     return "service-status-pending";
 
                 return base.ImageKey;
@@ -190,24 +189,8 @@ namespace WTManager.Tray
 
         protected override void Action()
         {
-            using (var f = new AddEditServiceForm(this.Service))
-            {
-                if (f.ShowDialog() != DialogResult.OK)
-                    return;
-
-                var services = ConfigManager.Instance.Config.Services.ToList();
-
-                bool Predicate(Service serviceToTest) 
-                    => Equals(serviceToTest.GetHashCode(), this.Service.GetHashCode());
-                
-                int index = services.IndexOf(services.First(Predicate));
-
-                if (index == -1)
-                    return;
-
-                services[index] = f.Service;
+            if (AddEditServiceForm.EditItem(this.Service) != null)
                 ConfigManager.Instance.SaveConfig();
-            }
         }
     }
 
@@ -220,7 +203,7 @@ namespace WTManager.Tray
 
         protected override string ImageKey => "service-restart";
 
-        protected override bool IsVisible => this.Service.IsStarted;
+        protected override bool IsVisible => this.Service.IsStarted();
 
         protected override async void Action()
         {
@@ -238,7 +221,7 @@ namespace WTManager.Tray
 
         protected override string ImageKey => "service-start";
 
-        protected override bool IsVisible => this.Service.IsStopped;
+        protected override bool IsVisible => this.Service.IsStopped();
 
         protected override async void Action()
         {
@@ -256,7 +239,7 @@ namespace WTManager.Tray
 
         protected override string ImageKey => "service-stop";
 
-        protected override bool IsVisible => this.Service.IsStarted;
+        protected override bool IsVisible => this.Service.IsStarted();
 
         protected override async void Action()
         {

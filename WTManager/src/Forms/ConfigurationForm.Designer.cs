@@ -1,4 +1,6 @@
-﻿namespace WTManager.Forms
+﻿using WTManager.Controls.WtStyle.WtConfigurator;
+
+namespace WTManager.Forms
 {
     partial class ConfigurationForm
     {
@@ -26,54 +28,20 @@
         /// </summary>
         private void InitializeComponent() {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigurationForm));
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.servicesList = new WTManager.Controls.WtStyle.WtItemEditor();
+            WTManager.Controls.WtStyle.WtConfigurator.LabelRendererConfiguration labelRendererConfiguration1 = new WTManager.Controls.WtStyle.WtConfigurator.LabelRendererConfiguration();
+            WTManager.Controls.WtStyle.WtConfigurator.LabelRendererConfiguration labelRendererConfiguration2 = new WTManager.Controls.WtStyle.WtConfigurator.LabelRendererConfiguration();
             this.applyBtn = new System.Windows.Forms.Button();
             this.cancelBtn = new System.Windows.Forms.Button();
-            this.basicConfigurationEditor = new WTManager.Controls.WtStyle.WtConfigurator();
-            this.groupBox1.SuspendLayout();
+            this.basicConfigurationEditor = new WTManager.Controls.WtStyle.WtConfigurator.WtConfigurator();
+            this.servicesConfigurationEditor = new WTManager.Controls.WtStyle.WtConfigurator.WtConfigurator();
             this.SuspendLayout();
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.servicesList);
-            this.groupBox1.Location = new System.Drawing.Point(446, 12);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(8);
-            this.groupBox1.Size = new System.Drawing.Size(358, 501);
-            this.groupBox1.TabIndex = 2;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Services";
-            // 
-            // servicesList
-            // 
-            this.servicesList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.servicesList.ButtonSize = 30;
-            this.servicesList.EditOnDoubleClick = true;
-            this.servicesList.Location = new System.Drawing.Point(11, 27);
-            this.servicesList.Name = "servicesList";
-            this.servicesList.RemoveConfirmationText = "";
-            this.servicesList.RemoveItemOnDeleteKeyPress = true;
-            this.servicesList.ShowAddButton = true;
-            this.servicesList.ShowDownButton = true;
-            this.servicesList.ShowEditButton = true;
-            this.servicesList.ShowRemoveButton = true;
-            this.servicesList.ShowUpButton = true;
-            this.servicesList.Size = new System.Drawing.Size(336, 463);
-            this.servicesList.TabIndex = 0;
-            this.servicesList.UseRemoveConfirmation = true;
-            this.servicesList.VerticalPaddingBetweenButtons = 5;
             // 
             // applyBtn
             // 
             this.applyBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.applyBtn.Image = ((System.Drawing.Image)(resources.GetObject("applyBtn.Image")));
             this.applyBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.applyBtn.Location = new System.Drawing.Point(496, 519);
+            this.applyBtn.Location = new System.Drawing.Point(464, 519);
             this.applyBtn.Name = "applyBtn";
             this.applyBtn.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.applyBtn.Size = new System.Drawing.Size(151, 30);
@@ -87,7 +55,7 @@
             this.cancelBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancelBtn.Image = ((System.Drawing.Image)(resources.GetObject("cancelBtn.Image")));
             this.cancelBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.cancelBtn.Location = new System.Drawing.Point(653, 519);
+            this.cancelBtn.Location = new System.Drawing.Point(621, 519);
             this.cancelBtn.Name = "cancelBtn";
             this.cancelBtn.Padding = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.cancelBtn.Size = new System.Drawing.Size(151, 30);
@@ -98,24 +66,62 @@
             // 
             // basicConfigurationEditor
             // 
+            this.basicConfigurationEditor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.basicConfigurationEditor.BoldGroupNames = false;
+            this.basicConfigurationEditor.ControlFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.basicConfigurationEditor.FillLastControl = false;
+            this.basicConfigurationEditor.FillLastGroup = true;
+            this.basicConfigurationEditor.GroupTitleFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.basicConfigurationEditor.HorizontalItemPadding = 5;
+            this.basicConfigurationEditor.ItemHeight = 22;
+            labelRendererConfiguration1.LabelPostfix = ":";
+            labelRendererConfiguration1.ShowLables = true;
+            this.basicConfigurationEditor.LabelConfiguration = labelRendererConfiguration1;
+            this.basicConfigurationEditor.LabelFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.basicConfigurationEditor.LabelWidth = 140;
             this.basicConfigurationEditor.Location = new System.Drawing.Point(12, 12);
             this.basicConfigurationEditor.Name = "basicConfigurationEditor";
+            this.basicConfigurationEditor.PaddingBetweenItems = 12;
             this.basicConfigurationEditor.Size = new System.Drawing.Size(428, 501);
             this.basicConfigurationEditor.TabIndex = 1;
+            // 
+            // servicesConfigurationEditor
+            // 
+            this.servicesConfigurationEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.servicesConfigurationEditor.BoldGroupNames = false;
+            this.servicesConfigurationEditor.ControlFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.servicesConfigurationEditor.FillLastControl = true;
+            this.servicesConfigurationEditor.FillLastGroup = true;
+            this.servicesConfigurationEditor.GroupTitleFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.servicesConfigurationEditor.HorizontalItemPadding = 5;
+            this.servicesConfigurationEditor.ItemHeight = 22;
+            labelRendererConfiguration2.LabelPostfix = ":";
+            labelRendererConfiguration2.ShowLables = false;
+            this.servicesConfigurationEditor.LabelConfiguration = labelRendererConfiguration2;
+            this.servicesConfigurationEditor.LabelFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.servicesConfigurationEditor.LabelWidth = 120;
+            this.servicesConfigurationEditor.Location = new System.Drawing.Point(446, 12);
+            this.servicesConfigurationEditor.Name = "servicesConfigurationEditor";
+            this.servicesConfigurationEditor.PaddingBetweenItems = 12;
+            this.servicesConfigurationEditor.Size = new System.Drawing.Size(326, 501);
+            this.servicesConfigurationEditor.TabIndex = 2;
             // 
             // ConfigurationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(816, 561);
+            this.ClientSize = new System.Drawing.Size(784, 561);
+            this.Controls.Add(this.servicesConfigurationEditor);
             this.Controls.Add(this.basicConfigurationEditor);
-            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.applyBtn);
             this.Controls.Add(this.cancelBtn);
+            this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "ConfigurationForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "WTManager Configuration";
-            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -123,8 +129,7 @@
         #endregion
         private System.Windows.Forms.Button cancelBtn;
         private System.Windows.Forms.Button applyBtn;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private Controls.WtStyle.WtItemEditor servicesList;
-        private Controls.WtStyle.WtConfigurator basicConfigurationEditor;
+        private WtConfigurator basicConfigurationEditor;
+        private WtConfigurator servicesConfigurationEditor;
     }
 }
