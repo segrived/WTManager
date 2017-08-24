@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.ServiceProcess;
 using WTManager.Config;
 
@@ -26,26 +27,68 @@ namespace WTManager.Helpers
         {
             var controller = s.GetController();
 
-            controller.Start();
-            controller.WaitForStatus(ServiceControllerStatus.Running);
+            if (s.IsStarted())
+                return;
+
+
+            try
+            {
+                controller.Start();
+                controller.WaitForStatus(ServiceControllerStatus.Running);
+            } catch { /* ... TODO ... */ }
         }
 
         public static void StopService(this Service s)
         {
             var controller = s.GetController();
 
-            controller.Stop();
-            controller.WaitForStatus(ServiceControllerStatus.Stopped);
+            if (s.IsStopped())
+                return;
+
+            try
+            {
+                controller.Stop();
+                controller.WaitForStatus(ServiceControllerStatus.Stopped);
+            } catch { /* ... TODO ... */ }
         }
 
         public static void RestartService(this Service s)
         {
             var controller = s.GetController();
 
-            controller.Stop();
-            controller.WaitForStatus(ServiceControllerStatus.Stopped);
-            controller.Start();
-            controller.WaitForStatus(ServiceControllerStatus.Running);
+            try
+            {
+                if (s.IsStarted())
+                {
+                    controller.Stop();
+                    controller.WaitForStatus(ServiceControllerStatus.Stopped);
+                }
+                controller.Start();
+                controller.WaitForStatus(ServiceControllerStatus.Running);
+            } catch { /* ... TODO ... */ }
+        }
+
+        public static IEnumerable<Service> GetServicesByGroupName(string groupName)
+        {
+            return ConfigManager.Instance.Config.Services.Where(s => groupName == s.Group);
+        }
+
+        public static void StartServiceGroup(string groupName)
+        {
+            foreach (var service in GetServicesByGroupName(groupName))
+                service.StartService();
+        }
+
+        public static void StopServiceGroup(string groupName)
+        {
+            foreach (var service in GetServicesByGroupName(groupName))
+                service.StopService();
+        }
+
+        public static void RestartServiceGroup(string groupName)
+        {
+            foreach (var service in GetServicesByGroupName(groupName))
+                service.RestartService();
         }
 
         public static ServiceController GetController(this Service s)

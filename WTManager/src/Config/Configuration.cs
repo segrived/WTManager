@@ -92,6 +92,9 @@ namespace WTManager.Config
         [VisualItem(typeof(VisualCheckboxRenderer), "Use nested service groups in menu", GROUP_UI)]
         public bool UseNestedServiceGroups { get; set; }
 
+        [VisualItem(typeof(VisualCheckboxRenderer), "Show service group operations in nested menu (experimental)", GROUP_UI)]
+        public bool ShowServiceGroupOperations { get; set; }
+
         #endregion
 
         #region Services settings

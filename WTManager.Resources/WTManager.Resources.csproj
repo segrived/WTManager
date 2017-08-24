@@ -83,5 +83,8 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\Images\menu\app-exit.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Images\menu\service-group.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

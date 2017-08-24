@@ -22,7 +22,7 @@ namespace WTManager.Tray
         {
             var services = ConfigManager.Instance.Config.Services;
 
-            var serviceGroups = services.GroupBy(s => s.Group);
+            var serviceGroups = services.GroupBy(s => s.Group).OrderBy(gr => gr.Key);
 
             var menuItems = new List<WtMenuItem>();
 
@@ -37,6 +37,13 @@ namespace WTManager.Tray
                     foreach (var service in group)
                         groupMenuItem.AddSubItem(this.CreateServiceMenu(service));
 
+                    if (ConfigManager.Instance.Config.ShowServiceGroupOperations)
+                    {
+                        groupMenuItem.AddSubItem(new SeparatorMenuItem(this._controller));
+                        groupMenuItem.AddSubItem(new ServiceGroupStartMenuItem(this._controller, group.Key));
+                        groupMenuItem.AddSubItem(new ServiceGroupStopMenuItem(this._controller, group.Key));
+                        groupMenuItem.AddSubItem(new ServiceGroupRestartMenuItem(this._controller, group.Key));
+                    }
                     menuItems.Add(groupMenuItem);
                 }
                 else
@@ -50,6 +57,9 @@ namespace WTManager.Tray
                     menuItems.Add(new SeparatorMenuItem(this._controller));
                 }
             }
+
+            if (ConfigManager.Instance.Config.UseNestedServiceGroups)
+                menuItems.Add(new SeparatorMenuItem(this._controller));
 
             menuItems.Add(new SystemServicesManagerMenuItem(this._controller));
             menuItems.Add(new SeparatorMenuItem(this._controller));

@@ -10,12 +10,12 @@ using WTManager.Helpers;
 
 namespace WTManager.Tray
 {
-    #region Base specialized menu items
+    #region Base abstract specialized menu items
 
     /// <summary>
     /// Base service related menu item, contains reference to linked service
     /// </summary>
-    public class ServiceMenuItem : WtMenuItem
+    public abstract class ServiceMenuItem : WtMenuItem
     {
         protected Service Service { get; private set; }
 
@@ -26,7 +26,7 @@ namespace WTManager.Tray
         }
     }
 
-    public class FileOperationMenuItem : WtMenuItem
+    public abstract class FileOperationMenuItem : WtMenuItem
     {
         protected string FileName { get; private set; }
 
@@ -37,9 +37,20 @@ namespace WTManager.Tray
         }
     }
 
+    public abstract class ServiceGroupOperationMenuItem : WtMenuItem
+    {
+        protected string GroupName { get; private set; }
+
+        protected ServiceGroupOperationMenuItem(ITrayController controller, string groupName)
+            : base(controller)
+        {
+            this.GroupName = groupName;
+        }
+    }
+
     #endregion
 
-    #region Service-releted items
+    #region Service related menu items
 
     /// <summary>
     /// Service top menu item, contain all other sub items
@@ -67,19 +78,6 @@ namespace WTManager.Tray
                 return base.ImageKey;
             }
         }
-    }
-
-    public class ServiceGroupMenuItem : WtMenuItem
-    {
-        private string GroupName { get; set; }
-
-        public ServiceGroupMenuItem(ITrayController controller, string groupName)
-            : base(controller)
-        {
-            this.GroupName = groupName;
-        }
-
-        protected override string DisplayText => this.GroupName;
     }
 
     /// <summary>
@@ -249,7 +247,74 @@ namespace WTManager.Tray
     }
 
     #endregion
-    
+
+    #region Service group related menu items
+
+    public class ServiceGroupMenuItem : WtMenuItem
+    {
+        private string GroupName { get; set; }
+
+        protected override string ImageKey => "service-group";
+
+        public ServiceGroupMenuItem(ITrayController controller, string groupName)
+            : base(controller)
+        {
+            this.GroupName = groupName;
+        }
+
+        protected override string DisplayText => this.GroupName;
+    }
+
+    public class ServiceGroupStartMenuItem : ServiceGroupOperationMenuItem
+    {
+        public ServiceGroupStartMenuItem(ITrayController controller, string groupName) 
+            : base(controller, groupName) { }
+
+        protected override string DisplayText => "Start group";
+
+        protected override string ImageKey => "service-start";
+
+        protected override async void Action()
+        {
+            await Task.Factory.StartNew(() => ServiceHelpers.StartServiceGroup(this.GroupName));
+            this.Controller.ShowBaloon("Stopped", $"All services in group {this.GroupName} was strated", ToolTipIcon.Info);
+        }
+    }
+
+    public class ServiceGroupStopMenuItem : ServiceGroupOperationMenuItem
+    {
+        public ServiceGroupStopMenuItem(ITrayController controller, string groupName) 
+            : base(controller, groupName) { }
+
+        protected override string DisplayText => "Stop group";
+
+        protected override string ImageKey => "service-stop";
+
+        protected override async void Action()
+        {
+            await Task.Factory.StartNew(() => ServiceHelpers.StopServiceGroup(this.GroupName));
+            this.Controller.ShowBaloon("Stopped", $"All services in group {this.GroupName} was stopped", ToolTipIcon.Info);
+        }
+    }
+
+    public class ServiceGroupRestartMenuItem : ServiceGroupOperationMenuItem
+    {
+        public ServiceGroupRestartMenuItem(ITrayController controller, string groupName) 
+            : base(controller, groupName) { }
+
+        protected override string DisplayText => "Restart group";
+
+        protected override string ImageKey => "service-restart";
+
+        protected override async void Action()
+        {
+            await Task.Factory.StartNew(() => ServiceHelpers.RestartServiceGroup(this.GroupName));
+            this.Controller.ShowBaloon("Stopped", $"All services in group {this.GroupName} was restarted", ToolTipIcon.Info);
+        }
+    }
+
+    #endregion
+
     #region Root menu items
 
     public class SystemServicesManagerMenuItem : WtMenuItem
