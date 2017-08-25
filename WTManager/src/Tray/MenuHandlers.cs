@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WTManager.Config;
@@ -262,7 +263,16 @@ namespace WTManager.Tray
             this.GroupName = groupName;
         }
 
-        protected override string DisplayText => this.GroupName;
+        private string DisplayGroupName
+            => String.IsNullOrEmpty(this.GroupName) ? "<Ungrouped>" : this.GroupName;
+
+        protected override string DisplayText => $"{this.DisplayGroupName} ({this.GetStartedServicesInfo()} started)";
+
+        private string GetStartedServicesInfo()
+        {
+            var services = ServiceHelpers.GetServicesByGroupName(this.GroupName).ToList();
+            return $"{services.Count(service => service.IsStarted())} of {services.Count}";
+        }
     }
 
     public class ServiceGroupStartMenuItem : ServiceGroupOperationMenuItem
