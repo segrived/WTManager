@@ -77,7 +77,7 @@ namespace WTManager.Tray
 
         #region Event handlers
 
-        private void ConfigManager_OnConfigSaved()
+        private void ConfigManager_OnConfigSaved(Configuration config)
         {
             this.RecreateMenu();
         }

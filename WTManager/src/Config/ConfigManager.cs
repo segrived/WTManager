@@ -13,7 +13,7 @@ namespace WTManager.Config
 
         public Configuration Config { get; private set; }
 
-        public event Action ConfigSaved;
+        public event Action<Configuration> ConfigSaved;
 
         private ConfigManager()
         {
@@ -39,7 +39,7 @@ namespace WTManager.Config
             {
                 string configFileName = this.GetConfigFileName();
                 File.WriteAllText(configFileName, JsonConvert.SerializeObject(this.Config, Formatting.Indented));
-                this.ConfigSaved?.Invoke();
+                this.ConfigSaved?.Invoke(this.Config);
             }
             catch { /* ... */ }    
         }

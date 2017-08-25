@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using WTManager.Config;
 using WTManager.Controls;
+using WTManager.Resources;
 
 namespace WTManager.Forms
 {
@@ -32,6 +33,13 @@ namespace WTManager.Forms
         private void cancelBtn_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        protected override void ApplyTheme()
+        {
+            base.ApplyTheme();
+            this.applyBtn.Image = ResourcesProcessor.GetImage("dialog.ok");
+            this.cancelBtn.Image = ResourcesProcessor.GetImage("dialog.cancel");
         }
 
         #endregion

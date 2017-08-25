@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel;
 using System.Windows.Forms;
+using WTManager.Config;
 using WTManager.Controls;
+using WTManager.Resources;
 using WTManager.Tray;
 
 namespace WTManager.Forms
@@ -15,6 +17,13 @@ namespace WTManager.Forms
             this.InitializeComponent();
 
             this._uiTray = new TrayMenu(this.trayIcon);
+
+            ConfigManager.Instance.ConfigSaved += this.Instance_OnConfigSaved;
+        }
+
+        private void Instance_OnConfigSaved(Configuration config)
+        {
+            ResourcesProcessor.ThemeName = config.ThemeName;
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)

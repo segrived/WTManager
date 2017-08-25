@@ -36,9 +36,16 @@ namespace WTManager.Resources
 
         private static Stream GetResourceStream(string baseCategory, string resourceName)
         {
-            return ThemeName != null 
-                ? GetThemeFileStream(baseCategory, resourceName) 
-                : GetEmbeddedFileStream(baseCategory, resourceName);
+            Stream resourceStream = null;
+
+            if (ThemeName != null)
+                resourceStream = GetThemeFileStream(baseCategory, resourceName);
+
+            if (resourceStream != null)
+                return resourceStream;
+
+            // fallback to default embedded resource
+            return GetEmbeddedFileStream(baseCategory, resourceName);
         }
 
         public static string GetThemesRootDirectory()

@@ -27,7 +27,6 @@ namespace WTManager.Forms
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ConfigurationForm));
             WTManager.Controls.WtStyle.WtConfigurator.LabelRendererConfiguration labelRendererConfiguration1 = new WTManager.Controls.WtStyle.WtConfigurator.LabelRendererConfiguration();
             WTManager.Controls.WtStyle.WtConfigurator.LabelRendererConfiguration labelRendererConfiguration2 = new WTManager.Controls.WtStyle.WtConfigurator.LabelRendererConfiguration();
             this.applyBtn = new System.Windows.Forms.Button();
@@ -39,7 +38,6 @@ namespace WTManager.Forms
             // applyBtn
             // 
             this.applyBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.applyBtn.Image = ((System.Drawing.Image)(resources.GetObject("applyBtn.Image")));
             this.applyBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.applyBtn.Location = new System.Drawing.Point(464, 519);
             this.applyBtn.Name = "applyBtn";
@@ -53,7 +51,6 @@ namespace WTManager.Forms
             // cancelBtn
             // 
             this.cancelBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.cancelBtn.Image = ((System.Drawing.Image)(resources.GetObject("cancelBtn.Image")));
             this.cancelBtn.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.cancelBtn.Location = new System.Drawing.Point(621, 519);
             this.cancelBtn.Name = "cancelBtn";
