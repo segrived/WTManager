@@ -49,16 +49,17 @@ namespace WTManager.Controls.WtStyle.WtConfigurator
                 bool isLastGroup = i == groupNames.Length - 1;
                 var group = this.CreateGroup(propClass, groupNames[i], propertyGroups, this.FillLastGroup && isLastGroup);
 
-                this._currentTopCoord += group.Height + 10;
+                this._currentTopCoord += group.Height;
             }
         }
 
-        private GroupBox CreateGroup(IVisualProviderObject propClass, string groupName, IEnumerable<PropertyInfo> props, bool isLastGroup)
+        private Control CreateGroup(IVisualProviderObject propClass, string groupName, IEnumerable<PropertyInfo> props, bool isLastGroup)
         {
-            var mainGroupBoxContainer = new GroupBox
+            var mainGroupBoxContainer = new WtGroupSeparator
             {
                 Text = groupName,
-                Font = this.GroupTitleFont
+                Font = this.GroupTitleFont,
+                Width = this._mainPanel.Width
             };
 
             var panel = new Panel { Dock = DockStyle.Fill };
@@ -142,7 +143,7 @@ namespace WTManager.Controls.WtStyle.WtConfigurator
             if (lastControl != null && this.FillLastControl) 
                 lastControl.Anchor |= AnchorStyles.Bottom;
 
-            if (isLastGroup && initTop < this._mainPanel.Height)
+            if (isLastGroup && this._currentTopCoord + initTop < this._mainPanel.Height)
             {
                 mainGroupBoxContainer.Height = this._mainPanel.Height - mainGroupBoxContainer.Top;
                 mainGroupBoxContainer.Anchor |= AnchorStyles.Bottom;
@@ -212,18 +213,20 @@ namespace WTManager.Controls.WtStyle.WtConfigurator
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            base.OnPaint(e);
-            if (!this.DesignMode)
-                return;
-
-            using(var titleFont = new Font(DefaultFont, FontStyle.Bold))
-            using(var brush = new SolidBrush(Color.Black))
+            if (this.DesignMode)
             {
-                e.Graphics.DrawString(this.Name, titleFont, brush, 0, 0);
+                using (var titleFont = new Font(DefaultFont, FontStyle.Bold))
+                using (var brush = new SolidBrush(Color.Black))
+                {
+                    e.Graphics.DrawString(this.Name, titleFont, brush, 0, 0);
 
-                e.Graphics.DrawString("Dynamic configurator", DefaultFont, brush, 0, 20);
-                e.Graphics.DrawString("Use FillSettings<T> method in your code to fill this screen", DefaultFont, brush, 0, 40);
+                    e.Graphics.DrawString("Dynamic configurator", DefaultFont, brush, 0, 20);
+                    e.Graphics.DrawString("Use FillSettings<T> method in your code to fill this screen", DefaultFont,
+                        brush, 0, 40);
+                }
+                return;
             }
+            base.OnPaint(e);
         }
     }
 }

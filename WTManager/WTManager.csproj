@@ -132,11 +132,15 @@
     <Compile Include="src\Config\ConfigManager.cs" />
     <Compile Include="src\Config\Configuration.cs" />
     <Compile Include="src\Controls\WtStyle\WtConfigurator\DynamicPropertiesProcessor.cs" />
+    <Compile Include="src\Controls\WtStyle\WtConfigurator\IDependentStateProvider.cs" />
     <Compile Include="src\Controls\WtStyle\WtConfigurator\IVisualProviderObject.cs" />
     <Compile Include="src\Controls\WtStyle\WtConfigurator\LabelRendererConfiguration.cs" />
     <Compile Include="src\Controls\WtStyle\WtConfigurator\VisualItemAttributes.cs" />
     <Compile Include="src\Controls\WtStyle\WtConfigurator\WtConfiguratorProperties.cs">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="src\Controls\WtStyle\WtGroupSeparator.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="src\Converters\FontConverter.cs" />
     <Compile Include="src\VisualItemRenderers\VisualItemsEditorRenderer.cs" />
