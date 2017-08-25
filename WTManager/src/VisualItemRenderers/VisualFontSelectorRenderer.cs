@@ -11,19 +11,19 @@ namespace WTManager.VisualItemRenderers
         public VisualFontSelectorRenderer(IVisualProviderObject provider) 
             : base(provider) { }
 
-        public override Control CreateControl()
+        protected override Control CreateControl()
         {
             return new WtFontSelector();
         }
 
-        public override void SetValue(Control control, object value)
+        public override void SetValue(object value)
         {
-            ((WtFontSelector) control).CurrentState = (Font)value;
+            ((WtFontSelector) this.Control).CurrentState = (Font)value;
         }
 
-        public override object GetValue(Control control)
+        public override object GetValue()
         {
-            return ((WtFontSelector) control).CurrentState;
+            return ((WtFontSelector) this.Control).CurrentState;
         }
     }
 }

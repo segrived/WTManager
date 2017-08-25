@@ -1,3 +1,4 @@
+using System;
 using System.Windows.Forms;
 using WTManager.Controls.WtStyle;
 using WTManager.Controls.WtStyle.WtConfigurator;
@@ -5,33 +6,46 @@ using WTManager.Lib;
 
 namespace WTManager.VisualItemRenderers
 {
-    public class VisualCheckboxRenderer : VisualItemRenderer
+    public class VisualCheckboxRenderer : VisualItemRenderer, IDependentStateProvider
     {
         public VisualCheckboxRenderer(IVisualProviderObject provider) 
             : base(provider) { }
 
-        public override Control CreateControl()
+        protected override Control CreateControl()
         {
-            return new WtCheckBox();
+            var checkbox = new WtCheckBox();
+            checkbox.CheckedChanged += this.Checkbox_OnCheckedChanged;
+            return checkbox;
         }
 
-        public override void SetValue(Control control, object value)
+        public override void SetValue(object value)
         {
             if (!(value is bool))
                 return;
 
-            ((WtCheckBox)control).Checked = (bool)value;
+            ((WtCheckBox)this.Control).Checked = (bool)value;
         }
 
-        public override object GetValue(Control control)
+        public override object GetValue()
         {
-            return ((WtCheckBox)control).Checked;
+            return ((WtCheckBox)this.Control).Checked;
         }
 
-        public override bool SetLabel(Control control, string text, LabelRendererConfiguration config)
+        public override bool SetLabel(string text, LabelRendererConfiguration config)
         {
-            control.Text = text;
+            this.Control.Text = text;
             return true;
+        }
+
+        public event Action<string, bool> StateChanged;
+        public bool CurrentState => (this.Control as WtCheckBox)?.Checked ?? false;
+
+        private void Checkbox_OnCheckedChanged(object sender, EventArgs eventArgs)
+        {
+            if (!(sender is WtCheckBox checkbox))
+                return;
+
+            this.StateChanged?.Invoke(checkbox.Name, checkbox.Checked);
         }
     }
 }

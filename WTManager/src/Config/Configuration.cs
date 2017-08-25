@@ -6,6 +6,7 @@ using WTManager.Controls.WtStyle.WtConfigurator;
 using WTManager.Helpers;
 using WTManager.VisualItemRenderers;
 
+// ReSharper disable ArgumentsStyleLiteral
 // ReSharper disable UnusedMember.Global
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable AutoPropertyCanBeMadeGetOnly.Global
@@ -93,6 +94,7 @@ namespace WTManager.Config
         public bool UseNestedServiceGroups { get; set; }
 
         [VisualItem(typeof(VisualCheckboxRenderer), "Show service group operations in nested menu (experimental)", GROUP_UI)]
+        [VisualItemDependentOn(nameof(UseNestedServiceGroups))]
         public bool ShowServiceGroupOperations { get; set; }
 
         #endregion

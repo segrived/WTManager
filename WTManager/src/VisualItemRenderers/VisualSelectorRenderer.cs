@@ -16,7 +16,7 @@ namespace WTManager.VisualItemRenderers
         protected VisualSelectorRenderer(IVisualProviderObject provider) 
             : base(provider) { }
 
-        public override Control CreateControl()
+        protected override Control CreateControl()
         {
             var combobox = new WtComboBox {DropDownStyle = ComboBoxStyle.DropDownList};
 
@@ -29,14 +29,14 @@ namespace WTManager.VisualItemRenderers
 
         protected virtual void ConfigureControl(WtComboBox combobox) {}
 
-        public override void SetValue(Control control, object value)
+        public override void SetValue( object value)
         {
-            ((WtComboBox)control).SelectByValue(value);
+            ((WtComboBox)this.Control).SelectByValue(value);
         }
 
-        public override object GetValue(Control control)
+        public override object GetValue()
         {
-            return ((WtComboBox) control).GetSelectedValue();
+            return ((WtComboBox)this.Control).GetSelectedValue();
         }
     }
 

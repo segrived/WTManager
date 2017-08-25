@@ -10,19 +10,19 @@ namespace WTManager.VisualItemRenderers
         public VisualFileSelectorRenderer(IVisualProviderObject provider) 
             : base(provider) { }
 
-        public override Control CreateControl()
+        protected override Control CreateControl()
         {
             return new WtFileSelector();
         }
 
-        public override void SetValue(Control control, object value)
+        public override void SetValue(object value)
         {
-            ((WtFileSelector) control).CurrentState = (string)value;
+            ((WtFileSelector) this.Control).CurrentState = (string)value;
         }
 
-        public override object GetValue(Control control)
+        public override object GetValue()
         {
-            return ((WtFileSelector) control).CurrentState;
+            return ((WtFileSelector) this.Control).CurrentState;
         }
     }
 
@@ -31,19 +31,19 @@ namespace WTManager.VisualItemRenderers
         public VisualDirectorySelectorRenderer(IVisualProviderObject provider) 
             : base(provider) { }
 
-        public override Control CreateControl()
+        protected override Control CreateControl()
         {
             return new WtDirectorySelector();
         }
 
-        public override void SetValue(Control control, object value)
+        public override void SetValue(object value)
         {
-            ((WtDirectorySelector) control).CurrentState = (string)value;
+            ((WtDirectorySelector) this.Control).CurrentState = (string)value;
         }
 
-        public override object GetValue(Control control)
+        public override object GetValue()
         {
-            return ((WtDirectorySelector) control).CurrentState;
+            return ((WtDirectorySelector) this.Control).CurrentState;
         }
     }
 }

@@ -10,21 +10,21 @@ namespace WTManager.VisualItemRenderers
         public VisualTextRenderer(IVisualProviderObject provider) 
             : base(provider) { }
 
-        public override Control CreateControl()
+        protected override Control CreateControl()
         {
             var textBox = new WtTextBox();
             return textBox;
         }
 
-        public override void SetValue(Control control, object value)
+        public override void SetValue(object value)
         {
             if (value != null)
-                ((TextBox) control).Text = value.ToString();
+                ((WtTextBox)this.Control).Text = value.ToString();
         }
 
-        public override object GetValue(Control control)
+        public override object GetValue()
         {
-            return ((TextBox) control).Text;
+            return ((WtTextBox)this.Control).Text;
         }
     }
 }

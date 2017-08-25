@@ -11,10 +11,10 @@ namespace WTManager.VisualItemRenderers
 {
     public abstract class VisualItemsEditorRenderer<T> : VisualItemRenderer
     {
-        public VisualItemsEditorRenderer(IVisualProviderObject provider) 
+        protected VisualItemsEditorRenderer(IVisualProviderObject provider) 
             : base(provider) { }
 
-        public override Control CreateControl()
+        protected override Control CreateControl()
         {
             var itemEditor = new WtItemEditor
             {
@@ -27,17 +27,16 @@ namespace WTManager.VisualItemRenderers
 
         protected virtual void ConfigureControl(WtItemEditor control) { }
 
-        public override void SetValue(Control control, object value)
+        public override void SetValue(object value)
         {
-            var enumerable = value as IEnumerable;
-            if (enumerable == null)
+            if (!(value is IEnumerable enumerable))
                 return;
-            ((WtItemEditor)control).SetItems(enumerable.Cast<object>());
+            ((WtItemEditor)this.Control).SetItems(enumerable.Cast<object>());
         }
 
-        public override object GetValue(Control control)
+        public override object GetValue()
         {
-            return ((WtItemEditor) control).GetItems<T>();
+            return ((WtItemEditor) this.Control).GetItems<T>();
         }
 
         protected virtual object CreateHandler() => null;

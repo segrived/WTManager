@@ -20,11 +20,21 @@ namespace WTManager.Controls.WtStyle.WtConfigurator
 
     public class VisualItemCustomizationAttribute : Attribute
     {
-        public int CustomHeight { get; set; }
+        public int CustomHeight { get; private set; }
 
         public VisualItemCustomizationAttribute(int customHeight = -1)
         {
             this.CustomHeight = customHeight;
+        }
+    }
+
+    public class VisualItemDependentOnAttribute : Attribute
+    {
+        public string DependentProperty { get; private set; }
+
+        public VisualItemDependentOnAttribute(string dependentOnPropertName)
+        {
+            this.DependentProperty = dependentOnPropertName;
         }
     }
 }

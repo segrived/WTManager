@@ -5,20 +5,23 @@ namespace WTManager.Lib
 {
     public abstract class VisualItemRenderer
     {
+        public Control Control { get; private set; }
+
+        protected IVisualProviderObject VisualProvider { get; private set; }
+
         protected VisualItemRenderer(IVisualProviderObject provider)
         {
             this.VisualProvider = provider;
+            this.Control = this.CreateControl();
         }
 
-        protected IVisualProviderObject VisualProvider { get; set; }
-
-        public abstract Control CreateControl();
+        protected abstract Control CreateControl();
         
-        public abstract void SetValue(Control control, object value);
+        public abstract void SetValue(object value);
 
-        public abstract object GetValue(Control control);
+        public abstract object GetValue();
 
-        public virtual bool SetLabel(Control control, string text, LabelRendererConfiguration config)
+        public virtual bool SetLabel(string text, LabelRendererConfiguration config)
         {
             return false;
         }

@@ -38,5 +38,15 @@ namespace WTManager.Controls.WtStyle.WtConfigurator
             }
             return propertiesList;
         }
+
+        public IEnumerable<string> FindDependentControls(string dependencyName)
+        {
+            foreach (var propertyInfo in this.Properties)
+            {
+                var dependentOn = propertyInfo.GetCustomAttributes<VisualItemDependentOnAttribute>().ToList();
+                if (dependentOn.Select(d => d.DependentProperty).Contains(dependencyName))
+                    yield return propertyInfo.Name;
+            }
+        }
     }
 }

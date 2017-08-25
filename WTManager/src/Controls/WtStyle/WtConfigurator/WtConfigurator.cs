@@ -9,15 +9,34 @@ using WTManager.Lib;
 
 namespace WTManager.Controls.WtStyle.WtConfigurator
 {
+    /// <summary>
+    /// !!! TODO: Refactor !!!
+    /// </summary>
     public partial class WtConfigurator : WtUserControl
     {
         private int _currentTopCoord;
         private DynamicPropertiesProcessor _processor;
 
+        private readonly List<IDependentStateProvider> _dependentProvidersCache;
+
+        private readonly ScrollableControl _mainPanel;
+
+        public WtConfigurator()
+        {
+            this._dependentProvidersCache = new List<IDependentStateProvider>();
+
+            this._mainPanel = new ScrollableControl
+            {
+                Dock = DockStyle.Fill,
+                AutoScroll = true
+            };
+            this.Controls.Add(this._mainPanel);
+        }
+
         public void FillSettings(IVisualProviderObject propClass, params string[] groupNames)
         {
+            // initialize
             this._currentTopCoord = 0;
-
             this._processor = new DynamicPropertiesProcessor(propClass);
 
             if (groupNames.Length == 0)
@@ -31,8 +50,6 @@ namespace WTManager.Controls.WtStyle.WtConfigurator
                 var group = this.CreateGroup(propClass, groupNames[i], propertyGroups, this.FillLastGroup && isLastGroup);
 
                 this._currentTopCoord += group.Height + 10;
-
-                this.Controls.Add(group);
             }
         }
 
@@ -63,28 +80,28 @@ namespace WTManager.Controls.WtStyle.WtConfigurator
 
                 var renderer = Activator.CreateInstance(rendererAttr.RendererType, propClass) as VisualItemRenderer;
 
-                if (renderer == null)
+                if (renderer?.Control == null)
                     continue;
 
                 var customData = prop.GetCustomAttribute<VisualItemCustomizationAttribute>();
 
-                var control = renderer.CreateControl();
-                control.Font = this.ControlFont;
+                renderer.Control.Font = this.ControlFont;
 
                 int controlHeight = this.ItemHeight;
                 if (customData != null && customData.CustomHeight != -1)
                     controlHeight = customData.CustomHeight;
 
-                control.Location = new Point(this.HorizontalItemPadding, initTop);
-                control.Size = new Size(panel.Width - this.HorizontalItemPadding * 2, controlHeight);
-                control.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
+                renderer.Control.Location = new Point(this.HorizontalItemPadding, initTop);
+                renderer.Control.Size = new Size(panel.Width - this.HorizontalItemPadding * 2, controlHeight);
+                renderer.Control.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
+                renderer.Control.Name = prop.Name;
 
                 if (i == properties.Length - 1)
-                    lastControl = control;
+                    lastControl = renderer.Control;
 
                 if ( this.LabelConfiguration.ShowLables)
                 {
-                    bool setInternalLabelResult = renderer.SetLabel(control, rendererAttr.DisplayText, this.LabelConfiguration);
+                    bool setInternalLabelResult = renderer.SetLabel(rendererAttr.DisplayText, this.LabelConfiguration);
 
                     if (!setInternalLabelResult)
                     {
@@ -92,46 +109,84 @@ namespace WTManager.Controls.WtStyle.WtConfigurator
                         label.Location = new Point(this.HorizontalItemPadding, initTop);
                         label.Height = controlHeight;
 
-                        control.Left = label.Right;
-                        control.Width = panel.Width - label.Right - this.HorizontalItemPadding;
-                        control.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
+                        renderer.Control.Left = label.Right;
+                        renderer.Control.Width = panel.Width - label.Right - this.HorizontalItemPadding;
+                        renderer.Control.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
 
                         panel.Controls.Add(label);
                     }
                 }
 
-                renderer.SetValue(control, prop.GetValue(propClass));
+                renderer.SetValue(prop.GetValue(propClass));
+
+                if (renderer is IDependentStateProvider dependentStateProvider)
+                    this._dependentProvidersCache.Add(dependentStateProvider);
 
                 void ApplyRendererValue()
                 {
-                    try { prop.SetValue(propClass, renderer.GetValue(control)); }
+                    try { prop.SetValue(propClass, renderer.GetValue()); }
                     catch (Exception) { /* ... */ }
                 }
 
-                control.Tag = new Action(ApplyRendererValue);
+                renderer.Control.Tag = new Action(ApplyRendererValue);
 
                 initTop += controlHeight + this.PaddingBetweenItems;
 
-                panel.Controls.Add(control);
+                panel.Controls.Add(renderer.Control);
             }
 
-            mainGroupBoxContainer.Size = new Size(this.Width, panel.Top + initTop);
+            mainGroupBoxContainer.Size = new Size(this._mainPanel.Width, panel.Top + initTop);
             mainGroupBoxContainer.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
             mainGroupBoxContainer.Top = this._currentTopCoord;
 
             if (lastControl != null && this.FillLastControl) 
                 lastControl.Anchor |= AnchorStyles.Bottom;
 
-            if (isLastGroup)
+            if (isLastGroup && initTop < this._mainPanel.Height)
             {
-                mainGroupBoxContainer.Height = this.Height - mainGroupBoxContainer.Top;
+                mainGroupBoxContainer.Height = this._mainPanel.Height - mainGroupBoxContainer.Top;
                 mainGroupBoxContainer.Anchor |= AnchorStyles.Bottom;
             }
 
-            this.Controls.Add(mainGroupBoxContainer);
+            this._mainPanel.Controls.Add(mainGroupBoxContainer);
+
+            this.InitDependentControls();
 
             return mainGroupBoxContainer;
         }
+
+        private void UpdateDependentControlsState(string controlName, bool isChecked)
+        {
+            this.SuspendLayout();
+
+            var dependentControlNames = this._processor.FindDependentControls(controlName);
+            foreach (string depenentControlName in dependentControlNames)
+            {
+                var control = this.Controls.Find(depenentControlName, true);
+                if (control.Length != 1)
+                    continue;
+
+                control.First().Enabled = isChecked;
+            }
+
+            this.ResumeLayout();
+        }
+
+        private void InitDependentControls()
+        {
+            foreach (var dependencyControl in this._dependentProvidersCache)
+            {
+                dependencyControl.StateChanged += this.StateProvider_OnStateChanged;
+
+                if (!(dependencyControl is VisualItemRenderer visualItem) || visualItem.Control == null)
+                    return;
+
+                this.UpdateDependentControlsState(visualItem.Control.Name, dependencyControl.CurrentState);
+            }
+        }
+
+        private void StateProvider_OnStateChanged(string controlName, bool isChecked) 
+            => this.UpdateDependentControlsState(controlName, isChecked);
 
         private Label CreateLabel(string text)
         {
