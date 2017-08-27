@@ -65,7 +65,6 @@ namespace WTManager.Forms
             // 
             this.basicConfigurationEditor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.basicConfigurationEditor.BoldGroupNames = false;
             this.basicConfigurationEditor.ControlFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.basicConfigurationEditor.FillLastControl = false;
             this.basicConfigurationEditor.FillLastGroup = true;
@@ -88,7 +87,6 @@ namespace WTManager.Forms
             this.servicesConfigurationEditor.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.servicesConfigurationEditor.BoldGroupNames = false;
             this.servicesConfigurationEditor.ControlFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.servicesConfigurationEditor.FillLastControl = true;
             this.servicesConfigurationEditor.FillLastGroup = true;

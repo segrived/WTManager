@@ -61,6 +61,7 @@ namespace WTManager.Tray
             if (ConfigManager.Instance.Config.UseNestedServiceGroups)
                 menuItems.Add(new SeparatorMenuItem(this._controller));
 
+            menuItems.Add(new ServiceTasksManagerMenuItem(this._controller));
             menuItems.Add(new SystemServicesManagerMenuItem(this._controller));
             menuItems.Add(new SeparatorMenuItem(this._controller));
 

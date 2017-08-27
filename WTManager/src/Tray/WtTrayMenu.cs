@@ -24,6 +24,8 @@ namespace WTManager.Tray
         private readonly NotifyIcon _notifyIcon;
         private readonly Timer _updateTimer;
 
+        private readonly ServiceTasksManager _taskProcessor;
+
         private ContextMenuStrip ContextMenu => this._notifyIcon.ContextMenuStrip;
 
         public TrayMenu(NotifyIcon uiTrayIcon)
@@ -40,6 +42,8 @@ namespace WTManager.Tray
             this._updateTimer = new Timer {Interval = 1000};
             this._updateTimer.Tick += this.UpdateTimer_OnTick;
             this._updateTimer.Start();
+
+            this._taskProcessor = new ServiceTasksManager(this);
 
             this._menuGenerator = new MenuGenerator(this);
 
@@ -90,6 +94,7 @@ namespace WTManager.Tray
         private void UpdateTimer_OnTick(object sender, EventArgs eventArgs)
         {
             this.UpdateTrayMenu();
+            this._taskProcessor.Process();
         }
 
         private void NotifyIcon_OnMouseUp(object o, MouseEventArgs e)

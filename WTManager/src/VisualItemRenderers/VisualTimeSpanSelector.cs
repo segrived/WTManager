@@ -1,28 +1,27 @@
-using System.Drawing;
 using System.Windows.Forms;
 using WTManager.Controls.WtStyle;
 using WTManager.Controls.WtStyle.WtConfigurator;
 
 namespace WTManager.VisualItemRenderers
 {
-    public class VisualFontSelectorRenderer : VisualItemRenderer
+    public class VisualTimeSpanSelector : VisualItemRenderer
     {
-        public VisualFontSelectorRenderer(IVisualProviderObject provider) 
+        public VisualTimeSpanSelector(IVisualProviderObject provider) 
             : base(provider) { }
 
         protected override Control CreateControl()
         {
-            return new WtFontSelector();
+            return new WtTimeSpanSelector();
         }
 
         public override void SetValue(object value)
         {
-            ((WtFontSelector) this.Control).CurrentState = (Font)value;
+            ((WtTimeSpanSelector) this.Control).Text = value.ToString();
         }
 
         public override object GetValue()
         {
-            return ((WtFontSelector) this.Control).CurrentState;
+            return ((WtTimeSpanSelector) this.Control).ToTimeSpan();
         }
     }
 }

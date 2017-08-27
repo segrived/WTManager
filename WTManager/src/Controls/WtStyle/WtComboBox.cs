@@ -10,22 +10,22 @@ namespace WTManager.Controls.WtStyle
     {
         public object GetSelectedValue()
         {
-            var comboItem = this.SelectedItem as ComboBoxItem;
-
-            if (comboItem != null)
+            if (this.SelectedItem is ComboBoxItem comboItem)
                 return comboItem.Value;
 
-            if (this.SelectedItem != null)
-                return this.SelectedItem;
-
-            return this.Text;
+            return this.SelectedItem ?? this.Text;
         }
 
         public void SetItems(IEnumerable items)
         {
             this.Items.Clear();
             this.Items.AddRange(items.Cast<object>().ToArray());
+            // select first item
+            this.SelectedIndex = 0;
         }
+
+        public void SetEnumItems<T>() where T : struct 
+            => this.SetItems(ComboBoxItem.FromEnum<T>());
 
         #region Helpers
 
@@ -36,8 +36,7 @@ namespace WTManager.Controls.WtStyle
                 if (item == null && value == null)
                     return true;
 
-                var comparable = item as IComparable;
-                if (comparable != null && comparable.CompareTo(value) == 0)
+                if (item is IComparable comparable && comparable.CompareTo(value) == 0)
                     return true;
 
                 return false;
@@ -54,7 +53,8 @@ namespace WTManager.Controls.WtStyle
 
         public void SelectByValue(object value)
         {
-            this.SelectedIndex = this.FindIndex(value);
+            var itemIndex = this.FindIndex(value);
+            this.SelectedIndex = itemIndex == -1 ? 0 : itemIndex;
         }
 
         #endregion

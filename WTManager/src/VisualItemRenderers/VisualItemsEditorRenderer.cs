@@ -5,7 +5,6 @@ using WTManager.Config;
 using WTManager.Controls.WtStyle;
 using WTManager.Controls.WtStyle.WtConfigurator;
 using WTManager.Forms;
-using WTManager.Lib;
 
 namespace WTManager.VisualItemRenderers
 {
@@ -54,6 +53,18 @@ namespace WTManager.VisualItemRenderers
 
         protected override object EditHandler(object arg) 
             => AddEditServiceForm.EditItem(arg as Service);
+    }
+
+    public class VisualServiceTasksItemsEditorRenderer : VisualItemsEditorRenderer<ServiceTask>
+    {
+        public VisualServiceTasksItemsEditorRenderer(IVisualProviderObject provider) 
+            : base(provider) { }
+
+        protected override object CreateHandler() 
+            => AddEditServiceTaskForm.AddItem();
+
+        protected override object EditHandler(object arg) 
+            => AddEditServiceTaskForm.EditItem(arg as ServiceTask);
     }
 
     public class VisualFilesItemsEditorRenderer : VisualItemsEditorRenderer<string>

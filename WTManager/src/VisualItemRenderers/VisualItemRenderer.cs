@@ -1,7 +1,7 @@
 using System.Windows.Forms;
 using WTManager.Controls.WtStyle.WtConfigurator;
 
-namespace WTManager.Lib
+namespace WTManager.VisualItemRenderers
 {
     public abstract class VisualItemRenderer
     {

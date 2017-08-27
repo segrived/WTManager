@@ -43,10 +43,6 @@ namespace WTManager.Controls.WtStyle.WtConfigurator
         public bool FillLastControl { get; set; } = false;
 
         [Category("WT Controls")]
-        [DisplayName("BoldGroupNames")]
-        public bool BoldGroupNames { get; set; } = false;
-
-        [Category("WT Controls")]
         [DisplayName("LabelConfiguration")]
         [TypeConverter(typeof(ExpandableObjectConverter))]
         public LabelRendererConfiguration LabelConfiguration { get; set; } = new LabelRendererConfiguration();

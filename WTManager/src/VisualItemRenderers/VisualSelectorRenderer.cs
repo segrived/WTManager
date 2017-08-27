@@ -40,6 +40,15 @@ namespace WTManager.VisualItemRenderers
         }
     }
 
+    public class VisualEnumSelectorType<T> : VisualSelectorRenderer where T : struct
+    {
+        public VisualEnumSelectorType(IVisualProviderObject provider) 
+            : base(provider) { }
+
+        protected override IEnumerable<ComboBoxItem> GetItems() 
+            => ComboBoxItem.FromEnum<T>();
+    }
+
     public class VisualThemeSelectorRenderer : VisualSelectorRenderer
     {
         public VisualThemeSelectorRenderer(IVisualProviderObject provider) 

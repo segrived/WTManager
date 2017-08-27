@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.ServiceProcess;
 using WTManager.Config;
@@ -11,25 +10,29 @@ namespace WTManager.Helpers
         public static IEnumerable<ServiceController> GetAllServices() 
             => ServiceController.GetServices();
 
-        private static readonly Dictionary<Service, ServiceController> ControllerCache =
-            new Dictionary<Service, ServiceController>();
+        private static readonly Dictionary<string, ServiceController> ControllerCache =
+            new Dictionary<string, ServiceController>();
 
-        public static ServiceControllerStatus Status(this Service service) 
-            => service.GetController().Status;
-
-        public static bool IsStarted(this Service service) 
-            => service.Status() == ServiceControllerStatus.Running;
-
-        public static bool IsStopped(this Service service) 
-            => service.Status() == ServiceControllerStatus.Stopped;
-
-        public static void StartService(this Service s)
+        public static ServiceController GetServiceController(string serviceName)
         {
-            var controller = s.GetController();
+            try
+            {
+                if (!ControllerCache.ContainsKey(serviceName))
+                    ControllerCache[serviceName] = new ServiceController(serviceName);
 
-            if (s.IsStarted())
+                return ControllerCache[serviceName];
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+
+        public static void StartService(this ServiceController controller)
+        {
+            if (controller.Status == ServiceControllerStatus.Running)
                 return;
-
 
             try
             {
@@ -38,11 +41,9 @@ namespace WTManager.Helpers
             } catch { /* ... TODO ... */ }
         }
 
-        public static void StopService(this Service s)
+        public static void StopService(this ServiceController controller)
         {
-            var controller = s.GetController();
-
-            if (s.IsStopped())
+            if (controller.Status == ServiceControllerStatus.Stopped)
                 return;
 
             try
@@ -52,13 +53,11 @@ namespace WTManager.Helpers
             } catch { /* ... TODO ... */ }
         }
 
-        public static void RestartService(this Service s)
+        public static void RestartService(this ServiceController controller)
         {
-            var controller = s.GetController();
-
             try
             {
-                if (s.IsStarted())
+                if (controller.Status == ServiceControllerStatus.Running)
                 {
                     controller.Stop();
                     controller.WaitForStatus(ServiceControllerStatus.Stopped);
@@ -76,39 +75,24 @@ namespace WTManager.Helpers
         public static void StartServiceGroup(string groupName)
         {
             foreach (var service in GetServicesByGroupName(groupName))
-                service.StartService();
+                service.Controller.StartService();
         }
 
         public static void StopServiceGroup(string groupName)
         {
             foreach (var service in GetServicesByGroupName(groupName))
-                service.StopService();
+                service.Controller.StopService();
         }
 
         public static void RestartServiceGroup(string groupName)
         {
             foreach (var service in GetServicesByGroupName(groupName))
-                service.RestartService();
+                service.Controller.RestartService();
         }
 
-        public static ServiceController GetController(this Service s)
+        public static bool IsInPendingState(this ServiceController controller)
         {
-            try
-            {
-                if (!ControllerCache.ContainsKey(s))
-                    ControllerCache[s] = new ServiceController(s.ServiceName);
-
-                return ControllerCache[s];
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-
-        public static bool IsInPendingState(this Service service)
-        {
-            switch (service.GetController().Status)
+            switch (controller.Status)
             {
                 case ServiceControllerStatus.StopPending:
                 case ServiceControllerStatus.ContinuePending:

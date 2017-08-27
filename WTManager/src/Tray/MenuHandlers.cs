@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.ServiceProcess;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WTManager.Config;
@@ -63,17 +64,17 @@ namespace WTManager.Tray
 
         protected override string DisplayText => this.Service.DisplayName;
 
-        protected override bool IsEnabled => !this.Service.IsInPendingState();
+        protected override bool IsEnabled => !this.Service.Controller.IsInPendingState();
 
         protected override string ImageKey
         {
             get
             {
-                if (this.Service.IsStarted())
+                if (this.Service.Controller.Status == ServiceControllerStatus.Running)
                     return "service-status-started";
-                if (this.Service.IsStopped())
+                if (this.Service.Controller.Status == ServiceControllerStatus.Stopped)
                     return "service-status-stopped";
-                if (this.Service.IsInPendingState())
+                if (this.Service.Controller.IsInPendingState())
                     return "service-status-pending";
 
                 return base.ImageKey;
@@ -202,11 +203,12 @@ namespace WTManager.Tray
 
         protected override string ImageKey => "service-restart";
 
-        protected override bool IsVisible => this.Service.IsStarted();
+        protected override bool IsVisible 
+            => this.Service.Controller.Status == ServiceControllerStatus.Running;
 
         protected override async void Action()
         {
-            await Task.Factory.StartNew(this.Service.RestartService);
+            await Task.Factory.StartNew(this.Service.Controller.RestartService);
             this.Controller.ShowBaloon("Started", $"Service {this.Service.DisplayName} was restarted", ToolTipIcon.Info);
         }
     }
@@ -220,11 +222,12 @@ namespace WTManager.Tray
 
         protected override string ImageKey => "service-start";
 
-        protected override bool IsVisible => this.Service.IsStopped();
+        protected override bool IsVisible 
+            => this.Service.Controller.Status == ServiceControllerStatus.Stopped;
 
         protected override async void Action()
         {
-            await Task.Factory.StartNew(this.Service.StartService);
+            await Task.Factory.StartNew(this.Service.Controller.StartService);
             this.Controller.ShowBaloon("Started", $"Service {this.Service.DisplayName} was started", ToolTipIcon.Info);
         }
     }
@@ -238,11 +241,12 @@ namespace WTManager.Tray
 
         protected override string ImageKey => "service-stop";
 
-        protected override bool IsVisible => this.Service.IsStarted();
+        protected override bool IsVisible 
+            => this.Service.Controller.Status == ServiceControllerStatus.Running;
 
         protected override async void Action()
         {
-            await Task.Factory.StartNew(this.Service.StopService);
+            await Task.Factory.StartNew(this.Service.Controller.StopService);
             this.Controller.ShowBaloon("Started", $"Service {this.Service.DisplayName} was stopped", ToolTipIcon.Info);
         }
     }
@@ -271,7 +275,8 @@ namespace WTManager.Tray
         private string GetStartedServicesInfo()
         {
             var services = ServiceHelpers.GetServicesByGroupName(this.GroupName).ToList();
-            return $"{services.Count(service => service.IsStarted())} of {services.Count}";
+            int startedCount = services.Count(s => s.Controller.Status == ServiceControllerStatus.Running);
+            return $"{startedCount} of {services.Count}";
         }
     }
 
@@ -327,12 +332,29 @@ namespace WTManager.Tray
 
     #region Root menu items
 
+    public class ServiceTasksManagerMenuItem : WtMenuItem
+    {
+        public ServiceTasksManagerMenuItem(ITrayController controller) 
+            : base(controller) { }
+
+        protected override string DisplayText => "Service scheduler (experimental)";
+
+        protected override string ImageKey => "services-scheduler";
+
+        protected override void Action()
+        {
+            new ServiceTasksListForm().ShowDialog();
+        }
+    }
+
     public class SystemServicesManagerMenuItem : WtMenuItem
     {
         public SystemServicesManagerMenuItem(ITrayController controller) 
             : base(controller) { }
 
         protected override string DisplayText => "System services manager";
+
+        protected override string ImageKey => "system-services-manager";
 
         protected override void Action()
         {

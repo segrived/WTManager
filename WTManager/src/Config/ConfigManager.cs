@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Newtonsoft.Json;
+using WTManager.Resources;
 
 namespace WTManager.Config
 {
@@ -13,9 +14,22 @@ namespace WTManager.Config
 
         public Configuration Config { get; private set; }
 
+        /// <summary>
+        /// Configuration was loaded from file
+        /// </summary>
+        public event Action<Configuration> ConfigLoaded;
+
+        /// <summary>
+        /// Cofiguration was saved to file
+        /// </summary>
         public event Action<Configuration> ConfigSaved;
 
         private ConfigManager()
+        {
+            this.Config = this.LoadConfig();
+        }
+
+        public Configuration LoadConfig()
         {
             var resultObj = new Configuration();
 
@@ -26,11 +40,14 @@ namespace WTManager.Config
                 {
                     string fileContent = File.ReadAllText(configFileName);
                     resultObj = JsonConvert.DeserializeObject<Configuration>(fileContent);
+
+                    this.PostProcessConfig(resultObj);
+                    this.ConfigLoaded?.Invoke(resultObj);
                 }
             }
             catch { /* ... */ }
 
-            this.Config = resultObj;
+            return resultObj;
         }
 
         public void SaveConfig()
@@ -39,9 +56,20 @@ namespace WTManager.Config
             {
                 string configFileName = this.GetConfigFileName();
                 File.WriteAllText(configFileName, JsonConvert.SerializeObject(this.Config, Formatting.Indented));
+
+                this.PostProcessConfig(this.Config);
                 this.ConfigSaved?.Invoke(this.Config);
             }
             catch { /* ... */ }    
+        }
+
+
+        /// <summary>
+        /// Executes after every load/save config operation
+        /// </summary>
+        private void PostProcessConfig(Configuration config)
+        {
+            ResourcesProcessor.ThemeName = config.ThemeName;
         }
 
         #region Utils

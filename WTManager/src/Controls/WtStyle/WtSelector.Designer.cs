@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.SelectObjectButton = new System.Windows.Forms.Button();
-            this.SelectedDataTextBox = new WtTextBox();
+            this.SelectedDataTextBox = new WTManager.Controls.WtStyle.WtTextBox();
             this.SuspendLayout();
             // 
             // SelectObjectButton

@@ -64,7 +64,6 @@ namespace WTManager.Forms
             this.serviceItemConfiguration.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.serviceItemConfiguration.BoldGroupNames = true;
             this.serviceItemConfiguration.ControlFont = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.serviceItemConfiguration.FillLastControl = false;
             this.serviceItemConfiguration.FillLastGroup = false;

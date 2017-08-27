@@ -37,4 +37,8 @@ namespace WTManager.Controls.WtStyle.WtConfigurator
             this.DependentProperty = dependentOnPropertName;
         }
     }
+
+    public class VisualItemExpandibleAttribute : Attribute
+    { 
+    }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
+using System.ServiceProcess;
 using Newtonsoft.Json;
 using WTManager.Controls.WtStyle.WtConfigurator;
 using WTManager.Helpers;
@@ -21,6 +23,7 @@ namespace WTManager.Config
         public const string GROUP_GENERAL = "General";
         public const string GROUP_UI = "UI settings";
         public const string GROUP_SERVICES = "Services";
+        public const string GROUP_TASKS = "Service tasks";
         public const string GROUP_SYSTEM = "System";
 
         public Configuration()
@@ -105,8 +108,34 @@ namespace WTManager.Config
         public IEnumerable<Service> Services { get; set; }
 
         #endregion
+
+        [VisualItem(typeof(VisualServiceTasksItemsEditorRenderer), "Scheduled tasks", GROUP_TASKS)]
+        public IEnumerable<ServiceTask> Tasks { get; set; }
     }
 
+    [Serializable]
+    public class ServiceTask : IVisualProviderObject
+    {
+        public const string GROUP_GENERAL = "General configuration";
+        public const string GROUP_REPEAT = "Repeat process cofiguration";
+
+        [VisualItem(typeof(VisualTextRenderer), "Task name", GROUP_GENERAL)]
+        public string TaskName { get; set; }
+
+        [VisualItem(typeof(VisualServiceSelectorRenderer), "Service name", GROUP_GENERAL)]
+        public string ServiceName { get; set; }
+
+        [VisualItem(typeof(VisualEnumSelectorType<ServiceGroupOperationType>), "Operation type", GROUP_GENERAL)]
+        public ServiceGroupOperationType OperationType { get; set; }
+
+        [VisualItem(typeof(VisualDateTimeRenderer), "Trigger execute time", GROUP_GENERAL)]
+        public DateTime ExecuteTime { get; set; }
+
+        public override string ToString()
+        {
+            return $"{this.TaskName} (Service: {this.ServiceName}, operation: {this.OperationType}, trigger on {this.ExecuteTime})";
+        }
+    }
 
     [Serializable]
     public class Service : IVisualProviderObject
@@ -169,5 +198,21 @@ namespace WTManager.Config
         {
             return this.DisplayName;
         }
+
+        [JsonIgnore]
+        public ServiceController Controller => ServiceHelpers.GetServiceController(this.ServiceName);
+    }
+
+    public enum ServiceGroupOperationType
+    {
+        [Description("Start")]
+        Start,
+
+        [Description("Stop")]
+        Stop,
+
+        [Description("Restart")]
+
+        Restart
     }
 }

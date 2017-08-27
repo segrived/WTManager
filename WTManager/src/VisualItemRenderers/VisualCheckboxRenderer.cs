@@ -2,7 +2,6 @@ using System;
 using System.Windows.Forms;
 using WTManager.Controls.WtStyle;
 using WTManager.Controls.WtStyle.WtConfigurator;
-using WTManager.Lib;
 
 namespace WTManager.VisualItemRenderers
 {
@@ -20,10 +19,8 @@ namespace WTManager.VisualItemRenderers
 
         public override void SetValue(object value)
         {
-            if (!(value is bool))
-                return;
-
-            ((WtCheckBox)this.Control).Checked = (bool)value;
+            if (value is bool boolValue)
+                ((WtCheckBox)this.Control).Checked = boolValue;
         }
 
         public override object GetValue()

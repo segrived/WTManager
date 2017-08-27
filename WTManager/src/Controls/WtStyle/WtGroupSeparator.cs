@@ -34,11 +34,13 @@ namespace WTManager.Controls.WtStyle
             {
                 return new Rectangle(
                     this.Padding.Left, 
-                    this.Font.Height + this.Padding.Top, 
+                    this.TopPadding + this.Padding.Top, 
                     Math.Max(this.ClientSize.Width - this.Padding.Horizontal, 0), 
-                    Math.Max(this.ClientSize.Height - this.Font.Height - this.Padding.Vertical, 0));
+                    Math.Max(this.ClientSize.Height - this.TopPadding - this.Padding.Vertical, 0));
             }
         }
+
+        private int TopPadding => this.Font.Height + 5;
 
         protected override void OnFontChanged(EventArgs e)
         {

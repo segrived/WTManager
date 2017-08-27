@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using WTManager.Helpers;
-using WTManager.Lib;
+using WTManager.VisualItemRenderers;
 
 namespace WTManager.Controls.WtStyle.WtConfigurator
 {
@@ -18,7 +18,6 @@ namespace WTManager.Controls.WtStyle.WtConfigurator
         private DynamicPropertiesProcessor _processor;
 
         private readonly List<IDependentStateProvider> _dependentProvidersCache;
-
         private readonly ScrollableControl _mainPanel;
 
         public WtConfigurator()
@@ -45,6 +44,10 @@ namespace WTManager.Controls.WtStyle.WtConfigurator
             for (int i = 0; i < groupNames.Length; i++)
             {
                 var propertyGroups = this._processor.GetGroupProperties(groupNames[i]);
+
+                // empty group, skipping
+                if (propertyGroups.Count == 0)
+                    continue;
 
                 bool isLastGroup = i == groupNames.Length - 1;
                 var group = this.CreateGroup(propClass, groupNames[i], propertyGroups, this.FillLastGroup && isLastGroup);
@@ -219,10 +222,8 @@ namespace WTManager.Controls.WtStyle.WtConfigurator
                 using (var brush = new SolidBrush(Color.Black))
                 {
                     e.Graphics.DrawString(this.Name, titleFont, brush, 0, 0);
-
                     e.Graphics.DrawString("Dynamic configurator", DefaultFont, brush, 0, 20);
-                    e.Graphics.DrawString("Use FillSettings<T> method in your code to fill this screen", DefaultFont,
-                        brush, 0, 40);
+                    e.Graphics.DrawString("Use FillSettings<T> method in your code to fill this screen", DefaultFont, brush, 0, 40);
                 }
                 return;
             }

@@ -1,7 +1,6 @@
 using System.Windows.Forms;
 using WTManager.Controls.WtStyle;
 using WTManager.Controls.WtStyle.WtConfigurator;
-using WTManager.Lib;
 
 namespace WTManager.VisualItemRenderers
 {

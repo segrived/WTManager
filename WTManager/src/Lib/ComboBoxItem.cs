@@ -1,4 +1,9 @@
-﻿namespace WTManager.Lib
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using WTManager.Helpers;
+
+namespace WTManager.Lib
 {
     public class ComboBoxItem
     {
@@ -27,6 +32,16 @@
         public override string ToString()
         {
             return this.Key;
+        }
+
+        public static IEnumerable<ComboBoxItem> FromEnum<T>() where T : struct
+        {
+            foreach (T enumItem in Enum.GetValues(typeof(T)))
+            {
+                var attr = enumItem.GetAttribute<DescriptionAttribute, T>();
+                string descritption = attr?.Description ?? enumItem.ToString();
+                yield return new ComboBoxItem(descritption, enumItem);
+            }
         }
     }
 }
