@@ -3,7 +3,7 @@ using System.Drawing;
 
 namespace WTManager.Controls.WtStyle.WtConfigurator
 {
-    public partial class WtConfigurator
+    public partial class WtConfiguratorControl
     {
         [Category("WT Controls")]
         [DisplayName("ControlFont")]

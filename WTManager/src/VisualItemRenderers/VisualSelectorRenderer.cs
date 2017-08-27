@@ -13,8 +13,8 @@ namespace WTManager.VisualItemRenderers
 {
     public abstract class VisualSelectorRenderer : VisualItemRenderer
     {
-        protected VisualSelectorRenderer(IVisualProviderObject provider) 
-            : base(provider) { }
+        protected VisualSelectorRenderer(IVisualSourceObject source) 
+            : base(source) { }
 
         protected override Control CreateControl()
         {
@@ -42,8 +42,8 @@ namespace WTManager.VisualItemRenderers
 
     public class VisualEnumSelectorType<T> : VisualSelectorRenderer where T : struct
     {
-        public VisualEnumSelectorType(IVisualProviderObject provider) 
-            : base(provider) { }
+        public VisualEnumSelectorType(IVisualSourceObject source) 
+            : base(source) { }
 
         protected override IEnumerable<ComboBoxItem> GetItems() 
             => ComboBoxItem.FromEnum<T>();
@@ -51,8 +51,8 @@ namespace WTManager.VisualItemRenderers
 
     public class VisualThemeSelectorRenderer : VisualSelectorRenderer
     {
-        public VisualThemeSelectorRenderer(IVisualProviderObject provider) 
-            : base(provider) { }
+        public VisualThemeSelectorRenderer(IVisualSourceObject source) 
+            : base(source) { }
 
         protected override IEnumerable<ComboBoxItem> GetItems()
         {
@@ -64,8 +64,8 @@ namespace WTManager.VisualItemRenderers
 
     public class VisualServiceSelectorRenderer : VisualSelectorRenderer
     {
-        public VisualServiceSelectorRenderer(IVisualProviderObject provider) 
-            : base(provider) { }
+        public VisualServiceSelectorRenderer(IVisualSourceObject source) 
+            : base(source) { }
 
         protected override IEnumerable<ComboBoxItem> GetItems() 
             => ServiceHelpers.GetAllServices().Select(s => s.ServiceName).Select(s => new ComboBoxItem(s));
@@ -73,8 +73,8 @@ namespace WTManager.VisualItemRenderers
 
     public class VisualServiceGroupSelectorRenderer : VisualSelectorRenderer
     {
-        public VisualServiceGroupSelectorRenderer(IVisualProviderObject provider) 
-            : base(provider) { }
+        public VisualServiceGroupSelectorRenderer(IVisualSourceObject source) 
+            : base(source) { }
 
         protected override IEnumerable<ComboBoxItem> GetItems()
         {

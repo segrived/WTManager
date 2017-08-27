@@ -8,6 +8,8 @@ namespace WTManager.Resources
 {
     public static class ResourcesProcessor
     {
+        private const string THEMES_DIRECTORY = "themes";
+
         private static readonly Dictionary<string, object> ResourcesCache;
 
         public static event Action ThemeChanged;
@@ -41,11 +43,8 @@ namespace WTManager.Resources
             if (ThemeName != null)
                 resourceStream = GetThemeFileStream(baseCategory, resourceName);
 
-            if (resourceStream != null)
-                return resourceStream;
-
-            // fallback to default embedded resource
-            return GetEmbeddedFileStream(baseCategory, resourceName);
+            // fallback to default embedded resource if theme file is not exist
+            return resourceStream ?? GetEmbeddedFileStream(baseCategory, resourceName);
         }
 
         public static string GetThemesRootDirectory()
@@ -57,7 +56,7 @@ namespace WTManager.Resources
             if (assemblyFolder == null)
                 return null;
 
-            return Path.Combine(assemblyFolder, "themes");
+            return Path.Combine(assemblyFolder, THEMES_DIRECTORY);
         }
 
         private static Stream GetThemeFileStream(string baseCategory, string resourceName)

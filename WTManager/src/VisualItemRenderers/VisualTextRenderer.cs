@@ -6,8 +6,8 @@ namespace WTManager.VisualItemRenderers
 {
     public class VisualTextRenderer : VisualItemRenderer
     {
-        public VisualTextRenderer(IVisualProviderObject provider) 
-            : base(provider) { }
+        public VisualTextRenderer(IVisualSourceObject source) 
+            : base(source) { }
 
         protected override Control CreateControl()
         {

@@ -7,11 +7,11 @@ namespace WTManager.Controls.WtStyle.WtConfigurator
 {
     public class DynamicPropertiesProcessor
     {
-        private readonly IVisualProviderObject _dataObject;
+        private readonly IVisualSourceObject _dataObject;
 
         private PropertyInfo[] Properties => this._dataObject.GetType().GetProperties();
 
-        public DynamicPropertiesProcessor(IVisualProviderObject dataObject)
+        public DynamicPropertiesProcessor(IVisualSourceObject dataObject)
         {
             this._dataObject = dataObject;
         }

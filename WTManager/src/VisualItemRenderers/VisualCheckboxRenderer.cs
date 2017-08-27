@@ -7,8 +7,8 @@ namespace WTManager.VisualItemRenderers
 {
     public class VisualCheckboxRenderer : VisualItemRenderer, IDependentStateProvider
     {
-        public VisualCheckboxRenderer(IVisualProviderObject provider) 
-            : base(provider) { }
+        public VisualCheckboxRenderer(IVisualSourceObject source) 
+            : base(source) { }
 
         protected override Control CreateControl()
         {

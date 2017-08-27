@@ -18,7 +18,7 @@ using WTManager.VisualItemRenderers;
 namespace WTManager.Config
 {
     [Serializable]
-    public class Configuration : IVisualProviderObject
+    public class Configuration : IVisualSourceObject
     {
         public const string GROUP_GENERAL = "General";
         public const string GROUP_UI = "UI settings";
@@ -104,17 +104,17 @@ namespace WTManager.Config
 
         #region Services settings
 
-        [VisualItem(typeof(VisualServicesItemsEditorRenderer), "Services", GROUP_SERVICES)]
+        [VisualItem(typeof(VisualDialogItemsEditorRenderer<Service>), "Services", GROUP_SERVICES)]
         public IEnumerable<Service> Services { get; set; }
 
         #endregion
 
-        [VisualItem(typeof(VisualServiceTasksItemsEditorRenderer), "Scheduled tasks", GROUP_TASKS)]
+        [VisualItem(typeof(VisualDialogItemsEditorRenderer<ServiceTask>), "Scheduled tasks", GROUP_TASKS)]
         public IEnumerable<ServiceTask> Tasks { get; set; }
     }
 
     [Serializable]
-    public class ServiceTask : IVisualProviderObject
+    public class ServiceTask : IVisualSourceObject
     {
         public const string GROUP_GENERAL = "General configuration";
         public const string GROUP_REPEAT = "Repeat process cofiguration";
@@ -138,7 +138,7 @@ namespace WTManager.Config
     }
 
     [Serializable]
-    public class Service : IVisualProviderObject
+    public class Service : IVisualSourceObject
     {
         public const string GROUP_GENERAL = "Basic service configuration";
         public const string GROUP_LOGCONFIG = "Logs and config";

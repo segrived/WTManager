@@ -90,5 +90,8 @@
     <EmbeddedResource Include="Resources\Images\menu\services-scheduler.png" />
     <EmbeddedResource Include="Resources\Images\menu\system-services-manager.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Images\dialog\apply.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

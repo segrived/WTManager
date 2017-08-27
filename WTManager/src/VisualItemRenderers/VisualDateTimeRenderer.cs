@@ -6,8 +6,8 @@ namespace WTManager.VisualItemRenderers
 {
     public class VisualDateTimeRenderer : VisualItemRenderer
     {
-        public VisualDateTimeRenderer(IVisualProviderObject provider) 
-            : base(provider) { }
+        public VisualDateTimeRenderer(IVisualSourceObject source) 
+            : base(source) { }
 
         protected override Control CreateControl()
         {

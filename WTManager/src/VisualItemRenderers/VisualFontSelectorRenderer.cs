@@ -7,8 +7,8 @@ namespace WTManager.VisualItemRenderers
 {
     public class VisualFontSelectorRenderer : VisualItemRenderer
     {
-        public VisualFontSelectorRenderer(IVisualProviderObject provider) 
-            : base(provider) { }
+        public VisualFontSelectorRenderer(IVisualSourceObject source) 
+            : base(source) { }
 
         protected override Control CreateControl()
         {

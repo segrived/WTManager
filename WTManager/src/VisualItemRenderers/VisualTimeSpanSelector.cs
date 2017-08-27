@@ -6,8 +6,8 @@ namespace WTManager.VisualItemRenderers
 {
     public class VisualTimeSpanSelector : VisualItemRenderer
     {
-        public VisualTimeSpanSelector(IVisualProviderObject provider) 
-            : base(provider) { }
+        public VisualTimeSpanSelector(IVisualSourceObject source) 
+            : base(source) { }
 
         protected override Control CreateControl()
         {

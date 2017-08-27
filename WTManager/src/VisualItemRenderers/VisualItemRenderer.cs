@@ -7,11 +7,11 @@ namespace WTManager.VisualItemRenderers
     {
         public Control Control { get; private set; }
 
-        protected IVisualProviderObject VisualProvider { get; private set; }
+        protected IVisualSourceObject VisualSource { get; private set; }
 
-        protected VisualItemRenderer(IVisualProviderObject provider)
+        protected VisualItemRenderer(IVisualSourceObject source)
         {
-            this.VisualProvider = provider;
+            this.VisualSource = source;
             this.Control = this.CreateControl();
         }
 

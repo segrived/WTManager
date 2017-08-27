@@ -6,8 +6,8 @@ namespace WTManager.VisualItemRenderers
 {
     public class VisualFileSelectorRenderer : VisualItemRenderer
     {
-        public VisualFileSelectorRenderer(IVisualProviderObject provider) 
-            : base(provider) { }
+        public VisualFileSelectorRenderer(IVisualSourceObject source) 
+            : base(source) { }
 
         protected override Control CreateControl()
         {
@@ -27,8 +27,8 @@ namespace WTManager.VisualItemRenderers
 
     public class VisualDirectorySelectorRenderer : VisualItemRenderer
     {
-        public VisualDirectorySelectorRenderer(IVisualProviderObject provider) 
-            : base(provider) { }
+        public VisualDirectorySelectorRenderer(IVisualSourceObject source) 
+            : base(source) { }
 
         protected override Control CreateControl()
         {

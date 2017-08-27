@@ -7,6 +7,7 @@ using System.ServiceProcess;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using WTManager.Config;
+using WTManager.Controls.WtStyle;
 using WTManager.Forms;
 using WTManager.Helpers;
 
@@ -189,8 +190,8 @@ namespace WTManager.Tray
 
         protected override void Action()
         {
-            if (AddEditServiceForm.EditItem(this.Service) != null)
-                ConfigManager.Instance.SaveConfig();
+            //if (AddEditServiceForm.EditItem(this.Service) != null)
+           //    ConfigManager.Instance.SaveConfig();
         }
     }
 
@@ -343,7 +344,18 @@ namespace WTManager.Tray
 
         protected override void Action()
         {
-            new ServiceTasksListForm().ShowDialog();
+            var dialog = new WtDialog();
+
+            var parameters = new VisualSourceItemParameters(ConfigManager.Instance.Config, control =>
+            {
+                control.FillLastControl = true;
+                control.FillLastGroup = true;
+                control.LabelConfiguration.ShowLables = false;
+            });
+            parameters.AddGroup(Configuration.GROUP_TASKS);
+            dialog.AddVisualSourceObject(parameters);
+
+            dialog.ShowModal();
         }
     }
 
@@ -373,7 +385,24 @@ namespace WTManager.Tray
 
         protected override void Action()
         {
-            new ConfigurationForm().ShowDialog();
+            var dialog = new WtDialog();
+
+            var basicPart = new VisualSourceItemParameters(ConfigManager.Instance.Config);
+            basicPart.AddGroup(Configuration.GROUP_GENERAL);
+            basicPart.AddGroup(Configuration.GROUP_SYSTEM);
+            basicPart.AddGroup(Configuration.GROUP_UI);
+            dialog.AddVisualSourceObject(basicPart);
+
+            var servicesPart = new VisualSourceItemParameters(ConfigManager.Instance.Config, control =>
+            {
+                control.FillLastControl = true;
+                control.FillLastGroup = true;
+                control.LabelConfiguration.ShowLables = false;
+            });
+            servicesPart.AddGroup(Configuration.GROUP_SERVICES);
+            dialog.AddVisualSourceObject(servicesPart);
+
+            dialog.ShowModal();
         }
     }
 

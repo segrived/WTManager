@@ -96,5 +96,9 @@ namespace WTManager.Helpers
             return attributes.Length > 0 ? (T)attributes[0] : null;
         }
 
+        public static bool IsLastIndex<T>(this List<T> list, int index)
+            => index == list.Count - 1;
+
     }
+
 }

@@ -12,7 +12,7 @@ namespace WTManager.Controls.WtStyle.WtConfigurator
     /// <summary>
     /// !!! TODO: Refactor !!!
     /// </summary>
-    public partial class WtConfigurator : WtUserControl
+    public partial class WtConfiguratorControl : WtUserControl
     {
         private int _currentTopCoord;
         private DynamicPropertiesProcessor _processor;
@@ -20,7 +20,7 @@ namespace WTManager.Controls.WtStyle.WtConfigurator
         private readonly List<IDependentStateProvider> _dependentProvidersCache;
         private readonly ScrollableControl _mainPanel;
 
-        public WtConfigurator()
+        public WtConfiguratorControl()
         {
             this._dependentProvidersCache = new List<IDependentStateProvider>();
 
@@ -32,13 +32,13 @@ namespace WTManager.Controls.WtStyle.WtConfigurator
             this.Controls.Add(this._mainPanel);
         }
 
-        public void FillSettings(IVisualProviderObject propClass, params string[] groupNames)
+        public void FillSettings(IVisualSourceObject propClass, params string[] groupNames)
         {
             // initialize
             this._currentTopCoord = 0;
             this._processor = new DynamicPropertiesProcessor(propClass);
 
-            if (groupNames.Length == 0)
+            if (groupNames == null || groupNames.Length == 0)
                 groupNames = this._processor.EnumerateGroupNames().ToArray();
 
             for (int i = 0; i < groupNames.Length; i++)
@@ -56,7 +56,7 @@ namespace WTManager.Controls.WtStyle.WtConfigurator
             }
         }
 
-        private Control CreateGroup(IVisualProviderObject propClass, string groupName, IEnumerable<PropertyInfo> props, bool isLastGroup)
+        private Control CreateGroup(IVisualSourceObject propClass, string groupName, IEnumerable<PropertyInfo> props, bool isLastGroup)
         {
             var mainGroupBoxContainer = new WtGroupSeparator
             {
