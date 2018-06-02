@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using Newtonsoft.Json;
-using WTManager.Resources;
+using WtManager.Resources;
 
-namespace WTManager.Config
+namespace WtManager.Config
 {
     public class ConfigManager
     {
@@ -55,6 +55,12 @@ namespace WTManager.Config
             try
             {
                 string configFileName = this.GetConfigFileName();
+
+                var configDirectory = Path.GetDirectoryName(configFileName);
+
+                if (! Directory.Exists(configDirectory))
+                    Directory.CreateDirectory(configDirectory);
+
                 File.WriteAllText(configFileName, JsonConvert.SerializeObject(this.Config, Formatting.Indented));
 
                 this.PostProcessConfig(this.Config);
@@ -70,6 +76,7 @@ namespace WTManager.Config
         private void PostProcessConfig(Configuration config)
         {
             ResourcesProcessor.ThemeName = config.ThemeName;
+            LocalizationManager.UpdateLocale(config.Language);
         }
 
         #region Utils

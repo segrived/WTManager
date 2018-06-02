@@ -1,4 +1,4 @@
-﻿namespace WTManager.Controls.WtStyle
+﻿namespace WtManager.Controls.WtStyle
 {
     partial class WtTimeSpanSelector
     {
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.NumberSelector = new System.Windows.Forms.NumericUpDown();
-            this.UnitSelector = new WTManager.Controls.WtStyle.WtComboBox();
+            this.UnitSelector = new WtComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.NumberSelector)).BeginInit();
             this.SuspendLayout();
             // 

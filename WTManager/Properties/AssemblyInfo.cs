@@ -1,11 +1,11 @@
 ﻿using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("WTManager")]
+[assembly: AssemblyTitle("WtManager")]
 [assembly: AssemblyDescription("Control your Windows services with tray")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Babaev Evgeniy")]
-[assembly: AssemblyProduct("WTManager")]
+[assembly: AssemblyProduct("WtManager")]
 [assembly: AssemblyCopyright("Copyright © 2015-2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

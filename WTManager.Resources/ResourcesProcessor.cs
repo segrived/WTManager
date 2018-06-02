@@ -4,7 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Reflection;
 
-namespace WTManager.Resources
+namespace WtManager.Resources
 {
     public static class ResourcesProcessor
     {
@@ -85,7 +85,7 @@ namespace WTManager.Resources
             var assembly = Assembly.GetExecutingAssembly();
             string defaultNamespace = assembly.GetName().Name;
 
-            return assembly.GetManifestResourceStream($"{defaultNamespace}.Resources.{baseCategory}.{resourceName}");
+            return assembly.GetManifestResourceStream($"{defaultNamespace}.{baseCategory}.{resourceName}");
         }
 
         private static T GetResource<T>(string resourceName, string baseCategory, Func<Stream, T> objectProducer)
@@ -123,6 +123,11 @@ namespace WTManager.Resources
         public static Image GetImage(string imageName)
         {
             return GetResource(imageName + ".png", "Images", stream => new Bitmap(stream));
+        }
+
+        public static string GetLocalizationFile(string language)
+        {
+            return GetResource(language + ".ini", "Locales", stream => new StreamReader(stream).ReadToEnd());
         }
 
         public static IEnumerable<string> GetThemesList()

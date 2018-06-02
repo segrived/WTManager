@@ -7,8 +7,8 @@
     <ProjectGuid>{9FAD443F-F504-47FA-802C-6470413097D0}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WTManager</RootNamespace>
-    <AssemblyName>WTManager</AssemblyName>
+    <RootNamespace>WtManager</RootNamespace>
+    <AssemblyName>WtManager</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -105,11 +105,14 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>WTManager.Program</StartupObject>
+    <StartupObject>WtManager.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Win32.TaskScheduler, Version=2.5.28.0, Culture=neutral, PublicKeyToken=0d013ddd5178a2ae, processorArchitecture=MSIL">
-      <HintPath>..\packages\TaskScheduler.2.5.28\lib\net40\Microsoft.Win32.TaskScheduler.dll</HintPath>
+    <Reference Include="JetBrains.Annotations, Version=11.0.0.0, Culture=neutral, PublicKeyToken=1010a0d8d6380325, processorArchitecture=MSIL">
+      <HintPath>..\packages\TaskScheduler.2.6.0\lib\net40\JetBrains.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Win32.TaskScheduler, Version=2.6.0.0, Culture=neutral, PublicKeyToken=0d013ddd5178a2ae, processorArchitecture=MSIL">
+      <HintPath>..\packages\TaskScheduler.2.6.0\lib\net40\Microsoft.Win32.TaskScheduler.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -134,7 +137,6 @@
     <Compile Include="src\Controls\WtStyle\WtConfigurator\DynamicPropertiesProcessor.cs" />
     <Compile Include="src\Controls\WtStyle\WtConfigurator\IDependentStateProvider.cs" />
     <Compile Include="src\Controls\WtStyle\WtConfigurator\IVisualSourceObject.cs" />
-    <Compile Include="src\Controls\WtStyle\WtConfigurator\LabelRendererConfiguration.cs" />
     <Compile Include="src\Controls\WtStyle\WtConfigurator\VisualItemAttributes.cs" />
     <Compile Include="src\Controls\WtStyle\WtConfigurator\WtConfiguratorProperties.cs">
       <SubType>UserControl</SubType>
@@ -267,9 +269,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WTManager.Resources\WTManager.Resources.csproj">
+    <ProjectReference Include="..\WTManager.Resources\WtManager.Resources.csproj">
       <Project>{8e6c262c-ab2c-4b32-b761-1cafb8dc4e93}</Project>
-      <Name>WTManager.Resources</Name>
+      <Name>WtManager.Resources</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

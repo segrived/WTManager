@@ -1,6 +1,6 @@
-﻿using WTManager.Tray;
+﻿using WtManager.Tray;
 
-namespace WTManager.Forms
+namespace WtManager.Forms
 {
     partial class MainForm
     {

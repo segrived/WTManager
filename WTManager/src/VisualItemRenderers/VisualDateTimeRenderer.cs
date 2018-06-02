@@ -1,8 +1,8 @@
 using System;
 using System.Windows.Forms;
-using WTManager.Controls.WtStyle.WtConfigurator;
+using WtManager.Controls.WtStyle.WtConfigurator;
 
-namespace WTManager.VisualItemRenderers
+namespace WtManager.VisualItemRenderers
 {
     public class VisualDateTimeRenderer : VisualItemRenderer
     {

@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Linq;
 using System.Windows.Forms;
-using WTManager.Controls.WtStyle;
-using WTManager.Controls.WtStyle.WtConfigurator;
+using WtManager.Controls.WtStyle;
+using WtManager.Controls.WtStyle.WtConfigurator;
 
-namespace WTManager.VisualItemRenderers
+namespace WtManager.VisualItemRenderers
 {
     public abstract class VisualItemsEditorRenderer<T> : VisualItemRenderer
     {
@@ -50,7 +50,7 @@ namespace WTManager.VisualItemRenderers
         {
             var dialog = new WtDialog();
 
-            dialog.AddVisualSourceObject(new VisualSourceItemParameters(new T()));
+            dialog.AddVisualSourceObject(new DialogItem(new T()));
 
             if (dialog.ShowModal() == DialogResult.OK)
                 return dialog.GetSourceObject<T>();
@@ -63,7 +63,7 @@ namespace WTManager.VisualItemRenderers
             var dialog = new WtDialog();
             var visualObject = (T)arg;
 
-            dialog.AddVisualSourceObject(new VisualSourceItemParameters(visualObject));
+            dialog.AddVisualSourceObject(new DialogItem(visualObject));
 
             if (dialog.ShowModal() == DialogResult.OK)
                 return dialog.GetSourceObject<T>();

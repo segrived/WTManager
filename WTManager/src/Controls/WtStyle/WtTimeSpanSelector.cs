@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WTManager.Controls.WtStyle
+namespace WtManager.Controls.WtStyle
 {
     public partial class WtTimeSpanSelector : WtUserControl
     {

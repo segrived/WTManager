@@ -1,4 +1,4 @@
-﻿namespace WTManager.Controls
+﻿namespace WtManager.Controls
 {
     [System.ComponentModel.DesignerCategory("")]
     public class WtManagerMainForm : WtManagerForm

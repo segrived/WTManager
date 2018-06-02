@@ -1,6 +1,6 @@
 using System;
 
-namespace WTManager.Controls.WtStyle.WtConfigurator
+namespace WtManager.Controls.WtStyle.WtConfigurator
 {
     public interface IDependentStateProvider
     {

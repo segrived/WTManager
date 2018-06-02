@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using WTManager.Config;
-using WTManager.Helpers;
-using WTManager.Tray;
+using WtManager.Config;
+using WtManager.Helpers;
+using WtManager.Tray;
 
-namespace WTManager.Lib
+namespace WtManager.Lib
 {
     public class ServiceTaskProcessor
     {
@@ -72,6 +72,9 @@ namespace WTManager.Lib
 
         public void Process()
         {
+            if (ConfigManager.Instance.Config.Tasks == null)
+                return;
+
             foreach (var serviceTask in ConfigManager.Instance.Config.Tasks)
             {
                 if (!this._processorCache.TryGetValue(serviceTask, out var processor))

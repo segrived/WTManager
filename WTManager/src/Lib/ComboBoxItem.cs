@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using WTManager.Helpers;
+using WtManager.Resources;
 
-namespace WTManager.Lib
+namespace WtManager.Lib
 {
     public class ComboBoxItem
     {
@@ -38,9 +37,19 @@ namespace WTManager.Lib
         {
             foreach (T enumItem in Enum.GetValues(typeof(T)))
             {
-                var attr = enumItem.GetAttribute<DescriptionAttribute, T>();
-                string descritption = attr?.Description ?? enumItem.ToString();
-                yield return new ComboBoxItem(descritption, enumItem);
+                string name =$"Enums.{typeof(T).Name}.{enumItem.ToString()}";
+                string localizedDescription = LocalizationManager.Get(name);
+                    yield return new ComboBoxItem(localizedDescription, enumItem);
+
+                //var attr = enumItem.GetAttribute<DescriptionAttribute, T>();
+
+                //if (attr?.Description == null)
+                //    yield return new ComboBoxItem(enumItem.ToString(), enumItem);
+
+                //if (localizedDescription != null)
+                //    yield return new ComboBoxItem(enumItem.ToString(), enumItem);
+                //else
+                //    yield return new ComboBoxItem(attr?.Description, enumItem);
             }
         }
     }

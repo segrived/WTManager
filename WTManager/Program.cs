@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading;
 using System.Windows.Forms;
-using WTManager.Forms;
-using WTManager.Helpers;
+using WtManager.Forms;
+using WtManager.Helpers;
 
-namespace WTManager
+namespace WtManager
 {
     internal static class Program
     {

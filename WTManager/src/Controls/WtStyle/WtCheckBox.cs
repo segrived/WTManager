@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace WTManager.Controls.WtStyle
+namespace WtManager.Controls.WtStyle
 {
     public class WtCheckBox : CheckBox
     {

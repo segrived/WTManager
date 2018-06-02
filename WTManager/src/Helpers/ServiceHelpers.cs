@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.ServiceProcess;
-using WTManager.Config;
+using WtManager.Config;
 
-namespace WTManager.Helpers
+namespace WtManager.Helpers
 {
     public static class ServiceHelpers
     {

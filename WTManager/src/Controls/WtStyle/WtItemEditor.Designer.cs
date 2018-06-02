@@ -1,4 +1,4 @@
-﻿namespace WTManager.Controls.WtStyle
+﻿namespace WtManager.Controls.WtStyle
 {
     partial class WtItemEditor
     {

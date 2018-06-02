@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using WTManager.Config;
+using WtManager.Config;
 
-namespace WTManager.Tray
+namespace WtManager.Tray
 {
     /// <summary>
     /// Tray menu generator

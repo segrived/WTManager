@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using WTManager.Config;
-using WTManager.Resources;
+using WtManager.Config;
+using WtManager.Resources;
 
-namespace WTManager.Controls
+namespace WtManager.Controls
 {
     [System.ComponentModel.DesignerCategory("")]
     public class WtManagerForm : Form, IConfigurableForm

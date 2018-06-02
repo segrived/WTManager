@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
-using WTManager.Resources;
+using WtManager.Resources;
 
-namespace WTManager.Controls.WtStyle
+namespace WtManager.Controls.WtStyle
 {
     public class WtUserControl : UserControl
     {

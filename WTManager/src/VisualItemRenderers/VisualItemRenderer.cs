@@ -1,7 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Windows.Forms;
-using WTManager.Controls.WtStyle.WtConfigurator;
+using WtManager.Controls.WtStyle.WtConfigurator;
 
-namespace WTManager.VisualItemRenderers
+namespace WtManager.VisualItemRenderers
 {
     public abstract class VisualItemRenderer
     {
@@ -9,6 +10,7 @@ namespace WTManager.VisualItemRenderers
 
         protected IVisualSourceObject VisualSource { get; private set; }
 
+        [SuppressMessage("ReSharper", "VirtualMemberCallInConstructor")]
         protected VisualItemRenderer(IVisualSourceObject source)
         {
             this.VisualSource = source;

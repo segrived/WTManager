@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Linq;
 using System.Windows.Forms;
-using WTManager.Lib;
+using WtManager.Lib;
 
-namespace WTManager.Controls.WtStyle
+namespace WtManager.Controls.WtStyle
 {
     public class WtComboBox : ComboBox
     {
@@ -20,8 +20,9 @@ namespace WTManager.Controls.WtStyle
         {
             this.Items.Clear();
             this.Items.AddRange(items.Cast<object>().ToArray());
-            // select first item
-            this.SelectedIndex = 0;
+
+            if (this.Items.Count > 0)
+                this.SelectedIndex = 0;
         }
 
         public void SetEnumItems<T>() where T : struct 
@@ -54,7 +55,8 @@ namespace WTManager.Controls.WtStyle
         public void SelectByValue(object value)
         {
             var itemIndex = this.FindIndex(value);
-            this.SelectedIndex = itemIndex == -1 ? 0 : itemIndex;
+            if (this.Items.Count > 0)
+                this.SelectedIndex = itemIndex == -1 ? 0 : itemIndex;
         }
 
         #endregion

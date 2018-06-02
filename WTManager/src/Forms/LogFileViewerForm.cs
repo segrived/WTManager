@@ -4,12 +4,11 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Forms;
-using WTManager.Controls;
-using WTManager.Helpers;
-using WTManager.Lib;
+using WtManager.Controls;
+using WtManager.Lib;
+using WtManager.Helpers;
 
-namespace WTManager.Forms
+namespace WtManager.Forms
 {
     [System.ComponentModel.DesignerCategory("Form")]
     public partial class LogFileViewerForm : WtManagerForm
@@ -31,6 +30,16 @@ namespace WTManager.Forms
             Task.Factory.StartNew(this.Watcher.StartWatch);
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+                this.components?.Dispose();
+            base.Dispose(disposing);
+
+            this.Watcher.FileChanged -= this.Watcher_FileChanged;
+            this.Watcher.Dispose();
+        }
+
         private void Watcher_FileChanged(object sender, FileWatcherEventArgs e)
         {
             this.logFileContent.InvokeIfRequired(() =>
@@ -38,12 +47,6 @@ namespace WTManager.Forms
                 this.logFileContent.AppendText(e.AppendedContent);
                 this.logFileContent.ScrollToCaret();
             });
-        }
-
-        private void LogFileViewer_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            this.Watcher.FileChanged -= this.Watcher_FileChanged;
-            this.Watcher.Dispose();
         }
 
         public sealed override string Text

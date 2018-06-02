@@ -2,14 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using WTManager.Config;
-using WTManager.Controls.WtStyle;
-using WTManager.Controls.WtStyle.WtConfigurator;
-using WTManager.Helpers;
-using WTManager.Lib;
-using WTManager.Resources;
+using WtManager.Config;
+using WtManager.Controls.WtStyle;
+using WtManager.Controls.WtStyle.WtConfigurator;
+using WtManager.Helpers;
+using WtManager.Lib;
+using WtManager.Resources;
 
-namespace WTManager.VisualItemRenderers
+namespace WtManager.VisualItemRenderers
 {
     public abstract class VisualSelectorRenderer : VisualItemRenderer
     {
@@ -60,6 +60,15 @@ namespace WTManager.VisualItemRenderers
             foreach(string themeName in ResourcesProcessor.GetThemesList())
                 yield return new ComboBoxItem(themeName);
         }
+    }
+
+    public class VisualLanguageSelectorRenderer : VisualSelectorRenderer
+    {
+        public VisualLanguageSelectorRenderer(IVisualSourceObject source) 
+            : base(source) { }
+
+        protected override IEnumerable<ComboBoxItem> GetItems()
+            => LocalizationManager.LocalesList.Select(l => new ComboBoxItem(l));
     }
 
     public class VisualServiceSelectorRenderer : VisualSelectorRenderer

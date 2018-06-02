@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 // ReSharper disable MemberCanBePrivate.Global
 
-namespace WTManager.Controls.WtStyle
+namespace WtManager.Controls.WtStyle
 {
     public class WtGroupSeparator : Panel
     {

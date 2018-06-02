@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace WTManager.Controls.WtStyle.WtConfigurator
+namespace WtManager.Controls.WtStyle.WtConfigurator
 {
     public class DynamicPropertiesProcessor
     {
@@ -39,14 +39,27 @@ namespace WTManager.Controls.WtStyle.WtConfigurator
             return propertiesList;
         }
 
-        public IEnumerable<string> FindDependentControls(string dependencyName)
+        public IEnumerable<DependentInfo> FindDependentControls(string dependencyName)
         {
             foreach (var propertyInfo in this.Properties)
             {
                 var dependentOn = propertyInfo.GetCustomAttributes<VisualItemDependentOnAttribute>().ToList();
-                if (dependentOn.Select(d => d.DependentProperty).Contains(dependencyName))
-                    yield return propertyInfo.Name;
+                var depOn = dependentOn.FirstOrDefault(d => d.DependentProperty == dependencyName);
+                if (depOn != null)
+                    yield return new DependentInfo(propertyInfo.Name, depOn.ReverseDependent);
             }
+        }
+    }
+
+    public class DependentInfo
+    {
+        public string PropertyName;
+        public bool IsReversed;
+
+        public DependentInfo(string propertyName, bool isReversed)
+        {
+            this.PropertyName = propertyName;
+            this.IsReversed = isReversed;
         }
     }
 }

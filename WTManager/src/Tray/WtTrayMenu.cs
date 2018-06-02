@@ -5,13 +5,13 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Reflection;
 using System.Windows.Forms;
-using WTManager.Config;
-using WTManager.Controls;
-using WTManager.Helpers;
-using WTManager.Lib;
-using WTManager.Resources;
+using WtManager.Config;
+using WtManager.Controls;
+using WtManager.Lib;
+using WtManager.Resources;
+using WtManager.Helpers;
 
-namespace WTManager.Tray
+namespace WtManager.Tray
 {
     public class TrayMenu : ITrayController, IEnumerable<WtMenuItem>, IDisposable
     {

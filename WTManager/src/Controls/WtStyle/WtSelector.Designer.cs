@@ -1,4 +1,4 @@
-﻿namespace WTManager.Controls.WtStyle
+﻿namespace WtManager.Controls.WtStyle
 {
     partial class MetaSelector<T>
     {
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.SelectObjectButton = new System.Windows.Forms.Button();
-            this.SelectedDataTextBox = new WTManager.Controls.WtStyle.WtTextBox();
+            this.SelectedDataTextBox = new WtTextBox();
             this.SuspendLayout();
             // 
             // SelectObjectButton

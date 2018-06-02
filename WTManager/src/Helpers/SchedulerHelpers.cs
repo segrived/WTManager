@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-namespace WTManager.Helpers
+namespace WtManager.Helpers
 {
     public static class SchedulerHelpers
     {

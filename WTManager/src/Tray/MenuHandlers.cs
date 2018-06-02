@@ -6,12 +6,13 @@ using System.Linq;
 using System.ServiceProcess;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using WTManager.Config;
-using WTManager.Controls.WtStyle;
-using WTManager.Forms;
-using WTManager.Helpers;
+using WtManager.Config;
+using WtManager.Controls.WtStyle;
+using WtManager.Forms;
+using WtManager.Helpers;
+using WtManager.Resources;
 
-namespace WTManager.Tray
+namespace WtManager.Tray
 {
     #region Base abstract specialized menu items
 
@@ -117,7 +118,7 @@ namespace WTManager.Tray
         public ServiceDirectoryMenuItem(ITrayController controller, Service service) 
             : base(controller, service) { }
 
-        protected override string DisplayText => "Open data directory…";
+        protected override string DisplayText => LocalizationManager.Get("TrayMenu.ServiceOpenDataDirectory");
 
         protected override string ImageKey => "service-open-data-directory";
 
@@ -137,7 +138,7 @@ namespace WTManager.Tray
         public ServiceBrowserMenuItem(ITrayController controller, Service service) 
             : base(controller, service) { }
 
-        protected override string DisplayText => "Open in browser…";
+        protected override string DisplayText => LocalizationManager.Get("TrayMenu.ServiceOpenInBrower");
 
         protected override string ImageKey => "service-open-browser";
 
@@ -184,7 +185,7 @@ namespace WTManager.Tray
         public ServiceEditMenuItem(ITrayController controller, Service service)
             : base(controller, service) { }
 
-        protected override string DisplayText { get; } = "Edit configuration";
+        protected override string DisplayText => LocalizationManager.Get("TrayMenu.ServiceEditConfiguration");
 
         protected override string ImageKey => "service-config";
 
@@ -200,7 +201,7 @@ namespace WTManager.Tray
         public ServiceRestartMenuItem(ITrayController controller, Service service) 
             : base(controller, service) { }
 
-        protected override string DisplayText => "Restart service";
+        protected override string DisplayText => LocalizationManager.Get("TrayMenu.ServiceRestart");
 
         protected override string ImageKey => "service-restart";
 
@@ -219,7 +220,7 @@ namespace WTManager.Tray
         public ServiceStartMenuItem(ITrayController controller, Service service) 
             : base(controller, service) { }
 
-        protected override string DisplayText => "Start service";
+        protected override string DisplayText => LocalizationManager.Get("TrayMenu.ServiceStart");
 
         protected override string ImageKey => "service-start";
 
@@ -238,7 +239,7 @@ namespace WTManager.Tray
         public ServiceStopMenuItem(ITrayController controller, Service service) 
             : base(controller, service) { }
 
-        protected override string DisplayText => "Stop service";
+        protected override string DisplayText => LocalizationManager.Get("TrayMenu.ServiceStop");
 
         protected override string ImageKey => "service-stop";
 
@@ -269,7 +270,7 @@ namespace WTManager.Tray
         }
 
         private string DisplayGroupName
-            => String.IsNullOrEmpty(this.GroupName) ? "<Ungrouped>" : this.GroupName;
+            => String.IsNullOrEmpty(this.GroupName) ?  "<" + LocalizationManager.Get("TrayMenu.ServiceGroup.Ungrouped") + ">" : this.GroupName;
 
         protected override string DisplayText => $"{this.DisplayGroupName} ({this.GetStartedServicesInfo()} started)";
 
@@ -286,7 +287,7 @@ namespace WTManager.Tray
         public ServiceGroupStartMenuItem(ITrayController controller, string groupName) 
             : base(controller, groupName) { }
 
-        protected override string DisplayText => "Start group";
+        protected override string DisplayText => LocalizationManager.Get("TrayMenu.ServiceGroupStart");
 
         protected override string ImageKey => "service-start";
 
@@ -302,7 +303,7 @@ namespace WTManager.Tray
         public ServiceGroupStopMenuItem(ITrayController controller, string groupName) 
             : base(controller, groupName) { }
 
-        protected override string DisplayText => "Stop group";
+        protected override string DisplayText => LocalizationManager.Get("TrayMenu.ServiceGroupStop");
 
         protected override string ImageKey => "service-stop";
 
@@ -318,7 +319,7 @@ namespace WTManager.Tray
         public ServiceGroupRestartMenuItem(ITrayController controller, string groupName) 
             : base(controller, groupName) { }
 
-        protected override string DisplayText => "Restart group";
+        protected override string DisplayText => LocalizationManager.Get("TrayMenu.ServiceGroupRestart");
 
         protected override string ImageKey => "service-restart";
 
@@ -337,8 +338,7 @@ namespace WTManager.Tray
     {
         public ServiceTasksManagerMenuItem(ITrayController controller) 
             : base(controller) { }
-
-        protected override string DisplayText => "Service scheduler (experimental)";
+        protected override string DisplayText => LocalizationManager.Get("TrayMenu.ServiceScheduler");
 
         protected override string ImageKey => "services-scheduler";
 
@@ -346,7 +346,7 @@ namespace WTManager.Tray
         {
             var dialog = new WtDialog();
 
-            var parameters = new VisualSourceItemParameters(ConfigManager.Instance.Config, control =>
+            var parameters = new DialogItem(ConfigManager.Instance.Config, control =>
             {
                 control.FillLastControl = true;
                 control.FillLastGroup = true;
@@ -363,8 +363,7 @@ namespace WTManager.Tray
     {
         public SystemServicesManagerMenuItem(ITrayController controller) 
             : base(controller) { }
-
-        protected override string DisplayText => "System services manager";
+        protected override string DisplayText => LocalizationManager.Get("TrayMenu.SystemServiceManager");
 
         protected override string ImageKey => "system-services-manager";
 
@@ -378,8 +377,7 @@ namespace WTManager.Tray
     {
         public ApplicationConfigMenuItem(ITrayController controller) 
             : base(controller) { }
-
-        protected override string DisplayText => "Program configuration";
+        protected override string DisplayText => LocalizationManager.Get("TrayMenu.ProgramConfiguration");
 
         protected override string ImageKey => "settings-manager";
 
@@ -387,13 +385,14 @@ namespace WTManager.Tray
         {
             var dialog = new WtDialog();
 
-            var basicPart = new VisualSourceItemParameters(ConfigManager.Instance.Config);
+            var basicPart = new DialogItem(ConfigManager.Instance.Config);
             basicPart.AddGroup(Configuration.GROUP_GENERAL);
             basicPart.AddGroup(Configuration.GROUP_SYSTEM);
             basicPart.AddGroup(Configuration.GROUP_UI);
+            basicPart.Scale = 0.6f;
             dialog.AddVisualSourceObject(basicPart);
 
-            var servicesPart = new VisualSourceItemParameters(ConfigManager.Instance.Config, control =>
+            var servicesPart = new DialogItem(ConfigManager.Instance.Config, control =>
             {
                 control.FillLastControl = true;
                 control.FillLastGroup = true;
@@ -410,8 +409,7 @@ namespace WTManager.Tray
     {
         public ApplicationExitMenuItem(ITrayController controller) 
             : base(controller) { }
-
-        protected override string DisplayText => "Exit";
+        protected override string DisplayText => LocalizationManager.Get("TrayMenu.AppExit");
 
         protected override string ImageKey => "app-exit";
 
@@ -444,7 +442,6 @@ namespace WTManager.Tray
     {
         public SeparatorMenuItem(ITrayController controller)
             : base(controller) { }
-
         protected override ToolStripItem ToMenuItem()
         {
             return new ToolStripSeparator();

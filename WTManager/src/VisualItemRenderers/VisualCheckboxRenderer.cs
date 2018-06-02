@@ -1,9 +1,9 @@
 using System;
 using System.Windows.Forms;
-using WTManager.Controls.WtStyle;
-using WTManager.Controls.WtStyle.WtConfigurator;
+using WtManager.Controls.WtStyle;
+using WtManager.Controls.WtStyle.WtConfigurator;
 
-namespace WTManager.VisualItemRenderers
+namespace WtManager.VisualItemRenderers
 {
     public class VisualCheckboxRenderer : VisualItemRenderer, IDependentStateProvider
     {

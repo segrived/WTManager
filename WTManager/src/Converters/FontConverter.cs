@@ -2,7 +2,7 @@
 using System.Drawing;
 using Newtonsoft.Json;
 
-namespace WTManager.Converters
+namespace WtManager.Converters
 {
     public class FontConverter : JsonConverter
     {
@@ -15,9 +15,7 @@ namespace WTManager.Converters
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            var fontObject = value as Font;
-
-            if (fontObject == null)
+            if (!(value is Font fontObject))
                 return;
 
             writer.WriteValue(this._converter.ConvertToString(fontObject));
@@ -25,9 +23,7 @@ namespace WTManager.Converters
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            string serializedData = reader.Value as string;
-
-            if (serializedData == null)
+            if (!(reader.Value is string serializedData))
                 return null;
 
             return this._converter.ConvertFromString(serializedData);

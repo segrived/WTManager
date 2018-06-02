@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace WTManager.Helpers
+namespace WtManager.Helpers
 {
     public static class Extensions
     {

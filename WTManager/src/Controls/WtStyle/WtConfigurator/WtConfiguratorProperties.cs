@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Drawing;
 
-namespace WTManager.Controls.WtStyle.WtConfigurator
+namespace WtManager.Controls.WtStyle.WtConfigurator
 {
     public partial class WtConfiguratorControl
     {
@@ -46,5 +46,16 @@ namespace WTManager.Controls.WtStyle.WtConfigurator
         [DisplayName("LabelConfiguration")]
         [TypeConverter(typeof(ExpandableObjectConverter))]
         public LabelRendererConfiguration LabelConfiguration { get; set; } = new LabelRendererConfiguration();
+    }
+
+    public class LabelRendererConfiguration
+    {
+        [Category("WT Controls")]
+        [DisplayName("ShowExternalLables")]
+        public bool ShowLables { get; set; } = true;
+
+        [Category("WT Controls")]
+        [DisplayName("LabelPostfix")]
+        public string LabelPostfix { get; set; } = ":";
     }
 }

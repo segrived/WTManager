@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using WTManager.Config;
-using WTManager.Controls.WtStyle.WtConfigurator;
-using WTManager.Helpers;
-using WTManager.Resources;
+using WtManager.Config;
+using WtManager.Controls.WtStyle.WtConfigurator;
+using WtManager.Resources;
+using WtManager.Helpers;
 
-namespace WTManager.Controls.WtStyle
+namespace WtManager.Controls.WtStyle
 {
     [System.ComponentModel.DesignerCategory("Form")]
     public partial class WtDialog : WtManagerForm
@@ -21,15 +21,15 @@ namespace WTManager.Controls.WtStyle
         private Button _applyButton;
         private Button _cancelButton;
 
-        private readonly List<VisualSourceItemParameters> _visualSourceObjects;
+        private readonly List<DialogItem> _visualSourceObjects;
 
         public WtDialog()
         {
             this.InitializeComponent();
-            this._visualSourceObjects = new List<VisualSourceItemParameters>();
+            this._visualSourceObjects = new List<DialogItem>();
         }
 
-        public void AddVisualSourceObject(VisualSourceItemParameters parameters)
+        public void AddVisualSourceObject(DialogItem parameters)
         {
             this._visualSourceObjects.Add(parameters);
         }
@@ -50,14 +50,22 @@ namespace WTManager.Controls.WtStyle
                 return;
 
             int paddingsTotalWidth = (this._visualSourceObjects.Count - 1) * BETWEEN_CONIFGURATORS_PADDING;
-            // configurator width
-            int confWidth = (this.ContentPanel.Width - paddingsTotalWidth) / this._visualSourceObjects.Count;
 
+            // configurator width
             int currentLeft = 0;
 
+            float totalScale = this._visualSourceObjects.Sum(s => s.Scale);
+            if (totalScale > 1.0f)
+                throw new InvalidOperationException("Total scale should be less then 1");
+            float dynamicScaleCount = this._visualSourceObjects.Count(s => Math.Abs(s.Scale) < 0.00001);
+            
             for (int i = 0; i < this._visualSourceObjects.Count; i++)
             {
                 var visualObj = this._visualSourceObjects[i];
+
+                var scale = visualObj.Scale > 0 ? visualObj.Scale : (1.0f - totalScale) / dynamicScaleCount;
+
+                int confWidth = (int)((this.ContentPanel.Width - paddingsTotalWidth) * scale);
 
                 var configurator = this.CreateConfiguratorControl(currentLeft, confWidth);
 
@@ -100,19 +108,19 @@ namespace WTManager.Controls.WtStyle
         {
             int buttonRightCoord = this.ButtonsPanel.Width - BUTTON_WIDTH - BUTTON_PADDING;
 
-            this._cancelButton = this.CreateButton("Cancel", "dialog.cancel");
+            this._cancelButton = this.CreateButton("DialogButtons.Cancel", "dialog.cancel");
             this._cancelButton.Left = buttonRightCoord;
             this._cancelButton.Click += this.Cancel_OnClick;
             this.ButtonsPanel.Controls.Add(this._cancelButton);
             buttonRightCoord -= BUTTON_WIDTH + BUTTON_PADDING;
 
-            this._applyButton = this.CreateButton("Apply", "dialog.apply");
+            this._applyButton = this.CreateButton("DialogButtons.Apply", "dialog.apply");
             this._applyButton.Left = buttonRightCoord;
             this._applyButton.Click += this.Apply_OnClick;
             this.ButtonsPanel.Controls.Add(this._applyButton);
             buttonRightCoord -= BUTTON_WIDTH + BUTTON_PADDING;
 
-            this._okButton = this.CreateButton("OK", "dialog.ok");
+            this._okButton = this.CreateButton("DialogButtons.Ok", "dialog.ok");
             this._okButton.Left = buttonRightCoord;
             this._okButton.Click += this.Ok_OnClick;
             this.ButtonsPanel.Controls.Add(this._okButton);
@@ -147,13 +155,13 @@ namespace WTManager.Controls.WtStyle
             this.Enabled = true;
         }
 
-        private Button CreateButton(string text, string imageKey)
+        private Button CreateButton(string localizationKey, string imageKey)
         {
             var button = new Button
             {
                 Width = BUTTON_WIDTH,
                 Height = this.ButtonsPanel.Height,
-                Text = text,
+                Text = LocalizationManager.Get(localizationKey),
                 Image = ResourcesProcessor.GetImage(imageKey),
                 Anchor = AnchorStyles.Bottom | AnchorStyles.Right,
                 ImageAlign = ContentAlignment.MiddleLeft,
@@ -164,13 +172,15 @@ namespace WTManager.Controls.WtStyle
         }
     }
 
-    public class VisualSourceItemParameters
+    public class DialogItem
     {
         public IVisualSourceObject VisualObject { get; private set; }
         public List<string> Groups { get; private set; }
         public Action<WtConfiguratorControl> CofiguratorCusomizer { get; private set; }
 
-        public VisualSourceItemParameters(IVisualSourceObject visualObject, Action<WtConfiguratorControl> customizer = null)
+        public float Scale { get; set; }
+
+        public DialogItem(IVisualSourceObject visualObject, Action<WtConfiguratorControl> customizer = null)
         {
             this.VisualObject = visualObject;
             this.Groups = new List<string>();
@@ -182,5 +192,6 @@ namespace WTManager.Controls.WtStyle
             this.Groups.Add(groupName);
         }
     }
+
 
 }

@@ -4,9 +4,9 @@ using System.ComponentModel;
 using System.Drawing;
 using System.ServiceProcess;
 using Newtonsoft.Json;
-using WTManager.Controls.WtStyle.WtConfigurator;
-using WTManager.Helpers;
-using WTManager.VisualItemRenderers;
+using WtManager.Controls.WtStyle.WtConfigurator;
+using WtManager.Helpers;
+using WtManager.VisualItemRenderers;
 
 // ReSharper disable ArgumentsStyleLiteral
 // ReSharper disable UnusedMember.Global
@@ -15,7 +15,7 @@ using WTManager.VisualItemRenderers;
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 // ReSharper disable CollectionNeverUpdated.Global
 
-namespace WTManager.Config
+namespace WtManager.Config
 {
     [Serializable]
     public class Configuration : IVisualSourceObject
@@ -39,21 +39,31 @@ namespace WTManager.Config
         /// <summary>
         /// Path to configuration files executable file editor
         /// </summary>
-        [VisualItem(typeof(VisualFileSelectorRenderer), "Config editor path", GROUP_GENERAL)]
+        [VisualItem(typeof(VisualFileSelectorRenderer), GROUP_GENERAL)]
         public string ConfigEditorPath { get; set; }
+
+        [VisualItem(typeof(VisualCheckboxRenderer), GROUP_GENERAL)]
+        public bool UseInternalLogViewer { get; set; }
 
         /// <summary>
         /// Path to log viewer executable file editor
         /// </summary>
-        [VisualItem(typeof(VisualFileSelectorRenderer), "Log viewer path", GROUP_GENERAL)]
+        [VisualItem(typeof(VisualFileSelectorRenderer), GROUP_GENERAL)]
+        [VisualItemDependentOn(nameof(UseInternalLogViewer), reverseDependent: true)]
         public string LogViewerPath { get; set; }
+
+        /// <summary>
+        /// Path to log viewer executable file editor
+        /// </summary>
+        [VisualItem(typeof(VisualLanguageSelectorRenderer), GROUP_GENERAL)]
+        public string Language { get; set; }
 
         #endregion
 
         #region System settings
 
         [JsonIgnore]
-        [VisualItem(typeof(VisualCheckboxRenderer), "Run WTManager on start", GROUP_SYSTEM)]
+        [VisualItem(typeof(VisualCheckboxRenderer), GROUP_SYSTEM)]
         public bool RunOnStart
         {
             get { return SchedulerHelpers.AutoStartTaskState; }
@@ -68,35 +78,35 @@ namespace WTManager.Config
         /// Tray menu item font, except group titles
         /// </summary>
         [JsonConverter(typeof(Converters.FontConverter))]
-        [VisualItem(typeof(VisualFontSelectorRenderer), "Tray menu font", GROUP_UI)]
+        [VisualItem(typeof(VisualFontSelectorRenderer), GROUP_UI)]
         public Font MenuFont { get; set; }
 
         /// <summary>
         /// Tray menu group title items font
         /// </summary>
         [JsonConverter(typeof(Converters.FontConverter))]
-        [VisualItem(typeof(VisualFontSelectorRenderer), "Tray menu title font", GROUP_UI)]
+        [VisualItem(typeof(VisualFontSelectorRenderer), GROUP_UI)]
         public Font MenuTitleFont { get; set; }
 
         /// <summary>
         /// Current icons theme name
         /// </summary>
-        [VisualItem(typeof(VisualThemeSelectorRenderer), "Theme name", GROUP_UI)]
+        [VisualItem(typeof(VisualThemeSelectorRenderer), GROUP_UI)]
         public string ThemeName { get; set; }
 
-        [VisualItem(typeof(VisualCheckboxRenderer), "Show tray menu popups", GROUP_UI)]
+        [VisualItem(typeof(VisualCheckboxRenderer), GROUP_UI)]
         public bool ShowPopup { get; set; }
 
-        [VisualItem(typeof(VisualCheckboxRenderer), "Show menu beyound taskbar", GROUP_UI)]
+        [VisualItem(typeof(VisualCheckboxRenderer), GROUP_UI)]
         public bool ShowMenuBeyoundTaskbar { get; set; }
 
-        [VisualItem(typeof(VisualCheckboxRenderer), "Open tray menu on left click", GROUP_UI)]
+        [VisualItem(typeof(VisualCheckboxRenderer), GROUP_UI)]
         public bool OpenTrayMenuOnLeftClick { get; set; }
 
-        [VisualItem(typeof(VisualCheckboxRenderer), "Use nested service groups in menu", GROUP_UI)]
+        [VisualItem(typeof(VisualCheckboxRenderer), GROUP_UI)]
         public bool UseNestedServiceGroups { get; set; }
 
-        [VisualItem(typeof(VisualCheckboxRenderer), "Show service group operations in nested menu (experimental)", GROUP_UI)]
+        [VisualItem(typeof(VisualCheckboxRenderer), GROUP_UI)]
         [VisualItemDependentOn(nameof(UseNestedServiceGroups))]
         public bool ShowServiceGroupOperations { get; set; }
 
@@ -104,13 +114,15 @@ namespace WTManager.Config
 
         #region Services settings
 
-        [VisualItem(typeof(VisualDialogItemsEditorRenderer<Service>), "Services", GROUP_SERVICES)]
+        [VisualItem(typeof(VisualDialogItemsEditorRenderer<Service>), GROUP_SERVICES)]
         public IEnumerable<Service> Services { get; set; }
 
         #endregion
 
-        [VisualItem(typeof(VisualDialogItemsEditorRenderer<ServiceTask>), "Scheduled tasks", GROUP_TASKS)]
+        [VisualItem(typeof(VisualDialogItemsEditorRenderer<ServiceTask>), GROUP_TASKS)]
         public IEnumerable<ServiceTask> Tasks { get; set; }
+
+        public string LocalizationPrefix => "Configuration";
     }
 
     [Serializable]
@@ -119,22 +131,24 @@ namespace WTManager.Config
         public const string GROUP_GENERAL = "General configuration";
         public const string GROUP_REPEAT = "Repeat process cofiguration";
 
-        [VisualItem(typeof(VisualTextRenderer), "Task name", GROUP_GENERAL)]
+        [VisualItem(typeof(VisualTextRenderer), GROUP_GENERAL)]
         public string TaskName { get; set; }
 
-        [VisualItem(typeof(VisualServiceSelectorRenderer), "Service name", GROUP_GENERAL)]
+        [VisualItem(typeof(VisualServiceSelectorRenderer), GROUP_GENERAL)]
         public string ServiceName { get; set; }
 
-        [VisualItem(typeof(VisualEnumSelectorType<ServiceGroupOperationType>), "Operation type", GROUP_GENERAL)]
+        [VisualItem(typeof(VisualEnumSelectorType<ServiceGroupOperationType>), GROUP_GENERAL)]
         public ServiceGroupOperationType OperationType { get; set; }
 
-        [VisualItem(typeof(VisualDateTimeRenderer), "Trigger execute time", GROUP_GENERAL)]
+        [VisualItem(typeof(VisualDateTimeRenderer), GROUP_GENERAL)]
         public DateTime ExecuteTime { get; set; }
 
         public override string ToString()
         {
             return $"{this.TaskName} (Service: {this.ServiceName}, operation: {this.OperationType}, trigger on {this.ExecuteTime})";
         }
+
+        public string LocalizationPrefix => "ServiceTask";
     }
 
     [Serializable]
@@ -153,45 +167,45 @@ namespace WTManager.Config
         /// <summary>
         /// Service name
         /// </summary>
-        [VisualItem(typeof(VisualServiceSelectorRenderer), "Service name", GROUP_GENERAL)]
+        [VisualItem(typeof(VisualServiceSelectorRenderer), GROUP_GENERAL)]
         public string ServiceName { get; set; }
 
         /// <summary>
         /// Service display name (will be displayed in menu)
         /// </summary>
-        [VisualItem(typeof(VisualTextRenderer), "Service display name", GROUP_GENERAL)]
+        [VisualItem(typeof(VisualTextRenderer), GROUP_GENERAL)]
         public string DisplayName { get; set; }
 
         /// <summary>
         /// Service group (for menu generation)
         /// </summary>
-        [VisualItem(typeof(VisualServiceGroupSelectorRenderer), "Service group (optional)", GROUP_GENERAL)]
+        [VisualItem(typeof(VisualServiceGroupSelectorRenderer), GROUP_GENERAL)]
         public string Group { get; set; }
 
         /// <summary>
         /// Service configuration files
         /// </summary>
-        [VisualItem(typeof(VisualFilesItemsEditorRenderer), "Config files", GROUP_LOGCONFIG)]
+        [VisualItem(typeof(VisualFilesItemsEditorRenderer), GROUP_LOGCONFIG)]
         [VisualItemCustomization(customHeight: 80)]
         public IEnumerable<string> ConfigFiles { get; set; }
 
         /// <summary>
         /// Service log files
         /// </summary>
-        [VisualItem(typeof(VisualFilesItemsEditorRenderer), "Log files", GROUP_LOGCONFIG)]
+        [VisualItem(typeof(VisualFilesItemsEditorRenderer), GROUP_LOGCONFIG)]
         [VisualItemCustomization(customHeight: 80)]
         public IEnumerable<string> LogFiles { get; set; }
 
         /// <summary>
         /// Service data directory (for example WWW for web-servers)
         /// </summary>
-        [VisualItem(typeof(VisualDirectorySelectorRenderer), "Data directory", GROUP_ADDITIONAL)]
+        [VisualItem(typeof(VisualDirectorySelectorRenderer), GROUP_ADDITIONAL)]
         public string DataDirectory { get; set; }
 
         /// <summary>
         /// Browser URL
         /// </summary>
-        [VisualItem(typeof(VisualFileSelectorRenderer), "Browser URL", GROUP_ADDITIONAL)]
+        [VisualItem(typeof(VisualFileSelectorRenderer), GROUP_ADDITIONAL)]
         public string BrowserUrl { get; set; }
 
         public override string ToString()
@@ -201,6 +215,8 @@ namespace WTManager.Config
 
         [JsonIgnore]
         public ServiceController Controller => ServiceHelpers.GetServiceController(this.ServiceName);
+
+        public string LocalizationPrefix => "Service";
     }
 
     public enum ServiceGroupOperationType
@@ -212,7 +228,6 @@ namespace WTManager.Config
         Stop,
 
         [Description("Restart")]
-
         Restart
     }
 }

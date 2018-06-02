@@ -30,68 +30,79 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="INIFileParser, Version=2.5.2.0, Culture=neutral, PublicKeyToken=79af7b307b65cf3c, processorArchitecture=MSIL">
+      <HintPath>..\packages\ini-parser.2.5.2\lib\net20\INIFileParser.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LocalizationManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResourcesHelper.cs" />
     <Compile Include="ResourcesProcessor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Images\dialog\add.png" />
+    <EmbeddedResource Include="Images\dialog\add.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Images\tray.ico" />
-    <EmbeddedResource Include="Resources\Images\dialog\remove.png" />
-    <EmbeddedResource Include="Resources\Images\dialog\ok.png" />
-    <EmbeddedResource Include="Resources\Images\dialog\edit.png" />
-    <EmbeddedResource Include="Resources\Images\dialog\cancel.png" />
+    <EmbeddedResource Include="Images\tray.ico" />
+    <EmbeddedResource Include="Images\dialog\remove.png" />
+    <EmbeddedResource Include="Images\dialog\ok.png" />
+    <EmbeddedResource Include="Images\dialog\edit.png" />
+    <EmbeddedResource Include="Images\dialog\cancel.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Images\dialog\down.png" />
-    <EmbeddedResource Include="Resources\Images\dialog\up.png" />
+    <EmbeddedResource Include="Images\dialog\down.png" />
+    <EmbeddedResource Include="Images\dialog\up.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Images\menu\service-config.png" />
+    <EmbeddedResource Include="Images\menu\service-config.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Images\menu\service-edit-config.png" />
+    <EmbeddedResource Include="Images\menu\service-edit-config.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Images\menu\service-show-log.png" />
+    <EmbeddedResource Include="Images\menu\service-show-log.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Images\menu\service-open-browser.png" />
+    <EmbeddedResource Include="Images\menu\service-open-browser.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Images\menu\service-open-data-directory.png" />
+    <EmbeddedResource Include="Images\menu\service-open-data-directory.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Images\menu\service-restart.png" />
-    <EmbeddedResource Include="Resources\Images\menu\service-start.png" />
-    <EmbeddedResource Include="Resources\Images\menu\service-stop.png" />
+    <EmbeddedResource Include="Images\menu\service-restart.png" />
+    <EmbeddedResource Include="Images\menu\service-start.png" />
+    <EmbeddedResource Include="Images\menu\service-stop.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Images\menu\service-status-pending.png" />
-    <EmbeddedResource Include="Resources\Images\menu\service-status-started.png" />
-    <EmbeddedResource Include="Resources\Images\menu\service-status-stopped.png" />
+    <EmbeddedResource Include="Images\menu\service-status-pending.png" />
+    <EmbeddedResource Include="Images\menu\service-status-started.png" />
+    <EmbeddedResource Include="Images\menu\service-status-stopped.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Images\menu\settings-manager.png" />
+    <EmbeddedResource Include="Images\menu\settings-manager.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Images\menu\app-exit.png" />
+    <EmbeddedResource Include="Images\menu\app-exit.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Images\menu\service-group.png" />
+    <EmbeddedResource Include="Images\menu\service-group.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Images\menu\services-scheduler.png" />
-    <EmbeddedResource Include="Resources\Images\menu\system-services-manager.png" />
+    <EmbeddedResource Include="Images\menu\services-scheduler.png" />
+    <EmbeddedResource Include="Images\menu\system-services-manager.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Images\dialog\apply.png" />
+    <EmbeddedResource Include="Images\dialog\apply.png" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Locales\english.ini" />
+    <None Include="packages.config" />
+    <EmbeddedResource Include="Locales\russian.ini" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

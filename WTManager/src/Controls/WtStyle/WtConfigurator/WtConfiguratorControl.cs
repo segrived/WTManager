@@ -4,10 +4,11 @@ using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
-using WTManager.Helpers;
-using WTManager.VisualItemRenderers;
+using WtManager.Resources;
+using WtManager.VisualItemRenderers;
+using WtManager.Helpers;
 
-namespace WTManager.Controls.WtStyle.WtConfigurator
+namespace WtManager.Controls.WtStyle.WtConfigurator
 {
     /// <summary>
     /// !!! TODO: Refactor !!!
@@ -105,11 +106,13 @@ namespace WTManager.Controls.WtStyle.WtConfigurator
 
                 if ( this.LabelConfiguration.ShowLables)
                 {
-                    bool setInternalLabelResult = renderer.SetLabel(rendererAttr.DisplayText, this.LabelConfiguration);
+                    string text = LocalizationManager.Get($"VisualItem.{propClass.LocalizationPrefix}.{prop.Name}");
+
+                    bool setInternalLabelResult = renderer.SetLabel(text, this.LabelConfiguration);
 
                     if (!setInternalLabelResult)
                     {
-                        var label = this.CreateLabel(rendererAttr.DisplayText);
+                        var label = this.CreateLabel(text);
                         label.Location = new Point(this.HorizontalItemPadding, initTop);
                         label.Height = controlHeight;
 
@@ -164,13 +167,14 @@ namespace WTManager.Controls.WtStyle.WtConfigurator
             this.SuspendLayout();
 
             var dependentControlNames = this._processor.FindDependentControls(controlName);
-            foreach (string depenentControlName in dependentControlNames)
+            foreach (var dependentAttribute in dependentControlNames)
             {
-                var control = this.Controls.Find(depenentControlName, true);
+                string dependentControlName = dependentAttribute.PropertyName;
+                var control = this.Controls.Find(dependentControlName, true);
                 if (control.Length != 1)
                     continue;
 
-                control.First().Enabled = isChecked;
+                control.First().Enabled = dependentAttribute.IsReversed ? !isChecked : isChecked;
             }
 
             this.ResumeLayout();
@@ -199,7 +203,7 @@ namespace WTManager.Controls.WtStyle.WtConfigurator
                 TextAlign = ContentAlignment.MiddleLeft,
                 Anchor = AnchorStyles.Left | AnchorStyles.Top,
                 Width = this.LabelWidth,
-                Text = $"{text}" + this.LabelConfiguration.LabelPostfix,
+                Text = $"{text}{this.LabelConfiguration.LabelPostfix}",
                 AutoEllipsis = true,
                 Font = this.LabelFont
             };

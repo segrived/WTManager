@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WTManager.Controls.WtStyle.WtConfigurator
+namespace WtManager.Controls.WtStyle.WtConfigurator
 {
     [AttributeUsage(AttributeTargets.Property)]
     public class VisualItemAttribute : Attribute
@@ -8,13 +8,11 @@ namespace WTManager.Controls.WtStyle.WtConfigurator
         public Type RendererType { get; private set; }
 
         public string GroupTitle { get; private set; }
-        public string DisplayText { get; private set; }
 
-        public VisualItemAttribute(Type rendererType, string displayText, string group)
+        public VisualItemAttribute(Type rendererType, string group)
         {
             this.RendererType = rendererType;
             this.GroupTitle = group;
-            this.DisplayText = displayText;
         }
     }
 
@@ -31,14 +29,12 @@ namespace WTManager.Controls.WtStyle.WtConfigurator
     public class VisualItemDependentOnAttribute : Attribute
     {
         public string DependentProperty { get; private set; }
+        public bool ReverseDependent { get; private set; }
 
-        public VisualItemDependentOnAttribute(string dependentOnPropertName)
+        public VisualItemDependentOnAttribute(string dependentOnPropertName, bool reverseDependent = false)
         {
             this.DependentProperty = dependentOnPropertName;
+            this.ReverseDependent = reverseDependent;
         }
-    }
-
-    public class VisualItemExpandibleAttribute : Attribute
-    { 
     }
 }

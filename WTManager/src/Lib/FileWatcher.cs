@@ -2,7 +2,7 @@
 using System.IO;
 using System.Threading;
 
-namespace WTManager.Lib
+namespace WtManager.Lib
 {
     public class FileWatcher : IDisposable
     {

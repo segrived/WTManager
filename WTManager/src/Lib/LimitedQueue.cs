@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace WTManager.Lib
+namespace WtManager.Lib
 {
     public class LimitedQueue<T> : Queue<T>
     {

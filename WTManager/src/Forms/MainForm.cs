@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel;
 using System.Windows.Forms;
-using WTManager.Controls;
-using WTManager.Tray;
+using WtManager.Controls;
+using WtManager.Tray;
 
-namespace WTManager.Forms
+namespace WtManager.Forms
 {
     [DesignerCategory("Form")]
     public partial class MainForm : WtManagerMainForm

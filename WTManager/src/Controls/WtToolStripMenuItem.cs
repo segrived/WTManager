@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace WTManager.Controls
+namespace WtManager.Controls
 {
     [System.ComponentModel.DesignerCategory("")]
     public sealed class WtToolStripMenuItem : ToolStripMenuItem
